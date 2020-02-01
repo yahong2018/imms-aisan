@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxh.imms.org.mapper.WorkstationMapper">
+    <resultMap type="com.zhxh.imms.org.domain.Workstation" id="WorkstationResultMap"
+               extends="com.zhxh.data.mapper.CrudMapper.EntityResultMap">
+        <result property="workstationCode" column="org_code"/>
+        <result property="workstationName" column="org_name"/>
+        <result property="workstationType" column="workstation_type"/>
+        <result property="description" column="description"/>
+        <result property="workshopId" column="parent_id"/>
+        <result property="gid" column="gid"/>
+        <result property="did" column="did"/>
+        <result property="didTemplate" column="did_template"/>
+        <result property="wocgCode" column="wocg_code"/>
+        <result property="autoReportCount" column="auto_report_count"/>
+        <result property="locCode" column="loc_code"/>
+    </resultMap>
+
+    <sql id="workstationFields">
+        wk.record_id,wk.org_code,wk.org_name,wk.workstation_type,wk.description,wk.parent_id,
+        wk.gid,wk.did,wk.did_template,wk.wocg_code,wk.auto_report_count,wk.loc_code
+    </sql>
+
+    <select id="get" resultMap="WorkstationResultMap">
+        select <include refid="workstationFields"/>
+        from zhxh_org wk
+        where record_id=#{recordId}
+    </select>
+
+    <select id="getAll" resultMap="WorkstationResultMap" parameterType="java.util.HashMap">
+        select <include refid="workstationFields"/>
+        from zhxh_org wk
+        <include refid="com.zhxh.data.mapper.CrudMapper.selectByPage"/>
+    </select>
+
+    <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*) from zhxh_org wk
+        <where>
+            ${where}
+        </where>
+    </select>
+
+    <insert id="create" parameterType="com.zhxh.imms.org.domain.Workstation" keyProperty="recordId" useGeneratedKeys="true">
+        insert into zhxh_org(org_type,org_code,org_name,workstation_type,description,parent_id,
+                  gid,did,did_template,wocg_code,auto_report_count,loc_code
+             )
+        values('ORG_WORKSTATION',#{workstationCode},#{workstationName},#{workstationType},#{description},#{workshopId},
+                  #{gid},#{did},#{didTemplate},#{wocgCode},#{autoReportCount},#{locCode}
+             )
+    </insert>
+
+    <update id="update" parameterType="com.zhxh.imms.org.domain.Workstation">
+        update zhxh_org
+        set org_code=#{workstationCode},
+            org_name=#{workstationName},
+            workstation_type=#{workstationType},
+            description=#{description},
+            parent_id=#{workshopId},
+            gid=#{gid},
+            did=#{did},
+            did_template=#{didTemplate},
+            wocg_code=#{wocgCode},
+            auto_report_count=#{autoReportCount},
+            loc_code=#{locCode}
+        where record_id=#{recordId}
+    </update>
+
+    <delete id="delete">
+        delete from zhxh_org where record_id =#{recordId}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from zhxh_org where record_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getWorkshopWocgList" resultType="java.lang.String">
+        select distinct wocg_code from zhxh_org wk where wk.org_type = 'ORG_WORKSTATION' and wk.parent_id=#{parentId}
+    </select>
+
+    <select id="getWorkshopLocList" resultType="java.lang.String">
+        select distinct loc_code from zhxh_org wk where wk.org_type = 'ORG_WORKSTATION' and wk.parent_id=#{parentId}
+    </select>
+</mapper>

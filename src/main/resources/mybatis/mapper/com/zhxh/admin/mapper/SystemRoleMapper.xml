@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxh.admin.mapper.SystemRoleMapper">
+    <resultMap type="com.zhxh.admin.domain.SystemRole" id="SystemRoleResultMap" extends="com.zhxh.admin.mapper.SystemAccountMapper.SystemAccountResultMap">
+		<result property="roleCode" column="role_code"/>
+		<result property="roleName" column="role_name"/>
+		<collection property="users" select="com.zhxh.admin.mapper.SystemUserMapper.getRoleUsers" column="record_id" />
+		<collection property="privileges" select="com.zhxh.admin.mapper.ProgramPrivilegeMapper.getRolePrivileges" column="record_id"/>
+	</resultMap>
+
+	<sql id="roleFields">
+	    r.record_id,r.role_code,r.role_name,r.account_status,r.record_creation_type
+	</sql>
+
+	<select id="get" resultMap="SystemRoleResultMap">
+	   select <include refid="roleFields"/>
+	     from zhxh_system_role r
+	     where r.record_id=#{id}
+	</select>
+	
+	<select id="getUserRoles" resultMap="SystemRoleResultMap">
+	   select <include refid="roleFields"/>
+	     from zhxh_system_role r join zhxh_system_role_user ru on r.record_id = ru.role_id 
+	    where ru.user_id=#{userId}
+	</select>
+	
+	<select id="getAll" resultMap="SystemRoleResultMap" parameterType="java.util.HashMap">
+	    select  <include refid="roleFields"/>
+	     from zhxh_system_role r 
+	     <include refid="com.zhxh.data.mapper.CrudMapper.selectByPage"/>
+	</select>
+
+	<select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		select count(*) from zhxh_system_role r
+		<where>
+			${where}
+		</where>
+	</select>
+	
+	<insert id="create" parameterType="com.zhxh.admin.domain.SystemRole" useGeneratedKeys="true" keyProperty="recordId">
+	    insert zhxh_system_role(role_code,role_name,account_status,record_creation_type) 
+	                    values(#{roleCode},#{roleName},#{accountStatus},#{recordCreationType})
+	</insert>
+	
+	<update id="update" parameterType="com.zhxh.admin.domain.SystemRole">
+	    update zhxh_system_role
+	      set role_code=#{roleCode},
+	          role_name=#{roleName},	          
+	          account_status=#{accountStatus},
+	          record_creation_type=#{recordCreationType}	          
+	    where record_id = #{recordId}
+	</update>
+	
+	<delete id="deleteAll">
+	    delete from zhxh_system_role where record_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	<delete id="delete">
+	    delete from zhxh_system_role where record_id = #{id}
+	</delete>		
+</mapper>

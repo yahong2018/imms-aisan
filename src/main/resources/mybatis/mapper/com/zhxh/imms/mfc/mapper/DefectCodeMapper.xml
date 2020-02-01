@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxh.imms.mfc.mapper.DefectCodeMapper">
+    <resultMap type="com.zhxh.imms.mfc.domain.DefectCode" id="DefectCodeResultMap"  extends="com.zhxh.data.mapper.CrudMapper.EntityResultMap">
+        <result column="defect_code" property="defectCode"/>
+        <result column="defect_name" property="defectName"/>
+    </resultMap>
+
+    <sql id="defectCodeFields">
+        dc.record_id,dc.defect_code,dc.defect_name
+    </sql>
+
+    <select id="get" resultMap="DefectCodeResultMap">
+        select <include refid="defectCodeFields"/>
+        from zhxh_defect dc
+        where dc.record_id=#{recordId}
+    </select>
+
+    <select id="getAll" resultMap="DefectCodeResultMap" parameterType="java.util.Map">
+        select <include refid="defectCodeFields"/>
+        from zhxh_defect dc
+        <include refid="com.zhxh.data.mapper.CrudMapper.selectByPage"/>
+    </select>
+
+    <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*)
+        from zhxh_defect dc
+        <where>
+            ${where}
+        </where>
+    </select>
+
+    <insert id="create" parameterType="com.zhxh.imms.mfc.domain.DefectCode" keyProperty="recordId" useGeneratedKeys="true">
+        insert into zhxh_defect(defect_code,defect_name)values(#{defectCode},#{defectName})
+    </insert>
+
+    <update id="update" parameterType="com.zhxh.imms.mfc.domain.DefectCode">
+        update zhxh_defect
+          update defect_code = #{defectCode},
+                 defect_name=#{defectName}
+        where record_id = #{recordId}
+    </update>
+
+    <delete id="delete">
+        delete from zhxh_defect where record_id = #{recordId}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from zhxh_defect where record_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxh.si.imms.kocheer.mapper.WorkstationSessionStepMapper">
+    <resultMap type="com.zhxh.si.imms.kocheer.domain.WorkstationSessionStep" id="WorkstationSessionStepResultMap" extends="com.zhxh.data.mapper.CrudMapper.EntityResultMap">
+        <result property="workstationSessionId" column="workstation_session_id"/>
+        <result property="step" column="step"/>
+        <result property="reqTime" column="req_time"/>
+        <result property="reqDataType" column="req_data_type"/>
+        <result property="reqData" column="req_data"/>
+        <result property="respData" column="resp_data"/>
+        <result property="respTime" column="resp_time"/>
+    </resultMap>
+
+    <sql id="workstationSessionStepFields">
+        st.record_id,st.workstation_session_id,st.step,st.req_time,st.req_data_type,st.req_data,st.resp_data,st.resp_time
+    </sql>
+
+    <select id="get" resultMap="WorkstationSessionStepResultMap">
+        select <include refid="workstationSessionStepFields"/>
+        from zhxh_workstation_session_step st
+        where st.record_id=#{recordId}
+    </select>
+
+    <select id="getAll" resultMap="WorkstationSessionStepResultMap"  parameterType="java.util.Map">
+        select <include refid="workstationSessionStepFields"/>
+        from zhxh_workstation_session_step st
+        <include refid="com.zhxh.data.mapper.CrudMapper.selectByPage"/>
+    </select>
+
+
+    <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*) from zhxh_workstation_session_step st
+        <where>
+            ${where}
+        </where>
+    </select>
+
+    <insert id="create" parameterType="com.zhxh.si.imms.kocheer.domain.WorkstationSessionStep" keyProperty="recordId" useGeneratedKeys="true">
+        insert into zhxh_workstation_session_step(workstation_session_id,step,req_time,req_data_type,req_data,resp_data,resp_time)
+        values(#{workstationSessionId},#{step},#{reqTime},#{reqDataType},#{reqData},#{respData},#{respTime})
+    </insert>
+
+    <update id="update" parameterType="com.zhxh.si.imms.kocheer.domain.WorkstationSessionStep">
+        update zhxh_workstation_session_step
+        set workstation_session_id=#{workstationSessionId},
+            step=#{step},
+            req_time=#{reqTime},
+            req_data_type=#{reqDataType},
+            req_data=#{reqData},
+            resp_data=#{respData},
+            resp_time=#{respTime}
+        where record_id = #{recordId}
+    </update>
+
+    <delete id="delete">
+        delete from zhxh_workstation_session_step st where record_id =#{recordId}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from zhxh_workstation_session_step st where record_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

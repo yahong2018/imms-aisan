@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta charset="utf-8" />
+    <base th:href="${T(com.zhxh.admin.model.HomeModel).appRoot}" />
+
+    <title>智能制造平台</title>
+
+
+</head>
+<body>
+<div id="container">
+    <div class="row">
+        <h1 class="title" th:text="${T(com.zhxh.admin.model.HomeModel).systemTitle+'——系统登录'}">智汇星红智能制造平台——系统登录</h1>
+    </div>
+    <div style="margin-top: 30px;margin-left: -10px">
+        <div style="font-size:16px;">
+            <div class="row">
+                <div class="label">用户名：</div>
+                <input type="text" style="width:200px;" id="txtUserName" name="userCode" maxlength="6" />
+            </div>
+            <div class="row">
+                <div class="label">密码：</div>
+                <input type="password" style="width:200px;" id="txtPassword" name="password" />
+            </div>
+            <div class="row">
+                <div class="label">&nbsp;</div>
+                <input type="button" value="登录" style="width:60px;" onclick="onLogin()"/>
+            </div>
+            <div class="row">
+                <div class="label">&nbsp;</div>
+                <div id="txtErrorMessage" style="color:red;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" th:src="@{js/ext/build/include-ext.js(theme=triton)}"></script>
+<link rel="stylesheet" th:href="@{css/login.css}"/>
+<script type="text/javascript" th:src="@{js/zhxh/login.js(v=${T(java.lang.System).currentTimeMillis()})}"></script>
+</html>

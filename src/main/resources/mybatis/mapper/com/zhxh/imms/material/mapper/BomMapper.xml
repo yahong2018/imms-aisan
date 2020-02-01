@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxh.imms.material.mapper.BomMapper">
+    <resultMap type="com.zhxh.imms.material.domain.Bom" id="BomResultMap"
+               extends="com.zhxh.data.mapper.CrudMapper.EntityResultMap">
+        <result property="bomNo" column="bom_no"/>
+        <result property="bomType" column="bom_type"/>
+        <result property="bomStatus" column="bom_status"/>
+
+        <result property="materialId" column="material_id"/>
+        <result property="materialCode" column="material_code"/>
+        <result property="materialName" column="material_name"/>
+
+        <result property="componentId" column="component_id"/>
+        <result property="componentCode" column="component_code"/>
+        <result property="componentName" column="component_name"/>
+
+        <result property="materialQty" column="material_qty"/>
+        <result property="componentQty" column="component_qty"/>
+        <result property="effectDate" column="effect_date"/>
+    </resultMap>
+
+    <sql id="bomFields">
+        bom.record_id,bom.bom_no,bom.bom_type,bom.bom_status,
+        bom.material_qty,bom.component_qty,bom.effect_date,
+        bom.material_id,m.material_code,m.material_name,
+        bom.component_id,c.material_code as component_code,c.material_name as component_name
+    </sql>
+
+    <sql id="tables">
+         zhxh_bom bom join zhxh_material m on bom.material_id = m.record_id
+               join zhxh_material c on bom.component_id = c.record_id
+    </sql>
+
+    <select id="get" resultMap="BomResultMap">
+        select <include refid="bomFields"/>
+        from  <include refid="tables"/>
+        where bom.record_id=#{recordId}
+    </select>
+
+    <select id="getAll" resultMap="BomResultMap" parameterType="java.util.HashMap">
+        select <include refid="bomFields"/>
+        from  <include refid="tables"/>
+        <include refid="com.zhxh.data.mapper.CrudMapper.selectByPage"/>
+    </select>
+
+    <select id="getPageTotal" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(*)
+        from  <include refid="tables"/>
+        <where>
+            ${where}
+        </where>
+    </select>
+
+    <select id="getMaterialParts" resultMap="BomResultMap">
+        select <include refid="bomFields"/>
+        from  <include refid="tables"/>
+        where bom.material_id = #{materialId}
+          and exists(
+             select * from zhxh_bom bc where bc.material_id = bom.component_id
+        )
+    </select>
+
+    <select id="getMaterialBom" resultMap="BomResultMap">
+        select <include refid="bomFields"/>
+          from  <include refid="tables"/>
+        where m.material_code = #{materialCode}
+    </select>
+
+    <insert id="create" parameterType="com.zhxh.imms.material.domain.Bom" keyProperty="recordId" useGeneratedKeys="true" >
+        insert into zhxh_bom(bom_no,bom_type,bom_status,material_id,component_id,material_qty,component_qty,effect_date)
+        values(#{bomNo},#{bomType},#{bomStatus},#{materialId},#{componentId},#{materialQty},#{componentQty},#{effectDate})
+    </insert>
+
+    <update id="update" parameterType="com.zhxh.imms.material.domain.Bom">
+        update zhxh_bom
+        set  bom_no=#{bomNo},
+             bom_type=#{bomType},
+             bom_status=#{bomStatus},
+             material_id=#{materialId},
+             component_id=#{componentId},
+             material_qty=#{materialQty},
+             component_qty=#{componentQty},
+             effect_date=#{effectDate}
+        where record_id=#{recordId}
+    </update>
+
+    <delete id="delete">
+        delete from zhxh_bom where record_id =#{recordId}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from zhxh_bom where record_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

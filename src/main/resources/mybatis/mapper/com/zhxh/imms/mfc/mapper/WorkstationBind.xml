@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxh.imms.mfc.mapper.WorkstationBindMapper">
+    <resultMap type="com.zhxh.imms.mfc.domain.WorkstationBind" id="WorkstationBindResultMap" extends="com.zhxh.data.mapper.CrudMapper.EntityResultMap">
+        <result property="outsourceCardId" column="outsource_card_id"/>
+        <result property="outsourceCardNo" column="outsource_card_no"/>
+        <result property="workstationId" column="workstation_id"/>
+        <result property="workshopId" column="workshop_id"/>
+        <result property="attachTime" column="attach_time"/>
+        <result property="outTime" column="out_time"/>
+        <result property="backTime" column="back_time"/>
+        <result property="bindStatus" column="bind_status"/>
+    </resultMap>
+
+    <sql id="workstationBindFields">
+        wb.record_id,wb.outsource_card_id,wb.workstation_id,wb.workshop_id,wb.attach_time,wb.out_time,wb.back_time,wb.bind_status
+    </sql>
+
+    <select id="get" resultMap="WorkstationBindResultMap">
+        select <include refid="workstationBindFields"/>
+         from zhxh_workstation_bind wb
+        where wb.record_id = #{recordId}
+    </select>
+
+    <select id="getAll" resultMap="WorkstationBindResultMap" parameterType="java.util.Map">
+        select <include refid="workstationBindFields"/>
+          from zhxh_workstation_bind wb
+        <include refid="com.zhxh.data.mapper.CrudMapper.selectByPage"/>
+    </select>
+
+    <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*) from zhxh_workstation_bind wb
+        <where>
+            ${where}
+        </where>
+    </select>
+
+    <select id="getQtyCardWorkstationBindInfo" resultType="java.util.Map">
+        [<![CDATA[
+        select wb.record_id as bindId,
+              wb.outsource_card_id as outsourceCardId,
+              rfid.production_id as outSourceProductionId,
+              rfid.issue_qty as outsourceIssueQty,
+              rfid.outsource_qty as outsourceStockQty
+        from zhxh_workstation_bind wb join zhxh_rfid_card  rfid on wb.outsource_card_id = rfid.record_id
+        where wb.workstation_id = #{workstationId}
+           and wb.bind_status = 3
+           and exists (
+                select * from zhxh_bom bm
+                where bm.material_id = rfid.production_id
+                and bm.component_id = #{componentId}
+            )
+           order by attach_time desc
+           limit 1
+        ]]>
+    </select>
+
+    <select id="getOutsourceCardWorkstationBindInfo" resultMap="WorkstationBindResultMap">
+        select <include refid="workstationBindFields"/>
+           from zhxh_workstation_bind wb
+           where wb.workstation_id = #{workstationId}
+             and wb.outsource_card_id = #{outsourceCardId}
+            order by attach_time desc
+        limit 1
+    </select>
+
+    <insert id="create" parameterType="com.zhxh.imms.mfc.domain.WorkstationBind" keyProperty="recordId" useGeneratedKeys="true">
+        insert into zhxh_workstation_bind(outsource_card_id,workstation_id,workshop_id,attach_time,out_time,back_time,bind_status)
+        values(#{outsourceCardId},#{workstationId},#{workshopId},#{attachTime},#{outTime},#{backTime},#{bindStatus})
+    </insert>
+
+    <update id="update" parameterType="com.zhxh.imms.mfc.domain.WorkstationBind">
+        update zhxh_workstation_bind
+        set  outsource_card_id=#{outsourceCardId},
+             workstation_id=#{workstationId},
+             workshop_id=#{workshopId},
+             attach_time=#{attachTime},
+             out_time=#{outTime},
+             back_time=#{backTime},
+             bind_status=#{bindStatus}
+        where record_id = #{recordId}
+    </update>
+
+    <delete id="delete">
+        delete from zhxh_workstation_bind wb where record_id =#{recordId}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from zhxh_workstation_bind wb where record_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

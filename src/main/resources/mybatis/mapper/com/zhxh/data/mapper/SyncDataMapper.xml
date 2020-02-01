@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxh.data.mapper.SyncDataMapper">
+    <resultMap type="com.zhxh.data.domain.SyncData" id="SyncDataResultMap" extends="com.zhxh.data.mapper.CrudMapper.EntityResultMap">
+        <result property="classType" column="class_type"/>
+        <result property="businessId" column="business_id"/>
+        <result property="syncTime" column="sync_time"/>
+    </resultMap>
+
+    <sql id="syncDataFields">
+        sync.record_id,sync.class_type,sync.business_id,sync.sync_time
+    </sql>
+
+    <select id="get" resultMap="SyncDataResultMap">
+        select <include refid="syncDataFields"/>
+         from zhxh_sync_data sync
+        where sync.record_id = #{recordId}
+    </select>
+
+    <select id="getAll" resultMap="SyncDataResultMap" parameterType="java.util.Map">
+        select <include refid="syncDataFields"/>
+        from zhxh_sync_data sync
+        <include refid="com.zhxh.data.mapper.CrudMapper.selectByPage"/>
+    </select>
+
+    <select id="getRecordsTobeSync">
+        select * from ${tableName}
+        where record_id not in(
+        select business_id from zhxh_sync_data
+            where class_type = #{classType}
+        )
+    </select>
+
+    <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*) from zhxh_sync_data sync
+        <where>
+            ${where}
+        </where>
+    </select>
+
+    <insert id="create" parameterType="com.zhxh.data.domain.SyncData" useGeneratedKeys="true" keyProperty="recordId">
+        insert into zhxh_sync_data(class_type,business_id,sync_time) values(#{classType},#{businessId},#{syncTime})
+    </insert>
+
+    <update id="update" parameterType="com.zhxh.data.domain.SyncData" >
+        update zhxh_sync_data
+        set class_type=#{classType},
+            business_id=#{businessId},
+            sync_time=#{syncTime}
+        where record_id = #{recordId}
+    </update>
+
+    <delete id="delete">
+        delete from zhxh_sync_data where record_id = #{id}
+    </delete>
+
+    <delete id="deleteAll" >
+        delete from zhxh_sync_data  where record_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

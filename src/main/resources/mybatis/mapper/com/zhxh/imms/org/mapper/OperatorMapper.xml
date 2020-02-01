@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxh.imms.org.mapper.OperatorMapper">
+    <resultMap type="com.zhxh.imms.org.domain.Operator" id="OperatorResultMap"
+               extends="com.zhxh.data.mapper.CrudMapper.EntityResultMap">
+        <result property="employeeId" column="employee_id"/>
+        <result property="employeeName" column="employee_name"/>
+        <result property="employeeCardNo" column="employee_card_no"/>
+        <result property="orgId" column="org_id"/>
+        <result property="orgCode" column="org_code"/>
+        <result property="orgName" column="org_name"/>
+    </resultMap>
+
+    <sql id="operatorFields">
+        opr.record_id,opr.employee_id,opr.employee_name,opr.employee_card_no,opr.org_id,org.org_code,org.org_name
+    </sql>
+
+    <select id="get" resultMap="OperatorResultMap">
+        select <include refid="operatorFields"/>
+        from zhxh_operator opr left join zhxh_org org on opr.org_id = org.record_id
+        where opr.record_id=#{recordId}
+    </select>
+
+    <select id="getAll" resultMap="OperatorResultMap" parameterType="java.util.HashMap">
+        select <include refid="operatorFields"/>
+        from zhxh_operator opr left join zhxh_org org on opr.org_id = org.record_id
+        <include refid="com.zhxh.data.mapper.CrudMapper.selectByPage"/>
+    </select>
+
+    <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*) from zhxh_operator opr left join zhxh_org org on opr.org_id = org.record_id
+        <where>
+            ${where}
+        </where>
+    </select>
+
+    <insert id="create" parameterType="com.zhxh.imms.org.domain.Operator" keyProperty="recordId" useGeneratedKeys="true" >
+        insert into zhxh_operator(employee_id,employee_name,employee_card_no,org_id)
+        values(#{employeeId},#{employeeName},#{employeeCardNo},#{orgId})
+    </insert>
+
+    <update id="update" parameterType="com.zhxh.imms.org.domain.Operator">
+        update zhxh_operator
+          set employee_id=#{employeeId},
+              employee_name=#{employeeName},
+              employee_card_no=#{employeeCardNo},
+              org_id=#{orgId}
+        where record_id=#{recordId}
+    </update>
+
+    <delete id="delete">
+        delete from zhxh_operator where record_id =#{recordId}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from zhxh_operator where record_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

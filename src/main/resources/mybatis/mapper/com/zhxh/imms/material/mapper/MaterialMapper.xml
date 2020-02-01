@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxh.imms.material.mapper.MaterialMapper">
+    <resultMap type="com.zhxh.imms.material.domain.Material" id="MaterialResultMap"
+               extends="com.zhxh.data.mapper.CrudMapper.EntityResultMap">
+        <result property="materialCode" column="material_code"/>
+        <result property="materialName" column="material_name"/>
+        <result property="description" column="description"/>
+        <result property="autoFinishedProgress" column="auto_finished_progress"/>
+    </resultMap>
+
+    <sql id="materialFields">
+        m.record_id,m.material_code,m.material_name,m.description,m.auto_finished_progress
+    </sql>
+
+    <select id="get" resultMap="MaterialResultMap">
+        select <include refid="materialFields"/>
+        from zhxh_material m
+        where record_id=#{recordId}
+    </select>
+
+    <select id="getAll" resultMap="MaterialResultMap" parameterType="java.util.HashMap">
+        select <include refid="materialFields"/>
+        from zhxh_material m
+        <include refid="com.zhxh.data.mapper.CrudMapper.selectByPage"/>
+    </select>
+
+    <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*) from zhxh_material m
+        <where>
+            ${where}
+        </where>
+    </select>
+
+    <select id="getMaterialsHasNoBom" resultMap="MaterialResultMap">
+        select <include refid="materialFields"/>
+        from zhxh_material m
+        where not exists(
+            select * from zhxh_bom bom
+            where bom.material_id = m.record_id
+        )
+    </select>
+
+    <insert id="create" parameterType="com.zhxh.imms.material.domain.Material" keyProperty="recordId" useGeneratedKeys="true" >
+        insert into zhxh_material(material_code,material_name,description,auto_finished_progress)
+        values(#{materialCode},#{materialName},#{description},#{autoFinishedProgress})
+    </insert>
+
+    <update id="update" parameterType="com.zhxh.imms.material.domain.Material">
+        update zhxh_material
+        set  material_code=#{materialCode},
+             material_name=#{materialName},
+             description=#{description},
+             auto_finished_progress=#{autoFinishedProgress}
+        where record_id=#{recordId}
+    </update>
+
+    <delete id="delete">
+        delete from zhxh_material where record_id =#{recordId}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from zhxh_material where record_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

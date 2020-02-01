@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxh.imms.org.mapper.WorkshopMapper">
+    <resultMap type="com.zhxh.imms.org.domain.Workshop" id="WorkshopResultMap"
+               extends="com.zhxh.data.mapper.CrudMapper.EntityResultMap">
+        <result property="workshopCode" column="org_code"/>
+        <result property="workshopName" column="org_name"/>
+        <result property="workshopType" column="workshop_type"/>
+        <result property="description" column="description"/>
+        <result property="opIndex" column="op_index"/>
+        <result property="prevIndex" column="prev_index"/>
+    </resultMap>
+
+    <sql id="workshopFields">
+        ws.record_id,ws.org_code,ws.org_name,ws.workshop_type,ws.description,ws.op_index,ws.prev_index
+    </sql>
+
+    <select id="get" resultMap="WorkshopResultMap">
+        select <include refid="workshopFields"/>
+          from zhxh_org ws
+          where record_id=#{recordId}
+    </select>
+
+    <select id="getAll" resultMap="WorkshopResultMap" parameterType="java.util.HashMap">
+        select <include refid="workshopFields"/>
+         from zhxh_org ws
+        <include refid="com.zhxh.data.mapper.CrudMapper.selectByPage"/>
+    </select>
+
+    <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*) from zhxh_org ws
+        <where>
+            ${where}
+        </where>
+    </select>
+
+    <insert id="create" parameterType="com.zhxh.imms.org.domain.Workshop" keyProperty="recordId" useGeneratedKeys="true" >
+        insert into zhxh_org(org_type,org_code,org_name,workshop_type,description,op_index,prev_index,parent_id)
+           values('ORG_WORKSHOP',#{workshopCode},#{workshopName},#{workshopType},#{description},#{opIndex},#{prevIndex},0)
+    </insert>
+
+    <update id="update" parameterType="com.zhxh.imms.org.domain.Workshop">
+        update zhxh_org
+           set org_code=#{workshopCode},
+               org_name=#{workshopName},
+               workshop_type=#{workshopType},
+               description=#{description},
+               op_index=#{opIndex},
+               prev_index=#{prevIndex}
+         where record_id=#{recordId}
+    </update>
+
+    <delete id="delete">
+        delete from zhxh_org where record_id =#{recordId}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from zhxh_org where record_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

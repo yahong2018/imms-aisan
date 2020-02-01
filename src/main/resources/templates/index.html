@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <meta charset="utf-8"/>
+    <base th:href="${T(com.zhxh.admin.model.HomeModel).appRoot}" />
+
+    <title th:text="${T(com.zhxh.admin.model.HomeModel).systemTitle}">智汇星红智能制造平台</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            height:100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        input[readonly] {
+            background-color: #cde6c7 !important;
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript" th:src="@{js/zhxh/zhxh.js(v=${T(java.lang.System).currentTimeMillis()})}"></script>
+<script type="text/javascript" th:src="@{js/ext/build/include-ext.js(theme=triton)}"></script>
+<script type="text/javascript" th:src="@{js/app/app.js(v=${T(java.lang.System).currentTimeMillis()})}"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxh.admin.mapper.SystemUserMapper">
+	<resultMap type="com.zhxh.admin.domain.SystemUser" id="SystemUserResultMap" extends="com.zhxh.admin.mapper.SystemAccountMapper.SystemAccountResultMap">
+		<result property="userCode" column="user_code"/>
+		<result property="displayName" column="display_name"/>
+		<result property="pwd" column="pwd"/>
+		<result property="email" column="email"/>
+		<result property="lastLoginTime" column="last_login_time"/>
+		
+		<collection property="roles" select="com.zhxh.admin.mapper.SystemRoleMapper.getUserRoles" column="record_id"/>
+	</resultMap>
+	
+	<sql id="userFields">
+	      u.record_id,u.user_code,u.display_name,u.pwd,u.account_status,u.record_creation_type,u.is_online,u.last_login_time,u.email
+	</sql>
+	
+	<select id="get" resultMap="SystemUserResultMap">
+	   select <include refid="userFields"/> 
+	     from zhxh_system_user u
+	     where u.record_id = #{userId}
+	</select>
+
+	<select id="getByCode" resultMap="SystemUserResultMap">
+		select <include refid="userFields"/>
+		from zhxh_system_user u
+		where u.user_code = #{userCode}
+	</select>
+	
+	<select id="getRoleUsers" resultMap="SystemUserResultMap">
+	   select <include refid="userFields"/> 
+	     from zhxh_system_user u join zhxh_system_role_user ru on u.record_id = ru.user_id
+	    where ru.role_id=#{id}
+	</select>
+	
+	<select id="getAll" resultMap="SystemUserResultMap" parameterType="java.util.HashMap">
+	    select  <include refid="userFields"/>
+	     from zhxh_system_user u 
+	     <include refid="com.zhxh.data.mapper.CrudMapper.selectByPage"/>
+	</select>
+
+	<select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		select count(*) from zhxh_system_user u
+		<where>
+			${where}
+		</where>
+	</select>
+	
+	<delete id="delete">
+	   delete from zhxh_system_user where record_id = #{id}
+	</delete>
+	
+	<insert id="create" parameterType="com.zhxh.admin.domain.SystemUser" useGeneratedKeys="true" keyProperty="recordId">
+	    insert zhxh_system_user(user_code,display_name,pwd,account_status,record_creation_type,is_online,last_login_time,email)
+	                values(#{userCode},#{displayName},#{pwd},#{accountStatus},#{recordCreationType},#{online},#{lastLoginTime},#{email})
+	</insert>
+	
+	<update id="update" parameterType="com.zhxh.admin.domain.SystemUser">
+	    update zhxh_system_user
+	      set user_code=#{userCode},
+	          display_name=#{displayName},
+	          pwd=#{pwd},
+	          account_status=#{accountStatus},
+	          record_creation_type=#{recordCreationType},
+	          is_online=#{online},
+	          last_login_time=#{lastLoginTime},	          
+	          email=#{email}
+	     where record_id = #{recordId}
+	</update>
+	
+	<delete id="deleteAll">
+	    delete from zhxh_system_user where record_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>	     
+	</delete>
+</mapper>
