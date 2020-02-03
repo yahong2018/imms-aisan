@@ -160,6 +160,7 @@ insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) 
 insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'INSERT', '新增');
 insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'UPDATE', '修改');
 insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'DELETE', '删除');
+insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'CONFIG_WORKSHOP', '配置部门');
 
 insert into zhxh_system_program( program_code, program_name, url, glyph, show_order, parameters, parent_id, program_status) values ('SYS03', '生产管理', '', '0xf0ae', 2, '', 0, 'NORMAL');
 set @parentId = LAST_INSERT_ID ();

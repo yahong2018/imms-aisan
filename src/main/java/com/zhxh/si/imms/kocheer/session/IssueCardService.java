@@ -1,5 +1,6 @@
 package com.zhxh.si.imms.kocheer.session;
 
+import com.zhxh.data.BusinessException;
 import com.zhxh.imms.mfc.domain.RfidCard;
 import com.zhxh.imms.mfc.logic.RfidCardLogic;
 import com.zhxh.si.imms.kocheer.ReqDataConstants;
@@ -32,11 +33,11 @@ public class IssueCardService implements SessionStepService {
 
     private Command_28 issue_2(WorkstationSession session) {
         if (session.getCurrentReqType() != ReqDataConstants.REQ_TYPE_WIP_CARD) {
-            throw new RuntimeException("请刷看板");
+            throw new BusinessException("请刷看板");
         }
         RfidCard card = session.getSessionQtyCard();
         if (card.getCardStatus() != RfidCard.CARD_STATUS_NOT_USE && card.getCardStatus() != RfidCard.CARD_STATUS_MOVED) {
-            throw new RuntimeException("只有未使用和已移库的看板才可以派发");
+            throw new BusinessException("只有未使用和已移库的看板才可以派发");
         }
         String message = "按确定使用上次数量" + card.getIssueQty() + "\n如需自定义派发数量,先按数字键，再按确定";
         return Command_28.ok(session.getWorkstation().getDidTemplate(), message);
@@ -46,7 +47,7 @@ public class IssueCardService implements SessionStepService {
         if (session.getCurrentReqType() != ReqDataConstants.REQ_TYPE_KEY_SINGLE
                 && session.getCurrentReqType() != ReqDataConstants.REQ_TYPE_KEY_MULTI
         ) {
-            throw new RuntimeException("请输入派发数量");
+            throw new BusinessException("请输入派发数量");
         }
         RfidCard card = session.getSessionQtyCard();
         int issueQty = session.getQtyFromReqData(session.getCurrentReqData());

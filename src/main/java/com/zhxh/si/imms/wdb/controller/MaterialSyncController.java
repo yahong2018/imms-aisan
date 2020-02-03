@@ -1,5 +1,6 @@
 package com.zhxh.si.imms.wdb.controller;
 
+import com.zhxh.data.BusinessException;
 import com.zhxh.imms.material.domain.Material;
 import com.zhxh.imms.material.logic.MaterialLogic;
 import com.zhxh.si.imms.wdb.wdto.MaterialSyncItem;
@@ -19,7 +20,7 @@ public class MaterialSyncController {
         if (syncItem.getDataType() != MaterialSyncItem.DATA_TYPE_INSERT
                 && syncItem.getDataType() != MaterialSyncItem.DATA_TYPE_UPDATE
                 && syncItem.getDataType() != MaterialSyncItem.DATA_TYPE_DELETE) {
-            throw new RuntimeException("记录类型DataType错误，必须是'0(新增)'、'1(修改)'、'2(删除)'三者之一");
+            throw new BusinessException("记录类型DataType错误，必须是'0(新增)'、'1(修改)'、'2(删除)'三者之一");
         }
 
         Material material = new Material();
@@ -32,7 +33,7 @@ public class MaterialSyncController {
         } else {
             Material dbItem = materialLogic.getByCode(syncItem.getMaterialCode());
             if (dbItem == null) {
-                throw new RuntimeException("系统不存在materialCode=" + syncItem.getMaterialCode() + "的产品或物料");
+                throw new BusinessException("系统不存在materialCode=" + syncItem.getMaterialCode() + "的产品或物料");
             }
             if (syncItem.getDataType() == MaterialSyncItem.DATA_TYPE_UPDATE) {
                 dbItem.setMaterialName(syncItem.getMaterialName());

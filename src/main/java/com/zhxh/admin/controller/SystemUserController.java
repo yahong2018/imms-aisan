@@ -22,12 +22,12 @@ public class SystemUserController extends CrudController<SystemUser> {
     private SystemUserLogic systemUserLogic;
 
     @RequestMapping("enable")
-    public int enable(long userId) throws RuntimeException {
+    public int enable(long userId) {
         return this.systemUserLogic.enable(userId);
     }
 
     @RequestMapping("disable")
-    public int disable(long userId) throws RuntimeException {
+    public int disable(long userId) {
         return this.systemUserLogic.disable(userId);
     }
 
@@ -42,7 +42,7 @@ public class SystemUserController extends CrudController<SystemUser> {
     }
 
     @Override
-    public int update(SystemUser item) throws RuntimeException {
+    public int update(SystemUser item){
         if(item.getAccountStatus()==null){
             item.setAccountStatus(StartupStatus.NORMAL);
         }
@@ -59,7 +59,7 @@ public class SystemUserController extends CrudController<SystemUser> {
     }
 
     @PostMapping("changeCurrentUserPassword")
-    public int changeCurrentUserPassword(@RequestBody PasswordChangeItem changeItem) throws Exception {
+    public int changeCurrentUserPassword(@RequestBody PasswordChangeItem changeItem) {
         return this.systemUserLogic.changeCurrentUserPassword(changeItem);
     }
 }

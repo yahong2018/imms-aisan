@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.zhxh.admin.domain.SystemParam;
 import com.zhxh.admin.logic.SystemParamLogic;
 import com.zhxh.backSservice.ThreadService;
+import com.zhxh.data.BusinessException;
 import com.zhxh.data.DbQueryParameter;
 import com.zhxh.data.domain.Entity;
 import com.zhxh.data.domain.SyncData;
@@ -82,18 +83,20 @@ public class WdbSyncService extends ThreadService {
     public synchronized void syncData() {
         try {
             initParameter();
+            getData();
+            if (!getLoginToken()) {
+                return;
+            }
             try {
                 pull();
             } catch (Exception e) {
                 Logger.error(e);
             }
-            getData();
-            if (!getLoginToken()) {
-                return;
-            }
+
             push();
         } catch (Exception e) {
             Logger.error(e);
+            throw e;
         }
     }
 
@@ -201,7 +204,7 @@ public class WdbSyncService extends ThreadService {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestBody, String.class);
         if (!HttpStatus.OK.equals(responseEntity.getStatusCode())) {
-            throw new RuntimeException("向万达宝服务器推送数据失败，Http 状态码为:" + responseEntity.getStatusCodeValue());
+            throw new BusinessException("向万达宝服务器推送数据失败，Http 状态码为:" + responseEntity.getStatusCodeValue());
         }
         String syncResult = responseEntity.getBody();
 
@@ -215,7 +218,7 @@ public class WdbSyncService extends ThreadService {
 
         WDBSyncResponse response = this.getGson().fromJson(syncResult, WDBSyncResponse.class);
         if (!response.isStatus()) {
-            throw new RuntimeException("向万达宝服务器同步数据失败");
+            throw new BusinessException("向万达宝服务器同步数据失败");
         }
 
         Logger.info("同步数据成功");

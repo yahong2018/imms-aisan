@@ -1,8 +1,5 @@
 package com.zhxh.utils;
 
-/**
- * Created by yahong on 14-6-18.
- */
 public class Logger {
     private static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Logger.class);
 

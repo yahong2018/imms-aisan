@@ -1,5 +1,6 @@
 package com.zhxh.si.imms.kocheer.session;
 
+import com.zhxh.data.BusinessException;
 import com.zhxh.imms.mfc.domain.ProductionMoving;
 import com.zhxh.imms.mfc.domain.RfidCard;
 import com.zhxh.imms.mfc.logic.ProductionMovingLogic;
@@ -46,13 +47,13 @@ public class BackWipToPreService implements SessionStepService {
         //2.工位必须是看板的报工工位
         RfidCard card = session.getSessionQtyCard();
         if (card == null) {
-            throw new RuntimeException("请刷工卡");
+            throw new BusinessException("请刷工卡");
         }
         if (card.getCardStatus() != RfidCard.CARD_STATUS_MOVED) {
-            throw new RuntimeException("必须是已移库的看板才可以退还");
+            throw new BusinessException("必须是已移库的看板才可以退还");
         }
         if (!card.getWorkshop().getOpIndex().equals(session.getWorkstation().getWorkshop().getOpIndex())) {
-            throw new RuntimeException("只能在看板的报工车间" + card.getWorkshopName() + "才可以退还");
+            throw new BusinessException("只能在看板的报工车间" + card.getWorkshopName() + "才可以退还");
         }
         return Command_28.ok(session.getWorkstation().getDidTemplate(), "请输入退还数量");
     }
@@ -60,14 +61,14 @@ public class BackWipToPreService implements SessionStepService {
     private Command_28 back_3(WorkstationSession session) {
         if (session.getCurrentReqType() != ReqDataConstants.REQ_TYPE_KEY_SINGLE
                 && session.getCurrentReqType() != ReqDataConstants.REQ_TYPE_KEY_MULTI) {
-            throw new RuntimeException("请输入退还数量");
+            throw new BusinessException("请输入退还数量");
         }
 
         RfidCard card = session.getSessionQtyCard();
         int backQty = session.getQtyFromReqData(session.getCurrentReqData());
 
         if (backQty > card.getStockQty()) {
-            throw new RuntimeException("退还数必须 ≤ 报工数量");
+            throw new BusinessException("退还数必须 ≤ 报工数量");
         }
         return Command_28.ok(session.getWorkstation().getDidTemplate(), "接收人刷工卡确认");
     }
@@ -75,11 +76,11 @@ public class BackWipToPreService implements SessionStepService {
     private Command_28 back_4(WorkstationSession session) {
         Operator recvOperator = session.getCurrentOperator();
         if (recvOperator == null) {
-            throw new RuntimeException("请接收人刷工卡确认");
+            throw new BusinessException("请接收人刷工卡确认");
         }
 
         if (recvOperator.getEmployeeCardNo().equals(session.getOperator().getEmployeeCardNo())) {
-            throw new RuntimeException("接收人和退还人不能是同一个人");
+            throw new BusinessException("接收人和退还人不能是同一个人");
         }
 
         //移库报工

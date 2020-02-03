@@ -1,6 +1,7 @@
 package com.zhxh.si.imms.wdb.controller;
 
 import com.google.gson.GsonBuilder;
+import com.zhxh.data.BusinessException;
 import com.zhxh.imms.mfc.domain.ProductionMoving;
 import com.zhxh.imms.mfc.domain.RfidCard;
 import com.zhxh.imms.mfc.logic.ProductionMovingLogic;
@@ -60,10 +61,10 @@ public class InstoreController {
     private RfidCard verifyRfidCard(GwInstoreItem gwInstoreItem) {
         RfidCard card = rfidCardLogic.getByKanbanAndMaterial(gwInstoreItem.getKanbanNo(), gwInstoreItem.getProductionCode());
         if (card == null) {
-            throw new RuntimeException("看板编号(KanbanNo)=" + gwInstoreItem.getKanbanNo() + "的看板还没有发卡!");
+            throw new BusinessException("看板编号(KanbanNo)=" + gwInstoreItem.getKanbanNo() + "的看板还没有发卡!");
         }
         if (card.getCardStatus() != RfidCard.CARD_STATUS_REPORTED) {
-            throw new RuntimeException("看板编号(KanbanNo)='" + gwInstoreItem.getKanbanNo() + "的看板还没有报工，不可以执行移库动!");
+            throw new BusinessException("看板编号(KanbanNo)='" + gwInstoreItem.getKanbanNo() + "的看板还没有报工，不可以执行移库动!");
         }
         Workshop workshop = workshopLogic.get(card.getWorkshopId());
         card.setWorkshop(workshop);

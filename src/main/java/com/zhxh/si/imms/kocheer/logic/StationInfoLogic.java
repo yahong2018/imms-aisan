@@ -2,6 +2,7 @@ package com.zhxh.si.imms.kocheer.logic;
 
 import com.zhxh.admin.domain.SystemUser;
 import com.zhxh.admin.logic.SystemUserLogic;
+import com.zhxh.data.BusinessException;
 import com.zhxh.data.CrudLogic;
 import com.zhxh.data.DbQueryParameter;
 import com.zhxh.si.imms.kocheer.domain.StationInfo;
@@ -32,10 +33,10 @@ public class StationInfoLogic extends CrudLogic<StationInfo> {
     private synchronized StationInfo assureStation(StationLoginRequestData requestData) {
         SystemUser user = this.userLogic.getByCode(requestData.getLoginName());
         if (user == null) {
-            throw new RuntimeException("账号不存在");
+            throw new BusinessException("账号不存在");
         }
         if (!user.getPwd().equalsIgnoreCase(requestData.getLoginPass())) {
-            throw new RuntimeException("密码错误!");
+            throw new BusinessException("密码错误!");
         }
 
         FilterExpression expr = new FilterExpression("stationCode", "=", requestData.getStationCode());

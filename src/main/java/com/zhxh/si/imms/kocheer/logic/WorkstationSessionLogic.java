@@ -1,5 +1,6 @@
 package com.zhxh.si.imms.kocheer.logic;
 
+import com.zhxh.data.BusinessException;
 import com.zhxh.data.CrudLogic;
 import com.zhxh.si.imms.kocheer.ReqDataConstants;
 import com.zhxh.si.imms.kocheer.command.Command_28;
@@ -61,7 +62,7 @@ public class WorkstationSessionLogic extends CrudLogic<WorkstationSession> {
             session.setSessionType(WorkstationSession.SESSION_TYPE_WIP);
             sessionStepService = wipSessionService;
         } else {
-            throw new RuntimeException("请刷工卡或者看板!");
+            throw new BusinessException("请刷工卡或者看板!");
         }
         return sessionStepService.processSession(session);
     }

@@ -9,6 +9,7 @@ import com.zhxh.admin.mapper.SystemProgramMapper;
 import com.zhxh.admin.mapper.SystemUserMapper;
 import com.zhxh.admin.model.PasswordChangeItem;
 import com.zhxh.admin.model.SystemMenu;
+import com.zhxh.data.BusinessException;
 import com.zhxh.data.DbQueryParameter;
 import com.zhxh.utils.GlobalConstants;
 import org.apache.commons.lang3.StringUtils;
@@ -35,20 +36,20 @@ public class SystemUserLogic extends SystemAccountLogic<SystemUser> implements U
         return ((SystemUserMapper) this.getMapper()).getByCode(userCode);
     }
 
-    public int enable(long userId) throws RuntimeException {
+    public int enable(long userId) {
         SystemUser user = this.get(userId);
         user.setAccountStatus(StartupStatus.NORMAL);
         return this.update(user);
     }
 
-    public int disable(long userId) throws RuntimeException {
+    public int disable(long userId) {
         SystemUser user = this.get(userId);
         user.setAccountStatus(StartupStatus.EXPIRED);
         return this.update(user);
     }
 
     @Override
-    public int update(SystemUser item) throws RuntimeException {
+    public int update(SystemUser item) {
         SystemUser dbItem = this.getMapper().get(item.getRecordId());
         item.setPwd(dbItem.getPwd());
 
@@ -56,7 +57,7 @@ public class SystemUserLogic extends SystemAccountLogic<SystemUser> implements U
     }
 
     @Override
-    public int create(SystemUser item) throws RuntimeException {
+    public int create(SystemUser item){
         if (StringUtils.isEmpty(item.getPwd())) {
             item.setPwd(this.getDefaultPassword());
         }
@@ -140,14 +141,14 @@ public class SystemUserLogic extends SystemAccountLogic<SystemUser> implements U
         return this.getMapper().update(user);
     }
 
-    public int changeCurrentUserPassword(PasswordChangeItem changeItem) throws Exception {
+    public int changeCurrentUserPassword(PasswordChangeItem changeItem){
         SystemUser currentUser = GlobalConstants.getCurrentUser();
         if(currentUser==null){
             return 0;
         }
 
         if(StringUtils.isEmpty(changeItem.getOld()) || StringUtils.isEmpty(changeItem.getPwd1()) || StringUtils.isEmpty(changeItem.getPwd2())){
-            throw new Exception("[旧密码]、[新密码]、[确认新密码]都必须输入！");
+            throw new BusinessException("[旧密码]、[新密码]、[确认新密码]都必须输入！");
         }
 
         if(!changeItem.getOld().equalsIgnoreCase(currentUser.getPwd())){

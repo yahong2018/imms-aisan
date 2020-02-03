@@ -67,9 +67,9 @@ public abstract class CrudLogic<E extends Entity> implements Generic<E> {
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
-    public int create(E item) throws RuntimeException {
+    public int create(E item) {
         if (this.exists(item)) {
-            throw new RuntimeException("数据已存在！");
+            throw new BusinessException("数据已存在！");
         }
         int result = this.getMapper().create(item);
         if (!(item instanceof TraceInfo)) {
@@ -105,9 +105,9 @@ public abstract class CrudLogic<E extends Entity> implements Generic<E> {
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
-    public int update(E item) throws RuntimeException {
+    public int update(E item) {
         if (!this.exists(item)) {
-            throw new RuntimeException("需要更新的数据不存在！");
+            throw new BusinessException("需要更新的数据不存在！");
         }
         int result = this.getMapper().update(item);
         if (!(item instanceof TraceInfo)) {
@@ -118,10 +118,10 @@ public abstract class CrudLogic<E extends Entity> implements Generic<E> {
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
-    public int delete(Long id) throws RuntimeException {
+    public int delete(Long id) {
         E item = this.get(id);
         if (item == null) {
-            throw new RuntimeException("需要删除的数据不存在！");
+            throw new BusinessException("需要删除的数据不存在！");
         }
         int result = this.getMapper().delete(id);
         if (!(item instanceof TraceInfo)) {
@@ -131,7 +131,7 @@ public abstract class CrudLogic<E extends Entity> implements Generic<E> {
     }
 
     @Transactional(rollbackFor = RuntimeException.class)
-    public int deleteAll(Long[] ids) throws RuntimeException {
+    public int deleteAll(Long[] ids)  {
         if (ids == null || ids.length == 0) {
             return 0;
         }
@@ -140,7 +140,7 @@ public abstract class CrudLogic<E extends Entity> implements Generic<E> {
         if (itemClass != TraceInfo.class) {
             deletedItems = this.getDeletedItems(ids);
             if (deletedItems.size() != ids.length) {
-                throw new RuntimeException("需要删除的数据不存在！");
+                throw new BusinessException("需要删除的数据不存在！");
             }
         }
         int result = this.getMapper().deleteAll(ids);
@@ -154,7 +154,7 @@ public abstract class CrudLogic<E extends Entity> implements Generic<E> {
 
     private List<E> getDeletedItems(Long[] ids) {
         DbQueryParameter query = new DbQueryParameter();
-        String idColumn = getFieldsMap(this.getItemClass()).get("recordId").toString();
+        String idColumn = getFieldsMap(this.getItemClass()).get("recordId");
         StringBuilder builder = new StringBuilder();
         builder.append(idColumn).append(" in (");
         for (long id : ids) {

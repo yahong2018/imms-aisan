@@ -1,5 +1,6 @@
 package com.zhxh.si.imms.kocheer.domain;
 
+import com.zhxh.data.BusinessException;
 import com.zhxh.data.domain.Entity;
 import com.zhxh.imms.mfc.domain.ProductionMoving;
 import com.zhxh.imms.mfc.domain.RfidCard;
@@ -93,7 +94,7 @@ public class WorkstationSession extends Entity {
             try {
                 return Integer.parseInt(reqData);
             } catch (Exception e) {
-                throw new RuntimeException(reqData + "不是整数，请输入整数");
+                throw new BusinessException(reqData + "不是整数，请输入整数");
             }
         }
 

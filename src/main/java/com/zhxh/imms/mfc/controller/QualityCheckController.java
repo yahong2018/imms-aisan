@@ -25,7 +25,7 @@ public class QualityCheckController extends OrgFilterController<QualityCheck> {
     }
 
     @Override
-    public int create(QualityCheck item) throws RuntimeException {
+    public int create(QualityCheck item) {
         item.setReportType(QualityCheck.REPORT_TYPE_QC);
         return this.qualityCheckLogic.reportWip(item, 0);
     }

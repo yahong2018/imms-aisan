@@ -21,6 +21,15 @@
           where record_id=#{recordId}
     </select>
 
+    <select id="getOperatorWorkshops" resultMap="WorkshopResultMap">
+        select <include refid="workshopFields"/>
+           from zhxh_org ws
+           where ws.record_id in (
+            select workshop_id from zhxh_operator_workshop opws
+              where opws.operator_id = #{operatorId}
+        )
+    </select>
+
     <select id="getAll" resultMap="WorkshopResultMap" parameterType="java.util.HashMap">
         select <include refid="workshopFields"/>
          from zhxh_org ws

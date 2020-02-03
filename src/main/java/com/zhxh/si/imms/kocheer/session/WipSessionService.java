@@ -1,5 +1,6 @@
 package com.zhxh.si.imms.kocheer.session;
 
+import com.zhxh.data.BusinessException;
 import com.zhxh.imms.mfc.domain.*;
 import com.zhxh.imms.mfc.logic.*;
 import com.zhxh.imms.org.domain.Workshop;
@@ -52,7 +53,7 @@ public class WipSessionService implements SessionStepService {
         try {
             RfidCard card = session.getSessionQtyCard();
             if (card.getCardStatus() == RfidCard.CARD_STATUS_NOT_USE) {
-                throw new RuntimeException("看板" + card.getRfidNo() + "还没有发卡，必须先发卡以后才可以使用!");
+                throw new BusinessException("看板" + card.getRfidNo() + "还没有发卡，必须先发卡以后才可以使用!");
             }
             if (card.getCardType() == RfidCard.CARD_TYPE_INTERNAL) {
                 return this.onInternalCard(session);
@@ -98,7 +99,7 @@ public class WipSessionService implements SessionStepService {
 
     private Command_28 outsource(WorkstationSession session) {
         if (session.getWorkstation().getWorkshop().getWorkshopType() != Workshop.WORKSHOP_OUTSOURCE) {
-            throw new RuntimeException("只可以在外发工位上打卡外发");
+            throw new BusinessException("只可以在外发工位上打卡外发");
         }
         //1.对所有绑定的卡进行移库
         List<RfidCard> qtyCards = rfidCardLogic.getOutsourceBindCard(session.getWorkstationId(), session.getSessionQtyCard().getRecordId());
@@ -138,7 +139,7 @@ public class WipSessionService implements SessionStepService {
         RfidCard outsourceCard = session.getSessionQtyCard();
         Workshop workshop = session.getWorkstation().getWorkshop();
         if (workshop.getWorkshopType() != Workshop.WORKSHOP_QJG) {
-            throw new RuntimeException("外发看板只可以在前工程车间绑卡!");
+            throw new BusinessException("外发看板只可以在前工程车间绑卡!");
         }
         //1.新增绑定记录
         WorkstationBind bind = new WorkstationBind();
@@ -182,9 +183,9 @@ public class WipSessionService implements SessionStepService {
         //card.getCardStatus() == RfidCard.CARD_STATUS_MOVED
         String kanbanStatus = "看板" + card.getRfidNo() + "的状态：" + card.getCardStatusName();
         if (card.getWorkshop().getOpIndex().equals(workshop.getOpIndex())) {
-            throw new RuntimeException(kanbanStatus + ",后工程派发以后才可以报工!");
+            throw new BusinessException(kanbanStatus + ",后工程派发以后才可以报工!");
         } else {
-            throw new RuntimeException(kanbanStatus + ",不需要重复移库!");
+            throw new BusinessException(kanbanStatus + ",不需要重复移库!");
         }
     }
 
@@ -193,7 +194,7 @@ public class WipSessionService implements SessionStepService {
         //1.是否有绑定对应的外发看板
         Map<String, Object> bindMap = workstationBindLogic.getWorkstationBindInfo(session.getWorkstation().getRecordId(), card.getProductionId());
         if (bindMap == null || bindMap.get("outSourceProductionId") == null) {
-            throw new RuntimeException("工位没有绑定对应产品" + card.getProductionName() + "的外发看板!");
+            throw new BusinessException("工位没有绑定对应产品" + card.getProductionName() + "的外发看板!");
         }
         //2.是否超过外发看板的收容数
         long bindId = (long) bindMap.get("bindId");
@@ -202,7 +203,7 @@ public class WipSessionService implements SessionStepService {
         int outsourceQty = (int) bindMap.get("outsourceStockQty");
         int reportQty = card.getStockQty();
         if (reportQty + outsourceQty > outsourceIssueQty) {
-            throw new RuntimeException("累计报工数量" + (reportQty + outsourceQty) + "已超过外发看板容量" + outsourceIssueQty + ",请换另外一张外发看板");
+            throw new BusinessException("累计报工数量" + (reportQty + outsourceQty) + "已超过外发看板容量" + outsourceIssueQty + ",请换另外一张外发看板");
         }
         //3.报工
         Command_28 result = this.reportWip(session, productRecord);
@@ -229,7 +230,7 @@ public class WipSessionService implements SessionStepService {
 
         if (card.getWorkshop().getOpIndex().equals(workshop.getOpIndex())/*&& card.getCardStatus()==RfidCard.CARD_STATUS_REPORTED*/) {
             String kanbanStatus = "看板" + card.getRfidNo() + "的状态：" + card.getCardStatusName();
-            throw new RuntimeException(kanbanStatus + ",不可以重复报工!");
+            throw new BusinessException(kanbanStatus + ",不可以重复报工!");
         }
 
         ProductionMoving moving = session.buildProductionMoving();
@@ -245,7 +246,7 @@ public class WipSessionService implements SessionStepService {
         Workstation workstation = session.getWorkstation();
         Workshop workshop = workstation.getWorkshop();
         if (!card.getWorkshop().getOpIndex().equals(workshop.getOpIndex())) {
-            throw new RuntimeException("当前车间为：" + workshop.getWorkshopName() + ",不是看板" + card.getRfidNo() + "可以报工的车间:" + card.getWorkshopName());
+            throw new BusinessException("当前车间为：" + workshop.getWorkshopName() + ",不是看板" + card.getRfidNo() + "可以报工的车间:" + card.getWorkshopName());
         }
         int reportQty = card.getIssueQty();
         if (card.getCardStatus() == RfidCard.CARD_STATUS_BACKED) {

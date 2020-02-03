@@ -24,22 +24,22 @@ public abstract class CrudController<T extends Entity> {
     protected abstract CrudLogic<T> getLogic();
 
     @PostMapping("create")
-    public int create(T item) throws RuntimeException {
+    public int create(T item) {
         return this.getLogic().create(item);
     }
 
     @PostMapping("update")
-    public int update(T item) throws RuntimeException {
+    public int update(T item) {
         return this.getLogic().update(item);
     }
 
     @PostMapping("deleteAll")
-    public int deleteAll(@RequestBody Long[] ids) throws RuntimeException {
+    public int deleteAll(@RequestBody Long[] ids) {
         return this.getLogic().deleteAll(ids);
     }
 
     @PostMapping("delete")
-    public int delete(Long id) throws RuntimeException {
+    public int delete(Long id)  {
         return this.getLogic().delete(id);
     }
 

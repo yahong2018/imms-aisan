@@ -26,7 +26,7 @@ public class MaterialStockLogic extends CrudLogic<MaterialStock> {
         return null;
     }
 
-    public synchronized MaterialStock assureStock(Long workshopId, Long materialId) throws RuntimeException {
+    public synchronized MaterialStock assureStock(Long workshopId, Long materialId) {
         MaterialStock stock = this.getMaterialStock(workshopId, materialId);
         if (stock == null) {
             stock = new MaterialStock();

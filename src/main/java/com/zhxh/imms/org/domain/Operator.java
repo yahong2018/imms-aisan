@@ -4,13 +4,14 @@ import com.zhxh.data.domain.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 public class Operator extends Entity {
     private String employeeId;
     private String employeeName;
     private String employeeCardNo;
-    private Long orgId;
-    private String orgCode;
-    private String orgName;
+    private List<Workshop> belongedWorkshops=new ArrayList<>();
 }

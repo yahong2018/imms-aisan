@@ -1,5 +1,6 @@
 package com.zhxh.imms.mfc.logic;
 
+import com.zhxh.data.BusinessException;
 import com.zhxh.imms.material.domain.Bom;
 import com.zhxh.imms.mfc.domain.ProductRecord;
 import com.zhxh.imms.mfc.domain.RfidCard;
@@ -33,18 +34,18 @@ public class ProductRecordLogic extends WorkshopReportLogic<ProductRecord> {
             RfidCard card = this.cardLogic.getByRfidNo(productRecord.getRfidCardNo());
             if (card != null) {
                 if (card.getIssueQty() < card.getStockQty() + productRecord.getQty()) {
-                    throw new RuntimeException("报工数量错误:报工数量+完工数量>派发数量！");
+                    throw new BusinessException("报工数量错误:报工数量+完工数量>派发数量！");
                 }
 
                 productRecord.setRfidCardId(card.getRecordId());
                 productRecord.setCardQty(card.getIssueQty());
             } else {
-                throw new RuntimeException("RFID卡号：" + productRecord.getRfidCardNo() + "错误！");
+                throw new BusinessException("RFID卡号：" + productRecord.getRfidCardNo() + "错误！");
             }
         }
 
         if (productRecord.getWorkshopId() == null || productRecord.getWorkstationId() == null) {
-            throw new RuntimeException("车间和工位必须输入!");
+            throw new BusinessException("车间和工位必须输入!");
         }
     }
 
@@ -59,7 +60,7 @@ public class ProductRecordLogic extends WorkshopReportLogic<ProductRecord> {
     }
 
     @Override
-    public int create(ProductRecord item) throws RuntimeException {
+    public int create(ProductRecord item){
         item.fillWorkShift();
         int result = super.create(item);
         this.updateCardStatus(item);

@@ -3,7 +3,6 @@ package com.zhxh.imms.mfc.controller;
 import com.zhxh.data.CrudLogic;
 import com.zhxh.imms.mfc.domain.ProductionMoving;
 import com.zhxh.imms.mfc.logic.ProductionMovingLogic;
-import com.zhxh.web.CrudController;
 import com.zhxh.web.OrgFilterController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +21,7 @@ public class ProductionMovingController extends OrgFilterController<ProductionMo
     }
 
     @Override
-    public int create(ProductionMoving item) throws RuntimeException {
+    public int create(ProductionMoving item){
         return productionMovingLogic.reportWipMove(item, ProductionMoving.DIRECTION_ADVANCE);
     }
 }

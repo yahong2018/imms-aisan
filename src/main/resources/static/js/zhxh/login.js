@@ -1,8 +1,10 @@
 function handleFailure(response, opts) {
     const message = response.responseText.trim().replace("\n", "<br>");
+    console.log(message);
     Ext.MessageBox.show({
         title: '系统提示',
-        msg: message,
+        msg:'用户名或密码错误，请重试。',
+        //msg: message,
         buttons: Ext.MessageBox.OK,
         icon: Ext.MessageBox.ERROR
     });
@@ -41,7 +43,9 @@ function onLogin() {
                 handleFailure(response, opts);
             }
         }, failure: function (response, opts) {
-            handleFailure(response, opts);
+            console.log(response.responseText);
+            txtErrorMessage.innerText="用户名或密码错误，请重试。"
+           // handleFailure(response, opts);
         }
     });
 }

@@ -38,8 +38,9 @@ create table zhxh_operator
 
 create table zhxh_operator_workshop
 (
+    record_id              bigint    auto_increment    not null,
     operator_id            bigint                      not null,
     workshop_id            bigint                      not null,
 
-    primary key(operator_id,workshop_id)
+    primary key(record_id)
 );

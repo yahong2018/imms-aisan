@@ -1,5 +1,6 @@
 package com.zhxh.si.imms.kocheer.session;
 
+import com.zhxh.data.BusinessException;
 import com.zhxh.imms.mfc.domain.ProductRecord;
 import com.zhxh.imms.mfc.domain.RfidCard;
 import com.zhxh.imms.mfc.logic.ProductRecordLogic;
@@ -29,11 +30,11 @@ public class PartialReportService implements SessionStepService {
 
     private Command_28 partialReport_2(WorkstationSession session) {
         if (session.getCurrentReqType() != ReqDataConstants.REQ_TYPE_WIP_CARD) {
-            throw new RuntimeException("请刷看板");
+            throw new BusinessException("请刷看板");
         }
         RfidCard card = session.getSessionQtyCard();
         if (card.getCardStatus() != RfidCard.CARD_STATUS_ISSUED && card.getCardStatus() != RfidCard.CARD_STATUS_REPORTED) {
-            throw new RuntimeException("只有已派发和已报工的看板才可以进行尾数报工");
+            throw new BusinessException("只有已派发和已报工的看板才可以进行尾数报工");
         }
         String message = "按确定报剩余" + (card.getIssueQty() - card.getStockQty()) + "个\n如需修改，请输入尾数再按确定";
                 return Command_28.ok(session.getWorkstation().getDidTemplate(), message);
@@ -43,12 +44,12 @@ public class PartialReportService implements SessionStepService {
         if (session.getCurrentReqType() != ReqDataConstants.REQ_TYPE_KEY_SINGLE
                 && session.getCurrentReqType() != ReqDataConstants.REQ_TYPE_KEY_MULTI
         ) {
-            throw new RuntimeException("请输入报工数量");
+            throw new BusinessException("请输入报工数量");
         }
 
         int reportQty = session.getQtyFromReqData(session.getCurrentReqData());
         if (reportQty + session.getSessionQtyCard().getStockQty() > session.getSessionQtyCard().getIssueQty()) {
-            throw new RuntimeException("累计数量大于收容数,请输入正确的报工数量");
+            throw new BusinessException("累计数量大于收容数,请输入正确的报工数量");
         }
         ProductRecord productRecord=new ProductRecord();
         String message = WipSessionService.doWipReport(this.productRecordLogic, session, ProductRecord.REPORT_TYPE_PARTIAL, reportQty, productRecord);

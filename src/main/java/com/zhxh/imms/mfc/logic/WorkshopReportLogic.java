@@ -27,7 +27,7 @@ public abstract class WorkshopReportLogic<T extends WorkshopReportRecord> extend
     protected abstract T createRecord();
 
     @Transactional(rollbackFor = RuntimeException.class)
-    public synchronized int reportWip(T record, int autoReportLevel) throws RuntimeException {
+    public synchronized int reportWip(T record, int autoReportLevel)  {
         /*
             1.报工记录新增
             2.生产库存调整
@@ -94,7 +94,7 @@ public abstract class WorkshopReportLogic<T extends WorkshopReportRecord> extend
     // 1.调整本工序的qtyStock(增加)、qtyGood
     // 2.根据Bom调整上工序部品的qtyStock（减少）、qtyConsume
     //
-    private List<Bom> adjustStock(WorkshopReportRecord record) throws RuntimeException {
+    private List<Bom> adjustStock(WorkshopReportRecord record)  {
         this.adjustOutputStock(record);
         List<Bom> bomList = bomLogic.getMaterialParts(record.getProductionId());
         for (Bom bom : bomList) {
@@ -103,7 +103,7 @@ public abstract class WorkshopReportLogic<T extends WorkshopReportRecord> extend
         return bomList;
     }
 
-    private void adjustConsumeStock(WorkshopReportRecord record, Long materialId) throws RuntimeException {
+    private void adjustConsumeStock(WorkshopReportRecord record, Long materialId){
         MaterialStock stock = stockLogic.assureStock(record.getWorkshopId(), materialId);
         int qtyStock = stock.getQtyStock() - record.getQty();
         int qtyConsumeGood = stock.getQtyConsumeGood();
@@ -120,7 +120,7 @@ public abstract class WorkshopReportLogic<T extends WorkshopReportRecord> extend
         stockLogic.update(stock);
     }
 
-    private void adjustOutputStock(WorkshopReportRecord reportRecord) throws RuntimeException {
+    private void adjustOutputStock(WorkshopReportRecord reportRecord)  {
         MaterialStock stock = stockLogic.assureStock(reportRecord.getWorkshopId(), reportRecord.getProductionId());
         int qtyStock = stock.getQtyStock() + reportRecord.getQty();
         int qtyGood = stock.getQtyGood();

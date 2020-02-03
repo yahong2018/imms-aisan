@@ -1,5 +1,5 @@
 Ext.define("app.model.mfc.CardIssueModel",{
-    extend:"app.model.TrackableModel",
+    extend:"app.model.EntityModel",
     fields:[
         {name:""}
     ]

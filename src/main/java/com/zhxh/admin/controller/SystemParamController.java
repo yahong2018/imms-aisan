@@ -14,11 +14,6 @@ public class SystemParamController extends CrudController<SystemParam> {
     @Autowired
     private SystemParamLogic systemParamLogic;
 
-    @RequestMapping("sync_wdb")
-    public String syncWdb(){
-        return "";
-    }
-
     @Override
     protected CrudLogic<SystemParam> getLogic() {
         return systemParamLogic;

@@ -1,6 +1,7 @@
 package com.zhxh.si.imms.kocheer;
 
 import com.google.gson.Gson;
+import com.zhxh.data.BusinessException;
 import com.zhxh.imms.mfc.domain.RfidCard;
 import com.zhxh.imms.mfc.logic.RfidCardLogic;
 import com.zhxh.imms.org.domain.Operator;
@@ -207,13 +208,13 @@ public class DeviceUpDataProcessService {
             } else {
                 operator = operatorLogic.getByEmployeeCard(param1);
                 if (operator == null) {
-                    throw new RuntimeException("卡号:" + param1 + "没有注册，请先注册卡");
+                    throw new BusinessException("卡号:" + param1 + "没有注册，请先注册卡");
                 } else {
                     reqType = ReqDataConstants.REQ_TYPE_EMPLOYEE_CARD;
                 }
             }
         } else {
-            throw new RuntimeException("无法识别的数据类型:" + dataType);
+            throw new BusinessException("无法识别的数据类型:" + dataType);
         }
 
         //判断session
@@ -264,7 +265,7 @@ public class DeviceUpDataProcessService {
     private Workstation verifyWorkstation(int gid, int did) {
         Workstation workstation = workstationLogic.getByGidDid(gid, did);
         if (workstation == null) {
-            throw new RuntimeException("组号:" + gid + ",机号:" + did + "的工位机没注册，请联系管理员注册！");
+            throw new BusinessException("组号:" + gid + ",机号:" + did + "的工位机没注册，请联系管理员注册！");
         }
 
         Workshop workshop = workshopLogic.get(workstation.getWorkshopId());

@@ -19,8 +19,13 @@ Ext.define('app.ux.Utils', {
         const me = config;
 
         const handleFailure = function (response, opts) {
+            debugger;
             app.ux.Utils.handle403Respones(response);            
             if (!me.silence) {
+                if(!response.responseText){
+                    Ext.Msg.alert("系统提示","未知错误，请刷新页面再试!");
+                    return;
+                }
                 const message = response.responseText.trim().replace("\n", "<br>");
                 Ext.MessageBox.show({
                     title: '系统提示',
@@ -39,7 +44,7 @@ Ext.define('app.ux.Utils', {
         const configBase = {
             headers: app.ux.Utils.getAuthorizeHeader(),
             success: function (response, opts) {
-                try {
+                try {                    
                     let result = Ext.decode(response.responseText);
                     if (typeof result == "string") {
                         result = Ext.decode(result);

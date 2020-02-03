@@ -56,7 +56,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authResult) throws IOException, ServletException {
+                                            Authentication authResult) {
         SystemUser jwtUser = (SystemUser) authResult.getPrincipal();
         Logger.info("用户："+jwtUser.getUserCode()+"已成功登录");
         jwtUser.setLastLoginTime(LocalDateTime.now());
@@ -83,7 +83,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         apiCallResult.setSuccess(true);
         apiCallResult.setData(authToken);
         Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (src, typeOfSrc, context) -> new JsonPrimitive(src.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")))).setDateFormat("yyyy/MM/dd HH:mm:ss").create();
-        return gson.toJson(apiCallResult);
+        if("C00WDB".equals(jwtUser.getUserCode())){ //为了兼容万达宝的登录，不修改登录格式
+            return gson.toJson(authToken);
+        }{
+            return gson.toJson(apiCallResult);
+        }
     }
 
     // 这是验证失败时候调用的方法

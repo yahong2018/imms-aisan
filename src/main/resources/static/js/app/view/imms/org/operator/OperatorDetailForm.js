@@ -8,38 +8,10 @@ Ext.define("app.view.imms.org.operator.OperatorDetailForm", {
     },
     items: [
         {
-            xtype:"hidden",
-            name:"recordId"
+            xtype: "hidden",
+            name: "recordId"
         },
         {
-            name: "orgCode",
-            xtype: "hidden"
-        }, {
-            name: "orgName",
-            xtype: "hidden"
-        },
-        {
-            name: "orgId",
-            xtype: "combobox",
-            fieldLabel: "所属车间",
-            width: 380,
-            valueField: "recordId",
-            displayField: "workshopName",
-            store: Ext.create({ xtype: "imms_org_WorkshopStore", autoLoad: true, pageSize: 0 }),
-            listeners: {
-                change: function (self, newValue, oldValue, eOpts) {
-                    var form = self.up("imms_org_operator_OperatorDetailForm");
-                    var orgCode = form.down("[name='orgCode']");
-                    var orgName = form.down("[name='orgName']");
-
-                    var record = self.getSelectedRecord();
-                    if (record != null) {
-                        orgCode.setValue(record.get("workshopCode"));
-                        orgName.setValue(record.get("workshopName"));
-                    }
-                }
-            }
-        }, {
             name: "employeeId",
             xtype: "textfield",
             fieldLabel: "工号",
