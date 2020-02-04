@@ -36,16 +36,17 @@ public class KocheerServiceImpl implements KocheerService {
     @Autowired
     private DeviceUpDataProcessService upDataLogic;
 
-
-
     @Override
     public String GetServerTime(String json) {
-        String nowString = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss").format(LocalDateTime.now());
-        return GsonCreator.getUpperCamelGson().toJson(nowString);
+        Logger.debug("GetServerTime--->"+json);
+        String nowString = GsonCreator.getUpperCamelGson().toJson(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss").format(LocalDateTime.now()));
+        Logger.debug("GetServerTime结果--->"+nowString);
+        return nowString;
     }
 
     @Override
     public String StationLogin(String json) {
+        Logger.debug("StationLogin--->"+json);
         StationLoginRequestData requestData = GsonCreator.getUpperCamelGson().fromJson(json, StationLoginRequestData.class);
 
 //		String s = "{\"StationID\":1,\"StationCode\":\"C001\",\"StationName\":\"机房\",\"StationPosition\":\"机房\","+
@@ -55,22 +56,26 @@ public class KocheerServiceImpl implements KocheerService {
         Gson gson = GsonCreator.getUpperCamelGson();
         String result = gson.toJson(stationInfo);
         result = result.replace("RecordId", "StationID");
+        Logger.debug("StationLogin结果--->"+result);
         return result;
     }
 
     @Override
     public String GetStationConterList(String json) {
+        Logger.debug("GetStationConterList--->"+json);
         //String s = "[{\"ConterID\":2,\"StationID\":1,\"GID\":1,\"ConterName\":\"222\",\"StartDID\":1,\"EndDID\":2,\"IP\":\"192.136.2.2\",\"Port\":4000,\"Position\":\"\",\"IsUse\":1,\"Remark\":\"\"}]";
         //return s;
         Gson gson = GsonCreator.getUpperCamelGson();
         DataGetRequestData requestData = gson.fromJson(json, DataGetRequestData.class);
         List<ConterInfo> conters = this.conterInfoLogic.getStationConters(requestData.getLoginStationID());
-        String result = gson.toJson(conters);
+        String result = gson.toJson(conters).replace("RecordId","ConterID");
+        Logger.debug("GetStationConterList结果--->"+result);
         return result;
     }
 
     @Override
     public String GetStationList(String json) {
+        Logger.debug("GetStationList--->"+json);
         Gson gson = GsonCreator.getUpperCamelGson();
         DataGetRequestData requestData = gson.fromJson(json, DataGetRequestData.class);
 //		String s = "[{\"StationID\":1,\"StationCode\":\"C001\",\"StationName\":\"机房01\",\"StationPosition\":\"机房01\",\"SoftWareName\":\"26+Middleware\",\"SoftWareVersion\":\"1\",\"StationIP\":\"192.168.16.1\",\"StationLoginState\":1,\"LoginUserID\":1,\"FirstLoginTime\":\"\\/Date(580000374000)\\/\",\"LastLoginTime\":\"\\/Date(1580003682000)\\/\",\"LastLogOutTime\":\"\\/Date(1480731576150)\\/\",\"LastStateUpdateTime\":\"\\/Date(1580003710683)\\/\",\"IsUse\":1,\"Remark\":\"\"}]";
@@ -78,16 +83,19 @@ public class KocheerServiceImpl implements KocheerService {
         DbQueryParameter query = new DbQueryParameter();
         List<StationInfo> list = this.stationInfoLogic.getAll(query);
         list.get(0).setUserID(requestData.getLoginUserID());
-        String str = gson.toJson(list).replace("recordId", "StationID").replace("/Date(", "\\/Date(").replace(")/", ")\\/");
-        return str;
+        String str = gson.toJson(list).replace("RecordId", "StationID").replace("/Date(", "\\/Date(").replace(")/", ")\\/");
+        Logger.debug("GetStationList结果--->"+str);
+         return str;
     }
 
     @Override
     public String GetConterList(String json) {
+        Logger.debug("GetStationList--->"+json);
         Gson gson = GsonCreator.getUpperCamelGson();
         DataGetRequestData requestData = gson.fromJson(json, DataGetRequestData.class);
         List<ConterInfo> conterInfoList = this.conterInfoLogic.getAll(new DbQueryParameter());
-        String result = gson.toJson(conterInfoList);
+        String result = gson.toJson(conterInfoList).replace("RecordId","ConterID");
+        Logger.debug("GetConterList结果--->"+result);
         return result;
 
         //String s="[{\"ConterID\":2,\"StationID\":1,\"GID\":1,\"ConterName\":\"压铸\",\"StartDID\":1,\"EndDID\":30,\"IP\":\"192.168.122.51\",\"Port\":4000,\"Position\":\"\",\"IsUse\":1,\"Remark\":\"\"}]";
@@ -111,7 +119,8 @@ public class KocheerServiceImpl implements KocheerService {
 
     @Override
     public String GetSystemUserList(String json) {
-        SystemUser systemUser = userLogic.getByCode("Kocheer");
+        Logger.debug("GetSystemUserList--->"+json);
+        SystemUser systemUser = userLogic.getByCode("kcheer");
         UserInfo userInfo = new UserInfo();
         userInfo.setUserID(systemUser.getRecordId());
         userInfo.setLoginName(systemUser.getUserCode());
@@ -125,6 +134,7 @@ public class KocheerServiceImpl implements KocheerService {
         UserInfo[] result = new UserInfo[]{userInfo};
         Gson gson = GsonCreator.getUpperCamelGson();
         String resultStr = gson.toJson(result);
+        Logger.debug("GetSystemUserList结果--->"+resultStr);
         return resultStr;
     }
 

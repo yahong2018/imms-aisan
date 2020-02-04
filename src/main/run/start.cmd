@@ -1,2 +1,1 @@
-cd ..
-java -jar -Dloader.path=.,resources,lib ./imms-aisan-1.0.jar
+java -jar -Dloader.path=../,../resources,../lib ../imms-aisan-1.0.jar
