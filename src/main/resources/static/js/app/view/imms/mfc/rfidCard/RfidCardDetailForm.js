@@ -40,7 +40,7 @@ Ext.define("app.view.imms.mfc.rfidCard.RfidCardDetailForm", {
                 },
                 {
                     xtype: "label",
-                    text: "2.工程内看板  3.外发看板",
+                    text: "2.内部看板  3.外发看板",
                     flex: 0.8,
                     margin: '8 0 5 5',
                 }

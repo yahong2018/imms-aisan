@@ -18,9 +18,11 @@ function onLogin() {
         txtErrorMessage.innerText = "用户名和密码都必须输入！";
         return;
     }
+
+    const password = Ext.util.Base64.encode(txtPassword.value);
     const account = {
         username: txtUserName.value,
-        password: txtPassword.value
+        password:  password
     };
 
     Ext.Ajax.request({

@@ -36,7 +36,7 @@ Ext.define("app.view.imms.org.operator.Operator", {
                 }
                 var deailWindow = Ext.create('app.ux.ModalWindow', {
                     modal: true,
-                    width: 500,
+                    width: 680,
                     title: '部门配置',
                     parentView: grid,
                     doSave: grid.updateWorkshop,

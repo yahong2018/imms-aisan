@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +109,7 @@ public abstract class CrudController<T extends Entity> {
                 .replaceAll("\r|\n", "")
                 .replaceAll(" ", "+");
         byte[] buffer = Base64.getDecoder().decode(rawSearch);
-        String strUtf8 = new String(buffer, "UTF-8");
+        String strUtf8 = new String(buffer, StandardCharsets.UTF_8);
         if (StringUtils.isEmpty(strUtf8)) {
             return null;
         }

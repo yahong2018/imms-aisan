@@ -18,7 +18,7 @@ Ext.define("app.view.imms.mfc.rfidCard.RfidCard", {
         },
         { dataIndex: "towerNo", text: "外发塔编号", width: 100 },
         {
-            dataIndex: "cardStatus", text: '看板状态', width: 150, renderer: function (v) {
+            dataIndex: "cardStatus", text: '看板状态', width: 120, renderer: function (v) {
                 var lables = ["0.未使用", "1.已派发", "2.已退回", "3.已绑定", "4.已外发", "5", "6", "7", "8", "9", "10.已报工（回厂）",
                     "11", "12", "13", "14", "15", "16", "17", "18", "19", "20.已移库(投入)"                    
                 ];
@@ -31,7 +31,7 @@ Ext.define("app.view.imms.mfc.rfidCard.RfidCard", {
         { dataIndex: "workshopCode", text: '车间编号', width: 100 },
         { dataIndex: "workshopName", text: '车间名称', width: 100 },
         { dataIndex: "productionCode", text: '产品编号', width: 150 },
-        { dataIndex: "productionName", text: '产品名称', width: 150 },
+        { dataIndex: "productionName", text: '产品名称', width: 200 },
         { dataIndex: "issueQty", text: '派发数量', width: 100 },
         { dataIndex: "outsourceQty", text: '外发数量', width: 100 },
         { dataIndex: "stockQty", text: '完工数量', width: 100 },

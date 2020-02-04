@@ -5,7 +5,7 @@ Ext.define("app.view.imms.org.operator.WorkshopConfigForm", {
     workshopStore: Ext.create({ xtype: "imms_org_WorkshopStore", pageSize: 0, autoLoad: true }),    
     items: [{
         xtype: 'checkboxgroup',
-        columns: 5,
+        columns: 4,
         items: []
     }],
 

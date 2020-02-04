@@ -12,9 +12,9 @@ Ext.define("app.view.imms.org.workshop.Workshop", {
         { dataIndex: "workshopCode", text: "车间代码", width: 120 },
         { dataIndex: "workshopName", text: "车间名称", width: 200 },
         {
-            dataIndex: "workshopType", text: "车间类别", width: 200,renderer: function(value) {
+            dataIndex: "workshopType", text: "车间类别", width: 200, renderer: function (value) {
                 {
-                    var lables = ["", "1. 内部车间", "", "3.外发前工程车间", "4.外发车间", "5.外发后工程车间"]
+                    var lables = ["", "1. 内部车间", "", "3.外发前工程车间", "4.外发车间", "5.外发后工程车间", "9.工务"]
                     //  0. 内部车间   3.外发前工程车间   4.外发车间   5.外发后工程车间
                     return lables[value];
                 }
@@ -26,7 +26,7 @@ Ext.define("app.view.imms.org.workshop.Workshop", {
             detailFormClass: 'imms_org_workshop_WorkshopDetailForm',
             detailWindowTitle: '车间管理',
             store: Ext.create({
-                xtype: 'imms_org_WorkshopStore', grid: this, listeners: {
+                xtype: 'imms_org_WorkshopStore', pageSize: 0, grid: this, listeners: {
                     load: function () {
                         if (this.getCount() > 0 && !this.grid.dataProcessed) {
                             this.grid.dataProcessed = true;

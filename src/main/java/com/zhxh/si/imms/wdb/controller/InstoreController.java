@@ -34,7 +34,7 @@ public class InstoreController {
 
     @PostMapping("reportInstroeByErp")
     public int reportInstoreByERP(@RequestBody String json) {
-        Logger.info("收到公务移库信息：" + json);
+        Logger.info("收到工务移库信息：" + json);
         GwInstoreItem gwInstoreItem = new GsonBuilder().create().fromJson(json, GwInstoreItem.class);
 
         RfidCard card = verifyRfidCard(gwInstoreItem);

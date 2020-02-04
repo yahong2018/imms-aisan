@@ -3,7 +3,7 @@ Ext.define('app.model.imms.material.MaterialModel', {
     fields: [
         { name: "materialCode", type: "string" },
         { name: "materialName", type: "string" },
-        { name: "AutoFinishedProgress", type: "int" },
+        { name: "autoFinishedProgress", type: "bool" },
         { name: "description", type: "string" },
     ]
 });

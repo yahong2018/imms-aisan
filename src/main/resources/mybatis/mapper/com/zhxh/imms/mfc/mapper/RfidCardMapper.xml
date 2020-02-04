@@ -11,7 +11,7 @@
         <result property="productionCode" column="production_code"/>
         <result property="productionName" column="production_name"/>
         <result property="workshopId" column="workshop_id"/>
-        <result property="workshopCode" column="production_code"/>
+        <result property="workshopCode" column="workshop_code"/>
         <result property="workshopName" column="workshop_name"/>
         <result property="issueQty" column="issue_qty"/>
         <result property="stockQty" column="stock_qty"/>
@@ -27,22 +27,25 @@
         ws.org_code as workshop_code,ws.org_name as workshop_name
     </sql>
 
+    <sql id="tables">
+        zhxh_rfid_card rfid join zhxh_material m on rfid.production_id = m.record_id
+           join zhxh_org ws on rfid.workshop_id = ws.record_id
+    </sql>
+
     <select id="get" resultMap="RfidCardResultMap">
         select <include refid="rfidCardFields"/>
-        from zhxh_rfid_card rfid join zhxh_material m on rfid.production_id = m.record_id
-                                 join zhxh_org ws on rfid.workshop_id = ws.record_id
+        from <include refid="tables"/>
         where rfid.record_id=#{recordId}
     </select>
 
     <select id="getAll" resultMap="RfidCardResultMap" parameterType="java.util.HashMap">
         select <include refid="rfidCardFields"/>
-        from zhxh_rfid_card rfid join zhxh_material m on rfid.production_id = m.record_id
-                                 join zhxh_org ws on rfid.workshop_id = ws.record_id
+        from <include refid="tables"/>
         <include refid="com.zhxh.data.mapper.CrudMapper.selectByPage"/>
     </select>
 
     <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
-        select count(*) from zhxh_rfid_card rfid
+        select count(*) from <include refid="tables"/>
         <where>
             ${where}
         </where>

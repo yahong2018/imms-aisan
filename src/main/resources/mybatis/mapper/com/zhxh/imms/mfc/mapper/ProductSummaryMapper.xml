@@ -21,24 +21,26 @@
         ws.org_code as workshop_code,ws.org_name as workshop_name
     </sql>
 
+    <sql id="tables">
+        zhxh_product_summary ps join zhxh_material m on ps.production_id = m.record_id
+            join zhxh_org ws on ps.workshop_id = ws.record_id
+    </sql>
+
     <select id="get" resultMap="ProductSummaryResultMap">
         select <include refid="productSummaryFields"/>
-         from zhxh_product_summary ps join zhxh_material m on ps.production_id = m.record_id
-                                      join zhxh_org ws on ps.workshop_id = ws.record_id
+         from <include refid="tables"/>
         where ps.record_id = #{recordId}
     </select>
 
     <select id="getAll" parameterType="java.util.Map" resultMap="ProductSummaryResultMap">
         select <include refid="productSummaryFields"/>
-        from zhxh_product_summary ps join zhxh_material m on ps.production_id = m.record_id
-                                     join zhxh_org ws on ps.workshop_id = ws.record_id
+        from <include refid="tables"/>
         <include refid="com.zhxh.data.mapper.CrudMapper.selectByPage"/>
     </select>
 
     <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
         select count(*)
-        from zhxh_product_summary ps join zhxh_material m on ps.production_id = m.record_id
-                                     join zhxh_org ws on ps.workshop_id = ws.record_id
+        from <include refid="tables"/>
         <where>
             ${where}
         </where>

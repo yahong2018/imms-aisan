@@ -11,8 +11,8 @@ Ext.define("app.view.imms.material.material.MaterialDetailForm", {
 
     items: [
         {
-            xtype:"hidden",
-            name:"recordId"
+            xtype: "hidden",
+            name: "recordId"
         },
         {
             name: "materialCode",
@@ -33,13 +33,9 @@ Ext.define("app.view.imms.material.material.MaterialDetailForm", {
             width: 380,
         },
         {
-            xtype: "container",
-            layout: "hbox",
-            margin: '0 0 3 ',
-            items: [
-                { name: "autoFinishedProgress", xtype: "textfield", fieldLabel: "是否自动报工", width: 150, },
-                { xtype: "label", margin: '8 20 0 5', flex: 0.8, text: "0.不自动   1.自动" },
-            ]
+            xtype: "checkbox",
+            name: "autoFinishedProgress",
+            fieldLabel: "自动报工"
         }
     ]
 });

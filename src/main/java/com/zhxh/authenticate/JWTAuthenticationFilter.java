@@ -22,10 +22,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -38,12 +40,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
-
-        // 从输入流中获取到登录的信息
         try {
             LoginAccount loginUser = new ObjectMapper().readValue(request.getInputStream(), LoginAccount.class);
+            byte[] buffer = Base64.getDecoder().decode(loginUser.getPassword());
+            String password = new String(buffer, StandardCharsets.UTF_8);
             return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword(), new ArrayList<>())
+                    new UsernamePasswordAuthenticationToken(loginUser.getUsername(), password, new ArrayList<>())
             );
         } catch (IOException e) {
             e.printStackTrace();

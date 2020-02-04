@@ -28,27 +28,27 @@
         dc.defect_code,dc.defect_name
     </sql>
 
+    <sql id="tables">
+        zhxh_quality_check qc join zhxh_material m on qc.production_id = m.record_id
+              join zhxh_org ws on qc.workshop_id = ws.record_id
+              join zhxh_defect dc on qc.defect_id = dc.record_id
+    </sql>
+
     <select id="get" resultMap="QualityCheckResultMap">
         select <include refid="qualityCheckFields"/>
-        from zhxh_quality_check qc join zhxh_material m on qc.production_id = m.record_id
-                                   join zhxh_org ws on qc.workshop_id = ws.record_id
-                                   join zhxh_defect dc on qc.defect_id = dc.record_id
+        from <include refid="tables"/>
         where qc.record_id=#{recordId}
     </select>
 
     <select id="getAll" resultMap="QualityCheckResultMap" parameterType="java.util.Map">
         select <include refid="qualityCheckFields"/>
-        from zhxh_quality_check qc join zhxh_material m on qc.production_id = m.record_id
-                                   join zhxh_org ws on qc.workshop_id = ws.record_id
-                                   join zhxh_defect dc on qc.defect_id = dc.record_id
+        from <include refid="tables"/>
         <include refid="com.zhxh.data.mapper.CrudMapper.selectByPage"/>
     </select>
 
     <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
         select count(*)
-        from zhxh_quality_check qc join zhxh_material m on qc.production_id = m.record_id
-                                    join zhxh_org ws on qc.workshop_id = ws.record_id
-                                    join zhxh_defect dc on qc.defect_id = dc.record_id
+        from <include refid="tables"/>
         <where>
             ${where}
         </where>
