@@ -120,7 +120,9 @@ public class KocheerServiceImpl implements KocheerService {
     @Override
     public String GetSystemUserList(String json) {
         Logger.debug("GetSystemUserList--->"+json);
-        SystemUser systemUser = userLogic.getByCode("kcheer");
+        Gson gson = GsonCreator.getUpperCamelGson();
+        DataGetRequestData requestData = gson.fromJson(json,DataGetRequestData.class);
+        SystemUser systemUser = userLogic.get(requestData.getLoginUserID());
         UserInfo userInfo = new UserInfo();
         userInfo.setUserID(systemUser.getRecordId());
         userInfo.setLoginName(systemUser.getUserCode());
@@ -132,7 +134,7 @@ public class KocheerServiceImpl implements KocheerService {
         //String s= "[{\"UserID\":1,\"LoginName\":\"admin\",\"LoginPass\":\"\",\"UserName\":\"管理员\",\"UserType\":1,\"Remark\":\"\"},{\"UserID\":2,\"LoginName\":\"test1\",\"LoginPass\":\"\",\"UserName\":\"TEST1\",\"UserType\":0,\"Remark\":\"\"}]";
 
         UserInfo[] result = new UserInfo[]{userInfo};
-        Gson gson = GsonCreator.getUpperCamelGson();
+
         String resultStr = gson.toJson(result);
         Logger.debug("GetSystemUserList结果--->"+resultStr);
         return resultStr;
