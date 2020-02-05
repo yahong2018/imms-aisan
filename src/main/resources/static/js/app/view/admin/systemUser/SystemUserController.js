@@ -57,14 +57,14 @@ Ext.define('app.view.admin.systemUser.SystemUserController', {
         var userRoleIdList = [];
         var roles = users[0].get("roles");
         for (var i = 0; i < roles.length; i++) {
-            userRoleIdList.push(roles[i].recordId+"");
+            userRoleIdList.push(roles[i].recordId + "");
         }
         checkboxGroup.setValue({ userRoles: userRoleIdList });
 
         deailWindow.show();
     },
 
-    doUpdateRoles: function (grid, win) {        
+    doUpdateRoles: function (grid, win) {
         var checkboxGroup = win.down('checkboxgroup');
         var roleIdList = checkboxGroup.getValue().userRoles;
         var roles = [];
@@ -88,5 +88,24 @@ Ext.define('app.view.admin.systemUser.SystemUserController', {
         var user = grid.getSelectionModel().getSelection()[0];
         var userId = user.get('recordId');
         grid.getStore().updateUserRoles(win, user, roles);
+    },
+
+    gridSelectionChanged: function (model, selected, index) {
+        var grid = this.getView();
+
+        var disabled = selected.get("recordCreationType") == "BUILD_IN";
+        var btnEdit = grid.down('dbgrideditbutton');
+        var btnDelete = grid.down('dbgriddeletebutton');
+        var btnStart = grid.down('[privilege="START_USER"]');
+        var btnStop = grid.down('[privilege="STOP_USER"]');
+        var btnResetPassword = grid.down('[privilege="RESET_PASSWORD"]');
+        var btnAssign = grid.down('[privilege="ASSIGN_ROLE"]');
+
+        btnEdit.setDisabled(disabled);
+        btnDelete.setDisabled(disabled);
+        btnStart.setDisabled(disabled);
+        btnStop.setDisabled(disabled);
+        btnResetPassword.setDisabled(disabled);
+        btnAssign.setDisabled(disabled);
     }
 });

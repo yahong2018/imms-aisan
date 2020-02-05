@@ -12,11 +12,12 @@ import com.zhxh.si.imms.kocheer.KocheerService;
 
 @Configuration
 public class CxfConfig {
-	@Autowired
-	private Bus bus;
-
-	@Autowired
-	private KocheerService KocheerService;
+	private final Bus bus;
+	private final KocheerService KocheerService;
+	public CxfConfig(Bus bus, KocheerService KocheerService) {
+		this.bus = bus;
+		this.KocheerService = KocheerService;
+	}
 
 	@Bean
 	public Endpoint kocheerServiceEndpoint() {

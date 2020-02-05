@@ -44,10 +44,14 @@ Ext.define('app.view.admin.systemRole.SystemRoleController', {
         }]);
     },
     gridSelectionChanged: function (model, selected, index) {
-        this.getView().down('SystemRoleGrid').getStore().loadRolePrivileges.apply(this, [selected, this.showPrivilege]);
-        //
-        //控制BUILD_IN的不可以删除和修改        
-        //
+        var grid = this.getView().down('SystemRoleGrid');
+        grid.getStore().loadRolePrivileges.apply(this, [selected, this.showPrivilege]);
+        
+        var disabled = selected.get("recordCreationType") == "BUILD_IN";       
+        var btnEdit = grid.down('dbgrideditbutton');
+        var btnDelete = grid.down('dbgriddeletebutton');       
+        btnEdit.setDisabled(disabled);
+        btnDelete.setDisabled(disabled);
     },
 
     showPrivilege: function (role, privileges) {

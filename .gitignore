@@ -32,3 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 
+### ExtJs   ###
+.sencha
+/src/main/resources/static/js/.sencha
+
+

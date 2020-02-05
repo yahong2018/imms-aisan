@@ -66,8 +66,7 @@ public class WdbSyncService extends ThreadService {
 
     @Override
     protected void doInternalRun() {
-        LocalDateTime currentTime = LocalDateTime.now();
-        if (this.nextRunTime.isAfter(currentTime)) {
+        if (this.nextRunTime.isAfter(LocalDateTime.now())) {
             return;
         }
 

@@ -230,7 +230,8 @@ Ext.define("app.ux.data.DataOperation", {
         var programId = currentTopWindow.menuData.get('programId');
 
         var canUpdate = app.ux.Utils.hasPrivilege({ programId: programId, privilegeCode: "UPDATE" });
-        if (!canUpdate) {
+        var disabled = record.get("recordCreationType") == "BUILD_IN";
+        if (!canUpdate || disabled == true) {
             detailWindow.down('[buttonName="save"]').setDisabled(true);
             detailWindow.down('[buttonName="saveAndInsert"]').setDisabled(true);
         }

@@ -59,8 +59,8 @@ public class GlobalConstants implements ApplicationContextAware {
 
         FieldsMapInitiator.initFieldsMap();
 
-//        ServiceManager serviceManager = applicationContext.getBean(ServiceManager.class);
-//        serviceManager.start();
+        ServiceManager serviceManager = applicationContext.getBean(ServiceManager.class);
+        serviceManager.start();
     }
 
     public static Gson getGson(String... ignoredFields) {

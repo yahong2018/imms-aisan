@@ -1,6 +1,6 @@
 Ext.define('app.view.admin.systemParam.SystemParam', {
     extend: 'app.ux.dbgrid.DbGrid',
-    xtype: 'app_view_admin_systemParam_SystemPara',
+    xtype: 'app_view_admin_systemParam_SystemParam',
     requires:["app.model.admin.SystemParamModel","app.store.admin.SystemParamStore"],
     uses:["app.view.admin.systemParam.SystemParamDetailForm"],
     hideInsert:true,

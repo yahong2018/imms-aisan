@@ -218,6 +218,9 @@
                             <resources>
                                 <resource>
                                     <directory>src/main/resources</directory>
+                                    <excludes>
+                                        <exclude>**/.sencha/**</exclude>
+                                    </excludes>
                                 </resource>
                             </resources>
                             <outputDirectory>${project.build.directory}/dist/resources</outputDirectory>
