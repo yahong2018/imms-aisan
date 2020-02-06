@@ -1,53 +1,57 @@
-package com.zhxh.web.websocket;
+package com.zhxh.web;
 
 import com.zhxh.utils.Logger;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
 import javax.websocket.*;
 
-public class WebSocket {
-    private volatile int onlineCount = 0;
-    private static CopyOnWriteArraySet<Session> sessionSet = new CopyOnWriteArraySet<>();
-    private SessionHandler handler;
+public abstract class WebSocket {
+    private static volatile int onlineCount = 0;
+    private static CopyOnWriteArraySet<WebSocket> socketList = new CopyOnWriteArraySet<>();
+    private Session session;
 
     @OnOpen
     public void onOpen(Session session) {
         Logger.info(WebSocket.getRemoteAddress(session) + "已连接服务器");
-        sessionSet.add(session);
+        socketList.add(this);
+        this.session = session;
         addOnlineCount();
-        handler.onOpen(session);
     }
 
     @OnClose
     public void onClose(Session closeSession) {
         Logger.info(WebSocket.getRemoteAddress(closeSession) + "已从服务器断开");
-        sessionSet.remove(closeSession);
+        socketList.remove(this);
         subOnlineCount();
-        handler.onOpen(closeSession);
     }
 
     @OnMessage
     public void onMessage(String message, Session session) {
-        handler.onMessage(message, session);
+        Logger.info(WebSocket.getRemoteAddress(session) + "收到消息:" + message);
+        this.internalOnMessage(message, session);
     }
 
     @OnError
     public void onError(Session session, Throwable error) {
-        handler.onError(session, error);
     }
 
-    public synchronized static void broadCast(String message) {
-        for (Session session : sessionSet) {
-            sendMessage(session, message);
+    protected abstract void internalOnMessage(String message, Session session);
+
+    public synchronized void broadCast(String message) {
+        for (WebSocket socket : socketList) {
+            sendMessage(socket.session, message);
         }
     }
 
-    public static void sendMessage(Session session, String message) {
+    public void sendMessage(Session session, String message) {
         try {
             if (session.isOpen()) {
+                Logger.info(WebSocket.getRemoteAddress(session) + "发送消息:" + message);
                 session.getBasicRemote().sendText(message);
             }
         } catch (IOException e) {
@@ -67,8 +71,12 @@ public class WebSocket {
         onlineCount--;
     }
 
-    protected CopyOnWriteArraySet<Session> getWebSocketSet() {
-        return sessionSet;
+    protected CopyOnWriteArraySet<WebSocket> getWebSocketSet() {
+        return socketList;
+    }
+
+    public Session getSession() {
+        return session;
     }
 
     public static InetSocketAddress getRemoteAddress(Session session) {
@@ -76,7 +84,6 @@ public class WebSocket {
             return null;
         }
         RemoteEndpoint.Async async = session.getAsyncRemote();
-
         //在Tomcat 8.0.x版本有效
 //		InetSocketAddress addr = (InetSocketAddress) getFieldInstance(async,"base#sos#socketWrapper#socket#sc#remoteAddress");
         //在Tomcat 8.5以上版本有效
@@ -104,18 +111,10 @@ public class WebSocket {
                 field.setAccessible(true);
                 return field.get(obj);
             } catch (Exception e) {
-                Logger.debug(e);
+                Logger.error(e);
             }
         }
 
         return null;
-    }
-
-    public SessionHandler getHandler() {
-        return handler;
-    }
-
-    public void setHandler(SessionHandler handler) {
-        this.handler = handler;
     }
 }
