@@ -1,12 +1,12 @@
-package com.zhxh.kanban.frontController;
+package com.zhxh.kanban;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class LineKanbanController {
-    @RequestMapping("/websocket-test")
+public class ProgressKanbanFrontController {
+    @RequestMapping("front/kanban/progress")
     public String index(){
-        return "websocket-test";
+        return "kanban/progress";
     }
 }

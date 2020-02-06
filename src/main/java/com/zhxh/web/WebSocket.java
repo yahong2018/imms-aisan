@@ -1,12 +1,11 @@
 package com.zhxh.web;
 
 import com.zhxh.utils.Logger;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
 import javax.websocket.*;
 
@@ -15,69 +14,105 @@ public abstract class WebSocket {
     private static CopyOnWriteArraySet<WebSocket> socketList = new CopyOnWriteArraySet<>();
     private Session session;
 
+    public Session getSession() {
+        return session;
+    }
+
     @OnOpen
-    public void onOpen(Session session) {
+    public final synchronized void onOpen(Session session) {
         Logger.info(WebSocket.getRemoteAddress(session) + "已连接服务器");
         socketList.add(this);
         this.session = session;
         addOnlineCount();
+
+        this.internalOnOpen();
     }
 
     @OnClose
-    public void onClose(Session closeSession) {
+    public final synchronized void onClose(Session closeSession) {
         Logger.info(WebSocket.getRemoteAddress(closeSession) + "已从服务器断开");
+        this.internalOnClose();
+
         socketList.remove(this);
+        this.session = null;
         subOnlineCount();
     }
 
     @OnMessage
-    public void onMessage(String message, Session session) {
-        Logger.info(WebSocket.getRemoteAddress(session) + "收到消息:" + message);
-        this.internalOnMessage(message, session);
-    }
-
-    @OnError
-    public void onError(Session session, Throwable error) {
-    }
-
-    protected abstract void internalOnMessage(String message, Session session);
-
-    public synchronized void broadCast(String message) {
-        for (WebSocket socket : socketList) {
-            sendMessage(socket.session, message);
-        }
-    }
-
-    public void sendMessage(Session session, String message) {
+    public final void onMessage(String strMessage, Session session) {
+        Logger.info(WebSocket.getRemoteAddress(session) + "收到消息:" + strMessage);
         try {
-            if (session.isOpen()) {
-                Logger.info(WebSocket.getRemoteAddress(session) + "发送消息:" + message);
-                session.getBasicRemote().sendText(message);
-            }
-        } catch (IOException e) {
+            WebSocketMessage message = this.fromJson(strMessage);
+            this.internalOnMessage(message);
+        } catch (Exception e) {
             Logger.error(e);
         }
     }
 
-    public synchronized int getOnlineCount() {
+    @OnError
+    public final void onError(Session session, Throwable error) {
+        this.internalOnError(error);
+    }
+
+    protected void internalOnMessage(WebSocketMessage message) {
+    }
+
+    protected void internalOnOpen() {
+    }
+
+    protected void internalOnClose() {
+    }
+
+    protected void internalOnError(Throwable error) {
+    }
+
+    protected Object[] getSocketsToBroadcast(WebSocketMessage message) {
+        return socketList.toArray();
+    }
+
+    protected abstract String toJson(WebSocketMessage message);
+    protected abstract WebSocketMessage fromJson(String strMessage);
+
+    public synchronized final void broadCast(WebSocketMessage message) {
+        Object[] socketList = this.getSocketsToBroadcast(message);
+        for (Object socket : socketList) {
+            ((WebSocket) socket).sendMessage(message);
+        }
+    }
+
+    public void sendMessage(String message) {
+        if (this.session.isOpen()) {
+            try {
+                session.getBasicRemote().sendText(message);
+            } catch (IOException e) {
+                Logger.error(e);
+            }
+        }
+    }
+
+    public void sendMessage(WebSocketMessage message) {
+        String strMessage = this.toJson(message);
+        if (StringUtils.isEmpty(strMessage)) {
+            sendMessage(strMessage);
+        }
+    }
+
+    public synchronized static int getOnlineCount() {
         return onlineCount;
     }
 
-    public synchronized void addOnlineCount() {
+    public synchronized static void addOnlineCount() {
         onlineCount++;
     }
 
-    public synchronized void subOnlineCount() {
+    public synchronized static void subOnlineCount() {
         onlineCount--;
     }
 
-    protected CopyOnWriteArraySet<WebSocket> getWebSocketSet() {
+    protected static CopyOnWriteArraySet<WebSocket> getWebSocketSet() {
         return socketList;
     }
 
-    public Session getSession() {
-        return session;
-    }
 
     public static InetSocketAddress getRemoteAddress(Session session) {
         if (session == null) {
