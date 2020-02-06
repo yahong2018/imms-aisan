@@ -6,10 +6,12 @@ import com.zhxh.utils.converter.DateConverter;
 import com.zhxh.utils.converter.LocalDateConverter;
 import com.zhxh.utils.converter.LocalDateTimeConverter;
 import com.zhxh.utils.converter.TimestampConverter;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -76,5 +78,10 @@ public class ApplicationConfig {
 
     private void initServiceManager() {
         this.serviceManager.getServiceList().add(this.wdbSyncService);
+    }
+
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
     }
 }
