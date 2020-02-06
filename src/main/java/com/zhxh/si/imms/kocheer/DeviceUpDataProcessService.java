@@ -20,13 +20,10 @@ import com.zhxh.si.imms.kocheer.logic.WorkstationSessionStepLogic;
 import com.zhxh.si.imms.kocheer.wdto.DeviceUpData;
 import com.zhxh.utils.Logger;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
