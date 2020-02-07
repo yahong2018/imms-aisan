@@ -6,7 +6,6 @@ import com.zhxh.imms.mes.material.logic.MaterialStockLogic;
 import com.zhxh.imms.mes.mfc.domain.ProductionMoving;
 import com.zhxh.imms.mes.mfc.domain.RfidCard;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class ProductionMovingLogic extends CrudLogic<ProductionMoving> {
@@ -18,7 +17,6 @@ public class ProductionMovingLogic extends CrudLogic<ProductionMoving> {
         this.materialStockLogic = materialStockLogic;
     }
 
-    @Transactional(rollbackFor = RuntimeException.class)
     public synchronized int reportWipMove(ProductionMoving moving, int direction) {
         /*
         1. 修改rfid卡的状态

@@ -26,7 +26,6 @@ public abstract class WorkshopReportLogic<T extends WorkshopReportRecord> extend
 
     protected abstract T createRecord();
 
-    @Transactional(rollbackFor = RuntimeException.class)
     public synchronized int reportWip(T record, int autoReportLevel)  {
         /*
             1.报工记录新增

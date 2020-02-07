@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import com.zhxh.imms.admin.domain.SystemRole;
 import com.zhxh.imms.admin.domain.SystemUser;
-import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class SystemRoleLogic extends SystemAccountLogic<SystemRole> {
@@ -25,7 +24,6 @@ public class SystemRoleLogic extends SystemAccountLogic<SystemRole> {
         this.programMapper = programMapper;
     }
 
-    @Transactional(rollbackFor = RuntimeException.class)
     public int updateRoleUsers(SystemRole role) {
         SystemRole oldRole = this.get(role.getRecordId());
         List<SystemUser> oldUsers = oldRole.getUsers();
@@ -56,7 +54,6 @@ public class SystemRoleLogic extends SystemAccountLogic<SystemRole> {
         return role.getUsers().size();
     }
 
-    @Transactional(rollbackFor = RuntimeException.class)
     public int updatePrivilege(long roleId, List<ProgramPrivilege> privileges) {
         List<ProgramPrivilege> oldPrivileges = privilegeMapper.getRolePrivileges(roleId);
         this.addNewPrivilege(roleId, privileges, oldPrivileges);

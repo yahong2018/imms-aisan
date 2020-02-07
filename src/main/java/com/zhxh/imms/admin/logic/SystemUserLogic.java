@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +66,6 @@ public class SystemUserLogic extends SystemAccountLogic<SystemUser> implements U
         return super.create(item);
     }
 
-    @Transactional(rollbackFor = RuntimeException.class)
     public int updateUserRoles(SystemUser user) {
         SystemUser oldUser = this.get(user.getRecordId());
         List<SystemRole> oldRoles = oldUser.getRoles();

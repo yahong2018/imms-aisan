@@ -55,11 +55,6 @@ public class GlobalConstants implements ApplicationContextAware {
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         GlobalConstants.applicationContext = applicationContext;
         shellExecuteName = GlobalConstants.applicationContext.getEnvironment().getProperty("com.zhxh.shellExecuteName");
-
-        FieldsMapInitiator.initFieldsMap();
-
-        ServiceManager serviceManager = applicationContext.getBean(ServiceManager.class);
-        serviceManager.start();
     }
 
     public static Gson getGson(String... ignoredFields) {

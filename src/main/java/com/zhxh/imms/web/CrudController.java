@@ -19,7 +19,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
-@Transactional(rollbackFor = RuntimeException.class)
+@Transactional(transactionManager = "immsTransactionManager", rollbackFor = RuntimeException.class)
 public abstract class CrudController<T extends Entity> {
     protected abstract CrudLogic<T> getLogic();
 
@@ -39,7 +39,7 @@ public abstract class CrudController<T extends Entity> {
     }
 
     @PostMapping("delete")
-    public int delete(Long id)  {
+    public int delete(Long id) {
         return this.getLogic().delete(id);
     }
 

@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Transactional(transactionManager = "immsTransactionManager", rollbackFor = RuntimeException.class)
 public abstract class CrudLogic<E extends Entity> implements Generic<E> {
     @Autowired
     private TraceInfoMapper traceMapper;
@@ -61,7 +62,6 @@ public abstract class CrudLogic<E extends Entity> implements Generic<E> {
         return this.traceMapper.getTraceInfos(map);
     }
 
-    @Transactional(rollbackFor = RuntimeException.class)
     public int create(E item) {
         if (this.exists(item)) {
             throw new BusinessException("数据已存在！");
@@ -99,7 +99,6 @@ public abstract class CrudLogic<E extends Entity> implements Generic<E> {
 //        traceMapper.create(traceInfo);
     }
 
-    @Transactional(rollbackFor = RuntimeException.class)
     public int update(E item) {
         if (!this.exists(item)) {
             throw new BusinessException("需要更新的数据不存在！");
@@ -112,7 +111,6 @@ public abstract class CrudLogic<E extends Entity> implements Generic<E> {
         return result;
     }
 
-    @Transactional(rollbackFor = RuntimeException.class)
     public int delete(Long id) {
         E item = this.get(id);
         if (item == null) {
@@ -125,8 +123,7 @@ public abstract class CrudLogic<E extends Entity> implements Generic<E> {
         return result;
     }
 
-    @Transactional(rollbackFor = RuntimeException.class)
-    public int deleteAll(Long[] ids)  {
+    public int deleteAll(Long[] ids) {
         if (ids == null || ids.length == 0) {
             return 0;
         }

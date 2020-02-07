@@ -20,6 +20,7 @@ import com.zhxh.imms.si.kocheer.logic.WorkstationSessionStepLogic;
 import com.zhxh.imms.si.kocheer.wdto.DeviceUpData;
 import com.zhxh.imms.utils.Logger;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.TransactionDefinition;
@@ -45,7 +46,7 @@ public class DeviceUpDataProcessService {
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public DeviceUpDataProcessService(DeviceRawDataLogic deviceRawDataLogic, WorkstationLogic workstationLogic, WorkshopLogic workshopLogic, RfidCardLogic rfidCardLogic, WorkstationSessionLogic sessionLogic, WorkstationSessionStepLogic sessionStepLogic, OperatorLogic operatorLogic, DataSourceTransactionManager dataSourceTransactionManager, TransactionDefinition transactionDefinition) {
+    public DeviceUpDataProcessService(DeviceRawDataLogic deviceRawDataLogic, WorkstationLogic workstationLogic, WorkshopLogic workshopLogic, RfidCardLogic rfidCardLogic, WorkstationSessionLogic sessionLogic, WorkstationSessionStepLogic sessionStepLogic, OperatorLogic operatorLogic, @Qualifier("immsTransactionManager") DataSourceTransactionManager dataSourceTransactionManager,@Qualifier("immsTransactionDefinition") TransactionDefinition transactionDefinition) {
         this.deviceRawDataLogic = deviceRawDataLogic;
         this.workstationLogic = workstationLogic;
         this.workshopLogic = workshopLogic;

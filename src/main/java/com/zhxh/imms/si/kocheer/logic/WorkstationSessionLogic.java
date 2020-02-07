@@ -108,7 +108,6 @@ public class WorkstationSessionLogic extends CrudLogic<WorkstationSession> {
         session.setCurrentReqType(ReqDataConstants.REQ_TYPE_UNKNOWN);
     }
 
-    @Transactional(rollbackFor = RuntimeException.class)
     public void saveSession(WorkstationSession session) {
         if (session.isNewSession()) {
             if (session.getCurrentOperator() != null) {

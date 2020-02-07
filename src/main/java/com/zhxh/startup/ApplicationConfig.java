@@ -1,6 +1,7 @@
 package com.zhxh.startup;
 
 import com.zhxh.imms.backSservice.ServiceManager;
+import com.zhxh.imms.data.FieldsMapInitiator;
 import com.zhxh.imms.si.wdb.WdbSyncService;
 import com.zhxh.imms.utils.converter.DateConverter;
 import com.zhxh.imms.utils.converter.LocalDateConverter;
@@ -31,9 +32,14 @@ public class ApplicationConfig {
 
     @PostConstruct
     public void init() {
+        this.initFieldsMap();
         this.initInterceptor();
         this.initDateConverter();
         this.initServiceManager();
+    }
+
+    private void initFieldsMap() {
+        FieldsMapInitiator.initFieldsMap();
     }
 
 //    @Bean
@@ -78,6 +84,7 @@ public class ApplicationConfig {
 
     private void initServiceManager() {
         this.serviceManager.getServiceList().add(this.wdbSyncService);
+        this.serviceManager.start();
     }
 
     @Bean
