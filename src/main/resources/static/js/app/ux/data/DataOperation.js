@@ -45,7 +45,7 @@ Ext.define("app.ux.data.DataOperation", {
             me.dockedItems = [];
         }
 
-        if (!haseDefaultPagebar && !me.hideDefeaultPagebar) {
+        if (!haseDefaultPagebar && !me.hideDefaultPagebar) {
             me.dockedItems.unshift(
                 Ext.create({
                     xtype: 'pagingtoolbar',

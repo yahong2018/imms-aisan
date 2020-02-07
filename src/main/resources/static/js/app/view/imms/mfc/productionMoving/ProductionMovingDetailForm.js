@@ -29,7 +29,7 @@ Ext.define("app.view.imms.mfc.productionMoving.ProductionMovingDetailForm", {
             margin: '0 0 3 ',
             items: [
                 {
-                    name: "productionCode", xtype: "textfield", fieldLabel: "交接产品", width: 200, allowBlank: false, listeners: {
+                    name: "productionCode", xtype: "textfield", fieldLabel: "交接产品", width: 250, allowBlank: false, listeners: {
                         change: function (self, newValue, oldValue, eOpts) {
                             var form = this.up("imms_mfc_productionMoving_ProductionMovingDetailForm");
                             var record = form.materialStore.findRecord("materialCode", newValue, 0, false, false, true);
@@ -49,7 +49,7 @@ Ext.define("app.view.imms.mfc.productionMoving.ProductionMovingDetailForm", {
             margin: '0 0 3 ',
             items: [
                 {
-                    name: "employeeId", xtype: "textfield", fieldLabel: "接收人", width: 200, allowBlank: false, listeners: {
+                    name: "employeeId", xtype: "textfield", fieldLabel: "接收人", width: 250, allowBlank: false, listeners: {
                         change: function (self, newValue, oldValue, eOpts) {
                             var form = this.up("imms_mfc_productionMoving_ProductionMovingDetailForm");
                             var record = form.operatorStore.findRecord("employeeId", newValue, 0, false, false, true);
@@ -69,7 +69,7 @@ Ext.define("app.view.imms.mfc.productionMoving.ProductionMovingDetailForm", {
             margin: '0 0 3 ',
             items: [
                 {
-                    name: "workshopCode", xtype: "textfield", fieldLabel: "接收车间", width: 200, allowBlank: false, listeners: {
+                    name: "workshopCode", xtype: "textfield", fieldLabel: "接收车间", width: 250, allowBlank: false, listeners: {
                         change: function (self, newValue, oldValue, eOpts) {
                             var form = this.up("imms_mfc_productionMoving_ProductionMovingDetailForm");
                             var record = form.workshopStore.findRecord("workshopCode", newValue, 0, false, false, true);
@@ -89,13 +89,13 @@ Ext.define("app.view.imms.mfc.productionMoving.ProductionMovingDetailForm", {
             margin: '0 0 3 ',
             items: [
                 {
-                    name: "workshopCodeFrom", xtype: "textfield", fieldLabel: "原车间", width: 200, allowBlank: false, listeners: {
+                    name: "workshopCodeFrom", xtype: "textfield", fieldLabel: "原车间", width: 250, allowBlank: false, listeners: {
                         change: function (self, newValue, oldValue, eOpts) {
                             var form = this.up("imms_mfc_productionMoving_ProductionMovingDetailForm");
                             var record = form.workshopStore.findRecord("workshopCode", newValue, 0, false, false, true);
                             if (record != null) {
                                 form.down("[name='workshopIdFrom']").setValue(record.get("recordId"));
-                                form.down("[name='workshopNameFrom']").setValue(record.get("orgName"));
+                                form.down("[name='workshopNameFrom']").setValue(record.get("workshopName"));
                             }
                         }
                     }

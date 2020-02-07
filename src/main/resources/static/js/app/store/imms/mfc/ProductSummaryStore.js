@@ -3,6 +3,6 @@ Ext.define("app.store.imms.mfc.ProductSummaryStore", {
     model: "app.model.imms.mfc.ProductSummaryModel",
     alias: "widget.imms_mfc_ProductSummaryStore",
     dao: {
-        selectUrl: "imms/mfc/productSummary/getAll"
+        selectUrl: "api/imms/mes/mfc/productSummary/getAll"
     }
 });

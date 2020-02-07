@@ -71,7 +71,7 @@ Ext.define("app.view.imms.org.operator.Operator", {
         }
 
         app.ux.Utils.ajaxRequest({
-            url: 'api/imms/org/operator/updateOperatorWorkshop?operatorId=' + operator.get("recordId"),
+            url: 'api/imms/mes/org/operator/updateOperatorWorkshop?operatorId=' + operator.get("recordId"),
             method: "POST",
             jsonData: workshopIdList,
             successCallback(result, response, opts) {

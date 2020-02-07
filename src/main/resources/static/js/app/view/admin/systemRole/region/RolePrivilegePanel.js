@@ -9,7 +9,7 @@ Ext.define('app.view.admin.systemRole.region.RolePrivilegePanel', {
 		model: 'app.model.admin.SystemMenuTreeModel',
 		proxy: {
 			type: 'ajax',
-			url: 'api/admin/systemRole/allMenuWithPrivilege',
+			url: 'api/imms/admin/systemRole/allMenuWithPrivilege',
 			headers:app.ux.Utils.getAuthorizeHeader(),
 			exception:function(self,response){
 				app.ux.Utils.handle403Respones(response);

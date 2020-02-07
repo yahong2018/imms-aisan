@@ -19,7 +19,7 @@ Ext.define("app.view.imms.mfc.qualityCheck.BomTreeSelectForm", {
                         var form = this.up("imms_mfc_qualityCheck_BomTreeSelectForm");
                         var productionCode = form.down("[name='productionCode']").getValue();
                         var bomTreeStore = form.down("app_view_imms_mfc_qualityCheck_BomTreePanel").getStore();
-                        bomTreeStore.proxy.url = "api/imms/material/bom/getBomTree?materialCode=" + productionCode;
+                        bomTreeStore.proxy.url = "api/imms/mes/material/bom/getBomTree?materialCode=" + productionCode;
                         bomTreeStore.load();
                     }
                 }

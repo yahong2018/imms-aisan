@@ -53,11 +53,11 @@ Ext.define("app.view.imms.mfc.qualityCheck.QualityCheckBatchDetailForm", {
                                 form.down("[name='workshopName']").setValue(record.get("workshopName"));
 
                                 var wocgCodeStore = form.down("[name='wocgCode']").getStore();
-                                wocgCodeStore.proxy.url = "api/imms/org/workstation/getWorkshopWocgList?workshopId=" + record.get("recordId");
+                                wocgCodeStore.proxy.url = "api/imms/mes/org/workstation/getWorkshopWocgList?workshopId=" + record.get("recordId");
                                 wocgCodeStore.load();
 
                                 var locCodestore = form.down("[name='locCode']").getStore();
-                                locCodestore.proxy.url = "api/imms/org/workstation/getWorkshopLocList?workshopId=" + record.get("recordId");
+                                locCodestore.proxy.url = "api/imms/mes/org/workstation/getWorkshopLocList?workshopId=" + record.get("recordId");
                                 locCodestore.load();
                             }
                         }
@@ -76,7 +76,7 @@ Ext.define("app.view.imms.mfc.qualityCheck.QualityCheckBatchDetailForm", {
                         proxy: {
                             type: "ajax",
                             headers: app.ux.Utils.getAuthorizeHeader(),
-                            url: "api/imms/org/workstation/getWorkshopWocgList",
+                            url: "api/imms/mes/org/workstation/getWorkshopWocgList",
                             reader: {
                                 rootProperty: "rootProperty"
                             }
@@ -104,7 +104,7 @@ Ext.define("app.view.imms.mfc.qualityCheck.QualityCheckBatchDetailForm", {
                         proxy: {
                             type: "ajax",
                             headers: app.ux.Utils.getAuthorizeHeader(),
-                            url: "api/imms/org/workstation/getWorkshopLocList",
+                            url: "api/imms/mes/org/workstation/getWorkshopLocList",
                             reader: {
                                 rootProperty: "rootProperty"
                             }

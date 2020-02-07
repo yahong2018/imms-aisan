@@ -4,9 +4,9 @@ Ext.define("app.store.imms.mfc.ProductRecordStore",{
     alias:"widget.imms_mfc_ProductRecordStore",
 
     dao: {
-        deleteUrl: 'imms/mfc/productRecord/deleteAll',
-        insertUrl: 'imms/mfc/productRecord/create',
-        updateUrl: 'imms/mfc/productRecord/update',
-        selectUrl: 'imms/mfc/productRecord/getAll',
+        deleteUrl: 'api/imms/mes/mfc/productRecord/deleteAll',
+        insertUrl: 'api/imms/mes/mfc/productRecord/create',
+        updateUrl: 'api/imms/mes/mfc/productRecord/update',
+        selectUrl: 'api/imms/mes/mfc/productRecord/getAll',
     }
 });

@@ -3,9 +3,9 @@ Ext.define("app.store.imms.mfc.RfidCardStore", {
     alias: 'widget.imms_mfc_RfidCardStore',
     model: "app.model.imms.mfc.RfidCardModel",
     dao: {
-        deleteUrl: 'imms/mfc/rfidCard/deleteAll',
-        insertUrl: 'imms/mfc/rfidCard/create',
-        updateUrl: 'imms/mfc/rfidCard/update',
-        selectUrl: 'imms/mfc/rfidCard/getAll',
+        deleteUrl: 'api/imms/mes/mfc/rfidCard/deleteAll',
+        insertUrl: 'api/imms/mes/mfc/rfidCard/create',
+        updateUrl: 'api/imms/mes/mfc/rfidCard/update',
+        selectUrl: 'api/imms/mes/mfc/rfidCard/getAll',
     }
 });

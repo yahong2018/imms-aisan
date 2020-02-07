@@ -4,10 +4,10 @@ Ext.define("app.store.imms.material.BomStore", {
     alias: 'widget.app_store_imms_material_BomStore',
 
     dao: {
-        deleteUrl: 'imms/material/bom/deleteAll',
-        insertUrl: 'imms/material/bom/create',
-        updateUrl: 'imms/material/bom/update',
-        selectUrl: 'imms/material/bom/getAll',
+        deleteUrl: 'api/imms/mes/material/bom/deleteAll',
+        insertUrl: 'api/imms/mes/material/bom/create',
+        updateUrl: 'api/imms/mes/material/bom/update',
+        selectUrl: 'api/imms/mes/material/bom/getAll',
     },
 
     getBom: function (material) {
@@ -16,7 +16,7 @@ Ext.define("app.store.imms.material.BomStore", {
         }
 
         var materialCode = material.get("materialCode");
-        this.getProxy().url = "api/imms/material/bom/getBomByMaterialCode?materialCode=" + materialCode;
+        this.getProxy().url = "api/imms/mes/material/bom/getBomByMaterialCode?materialCode=" + materialCode;
 
         this.load();
     }

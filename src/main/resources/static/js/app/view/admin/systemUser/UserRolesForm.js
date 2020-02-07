@@ -11,10 +11,10 @@ Ext.define('app.view.admin.systemUser.UserRolesForm',{
     ],   
 
     initComponent:function(){
-        var roleGroup = this.items[0];
+        const roleGroup = this.items[0];
         roleGroup.items=[];
-        for (var i = 0; i < this.allRoles.length; i++) {
-            var role = this.allRoles[i];
+        for (let i = 0; i < this.allRoles.length; i++) {
+            const role = this.allRoles[i];
             roleGroup.items.push(
                 {
                     boxLabel: role.get('roleName'),

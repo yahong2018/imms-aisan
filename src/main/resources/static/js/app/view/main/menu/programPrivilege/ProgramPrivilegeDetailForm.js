@@ -2,7 +2,7 @@ Ext.define('app.view.main.menu.programPrivilege.ProgramPrivilegeDetailForm', {
     extend: 'Ext.form.FormPanel',
     xtype: 'app_view_main_menu_programPrivilege_ProgramPrivilegeDetailForm',
     bodyPadding: 5,
-    hideDefeaultPagebar: true,
+    hideDefaultPagebar: true,
     
     fieldDefaults: {
         labelAlign: 'right',

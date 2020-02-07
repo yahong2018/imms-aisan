@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxh.imms.mes.org.mapper.OperatorMapper">
+    <resultMap type="com.zhxh.imms.mes.org.domain.Operator" id="OperatorResultMap"
+               extends="com.zhxh.imms.data.mapper.CrudMapper.EntityResultMap">
+        <result property="employeeId" column="employee_id"/>
+        <result property="employeeName" column="employee_name"/>
+        <result property="employeeCardNo" column="employee_card_no"/>
+
+        <collection property="belongedWorkshops" column="record_id" select="com.zhxh.imms.mes.org.mapper.WorkshopMapper.getOperatorWorkshops"
+        />
+    </resultMap>
+
+    <sql id="operatorFields">
+        opr.record_id,opr.employee_id,opr.employee_name,opr.employee_card_no
+    </sql>
+
+    <select id="get" resultMap="OperatorResultMap">
+        select <include refid="operatorFields"/>
+        from zhxh_operator opr
+        where opr.record_id=#{recordId}
+    </select>
+
+    <select id="getAll" resultMap="OperatorResultMap" parameterType="java.util.HashMap">
+        select <include refid="operatorFields"/>
+        from zhxh_operator opr
+        <include refid="com.zhxh.imms.data.mapper.CrudMapper.selectByPage"/>
+    </select>
+
+    <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*) from zhxh_operator opr
+        <where>
+            ${where}
+        </where>
+    </select>
+
+    <insert id="create" parameterType="com.zhxh.imms.mes.org.domain.Operator" keyProperty="recordId" useGeneratedKeys="true" >
+        insert into zhxh_operator(employee_id,employee_name,employee_card_no)
+        values(#{employeeId},#{employeeName},#{employeeCardNo}
+    </insert>
+
+    <update id="update" parameterType="com.zhxh.imms.mes.org.domain.Operator">
+        update zhxh_operator
+          set employee_id=#{employeeId},
+              employee_name=#{employeeName},
+              employee_card_no=#{employeeCardNo}
+        where record_id=#{recordId}
+    </update>
+
+    <delete id="delete">
+        delete from zhxh_operator where record_id =#{recordId}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from zhxh_operator where record_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="removeOperatorWorkshop">
+        delete from zhxh_operator_workshop opws where opws.operator_id = #{operatorId} and opws.workshop_id = #{workshopId}
+    </delete>
+
+    <insert id="addOperatorWorkshop">
+        insert into zhxh_operator_workshop(operator_id,workshop_id) values(#{operatorId},#{workshopId})
+    </insert>
+
+    <delete id="clearOperatorWorkshop">
+        delete from zhxh_operator_workshop where operator_id = #{operatorId}
+    </delete>
+</mapper>

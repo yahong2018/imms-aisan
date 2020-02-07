@@ -60,7 +60,7 @@ Ext.define("app.view.imms.mfc.qualityCheck.QualityCheck", {
                             handler: function () {
                                 var batchForm = win.down("imms_mfc_qualityCheck_QualityCheckBatchDetailForm");
                                 batchForm.submit({
-                                    url: 'api/imms/mfc/qualityCheck/batchAdd',
+                                    url: 'api/imms/mes/mfc/qualityCheck/batchAdd',
                                     headers: app.ux.Utils.getAuthorizeHeader(),
                                     success: function (form, action) {
                                         var message = Ext.decode(action.response.responseText.trim());

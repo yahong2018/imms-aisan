@@ -5,7 +5,7 @@ Ext.define("app.ux.dbgrid.TreeGrid",{
     requires:["app.ux.data.DataOperation","app.ux.dbgrid.DbGridToolbar"],
     mixins:["app.ux.data.DataOperation"],   
 
-    hideDefeaultPagebar:true,    
+    hideDefaultPagebar:true,    
     hideSearchBar:true,
 
     constructor: function (config) {

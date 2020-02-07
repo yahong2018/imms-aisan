@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxh.imms.mes.mfc.mapper.ProductSummaryMapper">
+    <resultMap type="com.zhxh.imms.mes.mfc.domain.ProductSummary" id="ProductSummaryResultMap"  extends="com.zhxh.imms.data.mapper.CrudMapper.EntityResultMap">
+        <result property="productDate" column="product_date"/>
+        <result property="workshopId" column="workshop_id"/>
+        <result property="workshopCode" column="workshop_code"/>
+        <result property="workshopName" column="workshop_name"/>
+        <result property="productionId" column="production_id"/>
+        <result property="productionCode" column="production_code"/>
+        <result property="productionName" column="production_name"/>
+        <result property="qtyGood0" column="qty_good_0"/>
+        <result property="qtyDefect0" column="qty_defect_0"/>
+        <result property="qtyGood1" column="qty_good_1"/>
+        <result property="qtyDefect1" column="qty_defect_1"/>
+    </resultMap>
+
+    <sql id="productSummaryFields">
+        ps.record_id,ps.product_date,ps.workshop_id,ps.production_id,ps.qty_good_0,ps.qty_defect_0,ps.qty_good_1,ps.qty_defect_1,
+        m.material_code as production_code,m.material_name as production_name,
+        ws.org_code as workshop_code,ws.org_name as workshop_name
+    </sql>
+
+    <sql id="tables">
+        zhxh_product_summary ps join zhxh_material m on ps.production_id = m.record_id
+            join zhxh_org ws on ps.workshop_id = ws.record_id
+    </sql>
+
+    <select id="get" resultMap="ProductSummaryResultMap">
+        select <include refid="productSummaryFields"/>
+         from <include refid="tables"/>
+        where ps.record_id = #{recordId}
+    </select>
+
+    <select id="getAll" parameterType="java.util.Map" resultMap="ProductSummaryResultMap">
+        select <include refid="productSummaryFields"/>
+        from <include refid="tables"/>
+        <include refid="com.zhxh.imms.data.mapper.CrudMapper.selectByPage"/>
+    </select>
+
+    <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(*)
+        from <include refid="tables"/>
+        <where>
+            ${where}
+        </where>
+    </select>
+
+    <insert id="create" parameterType="com.zhxh.imms.mes.mfc.domain.ProductSummary" useGeneratedKeys="true" keyProperty="recordId">
+        insert into zhxh_product_summary(product_date,workshop_id,production_id,qty_good_0,qty_defect_0,qty_good_1,qty_defect_1)
+             values(#{productDate},#{workshopId},#{productionId},#{qtyGood0},#{qtyDefect0},#{qtyGood1},#{qtyDefect1})
+    </insert>
+
+    <update id="update" parameterType="com.zhxh.imms.mes.mfc.domain.ProductSummary">
+        update zhxh_product_summary
+            set product_date=#{productDate},
+                workshop_id=#{workshopId},
+                production_id=#{productionId},
+                qty_good_0=#{qtyGood0},
+                qty_defect_0=#{qtyDefect0},
+                qty_good_1=#{qtyGood1},
+                qty_defect_1=#{qtyDefect1}
+        where record_id = #{recordId}
+    </update>
+
+    <delete id="delete">
+        delete from zhxh_product_summary where record_id = #{recordId}
+    </delete>
+
+    <delete id="deleteAll">
+        delete from zhxh_product_summary where record_id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

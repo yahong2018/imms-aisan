@@ -3,6 +3,6 @@ Ext.define("app.store.imms.material.MaterialStockStore",{
     alias:"widget.app_store_imms_material_MaterialStockStore",
     model:"app.model.imms.material.MaterialStockModel",
     dao:{
-        selectUrl: 'imms/material/materialStock/getAll',
+        selectUrl: 'api/imms/mes/material/materialStock/getAll',
     }
 })

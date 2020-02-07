@@ -1,6 +1,6 @@
 package com.zhxh.imms.wdb;
 
-import com.zhxh.si.imms.wdb.WdbSyncService;
+import com.zhxh.imms.si.wdb.WdbSyncService;
 import com.zhxh.startup.ZhxhApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;

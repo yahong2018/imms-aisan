@@ -4,7 +4,7 @@ Ext.define("app.view.imms.org.workstation.Workstation", {
     requires: ["app.model.imms.org.WorkstationModel", "app.store.imms.org.WorkstationStore", "app.model.imms.org.WorkshopModel"],
     uses: ["app.view.imms.org.workstation.WorkstationDetailForm"],
 
-    hideDefeaultPagebar: true,
+    hideDefaultPagebar: true,
     hideSearchBar: true,
 
     columns: [

@@ -16,7 +16,7 @@ Ext.define('app.view.admin.systemParam.SystemParam', {
         {
             text: '立即同步', privilege: "SYNC_WITH_ERP_WDB", handler: function () {
                 app.ux.Utils.ajaxRequest({
-                    url: "api/admin/systemParam/sync_wdb",
+                    url: "api/imms/admin/systemParam/sync_wdb",
                     method: "GET",
                     successCallback: function (result, response, opts) {
                         debugger;

@@ -8,7 +8,7 @@ Ext.define('app.view.admin.systemUser.SystemUserController', {
         app.ux.Utils.verifySelection(grid, function (record) {
             Ext.Msg.confirm('系统提示', '是否要重设该账号的密码？', function (buttonId) {
                 if (buttonId == 'yes') {
-                    grid.getStore().restePassword(record);
+                    grid.getStore().resetPassword(record);
                 }
             });
         });

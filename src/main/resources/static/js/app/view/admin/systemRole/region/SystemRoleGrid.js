@@ -7,7 +7,7 @@ Ext.define('app.view.admin.systemRole.region.SystemRoleGrid', {
         { dataIndex: 'roleCode', text: '角色编号', width: 100 },
         { dataIndex: 'roleName', text: '角色名称', flex: 1 }
     ],
-    hideDefeaultPagebar: true,
+    hideDefaultPagebar: true,
     hideSearchBar:true,
     
     detailFormClass:'admin_systemRole_SystemRoleDetailForm',

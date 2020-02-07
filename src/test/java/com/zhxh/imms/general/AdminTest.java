@@ -8,13 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.Assert;
 
-import com.zhxh.admin.domain.StartupStatus;
-import com.zhxh.admin.domain.RecordCreationType;
-import com.zhxh.admin.domain.SystemRole;
-import com.zhxh.admin.domain.SystemUser;
-import com.zhxh.admin.logic.SystemRoleLogic;
-import com.zhxh.admin.logic.SystemUserLogic;
-import com.zhxh.data.DbQueryParameter;
+import com.zhxh.imms.admin.domain.StartupStatus;
+import com.zhxh.imms.admin.domain.RecordCreationType;
+import com.zhxh.imms.admin.domain.SystemRole;
+import com.zhxh.imms.admin.domain.SystemUser;
+import com.zhxh.imms.admin.logic.SystemRoleLogic;
+import com.zhxh.imms.admin.logic.SystemUserLogic;
+import com.zhxh.imms.data.DbQueryParameter;
 import com.zhxh.startup.ZhxhApplication;
 
 @RunWith(SpringRunner.class)

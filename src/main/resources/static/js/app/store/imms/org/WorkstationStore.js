@@ -4,10 +4,10 @@ Ext.define("app.store.imms.org.WorkstationStore", {
     alias: 'widget.imms_org_WorkstationStore',
 
     dao: {
-        deleteUrl: 'imms/org/workstation/deleteAll',
-        insertUrl: 'imms/org/workstation/create',
-        updateUrl: 'imms/org/workstation/update',
-        selectUrl: 'imms/org/workstation/getAll',
+        deleteUrl: 'api/imms/mes/org/workstation/deleteAll',
+        insertUrl: 'api/imms/mes/org/workstation/create',
+        updateUrl: 'api/imms/mes/org/workstation/update',
+        selectUrl: 'api/imms/mes/org/workstation/getAll',
     },
     workshop:null,
     getStationByWorkshop: function () {
@@ -16,7 +16,7 @@ Ext.define("app.store.imms.org.WorkstationStore", {
         }
 
         var workshopId = this.workshop.get("recordId");
-        this.getProxy().url = "api/imms/org/workstation/getWorkshopStations?workshopId=" + workshopId;
+        this.getProxy().url = "api/imms/mes/org/workstation/getWorkshopStations?workshopId=" + workshopId;
 
         this.load();
     }

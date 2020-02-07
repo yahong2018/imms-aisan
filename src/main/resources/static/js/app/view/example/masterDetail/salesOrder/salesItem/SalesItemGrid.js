@@ -7,7 +7,7 @@ Ext.define("app.view.example.masterDetail.salesOrder.salesItem.SalesItemGrid", {
 
     title: "订单条目",
     width: 810,
-    hideDefeaultPagebar: true,
+    hideDefaultPagebar: true,
     dockedItems: [
         {
             xtype: "dbgridtoolbar",

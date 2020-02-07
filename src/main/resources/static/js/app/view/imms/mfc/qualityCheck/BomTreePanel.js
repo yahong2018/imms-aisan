@@ -9,7 +9,7 @@ Ext.define("app.view.imms.mfc.qualityCheck.BomTreePanel", {
         proxy: {
             type: "ajax",
             headers: app.ux.Utils.getAuthorizeHeader(),
-            url: "api/imms/material/bom/getBomTree"
+            url: "api/imms/mes/material/bom/getBomTree"
         }
     },
     columns: [

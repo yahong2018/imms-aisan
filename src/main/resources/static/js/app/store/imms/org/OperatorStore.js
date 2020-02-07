@@ -4,9 +4,9 @@ Ext.define("app.store.imms.org.OperatorStore", {
     alias: 'widget.imms_org_OperatorStore',
 
     dao: {
-        deleteUrl: 'imms/org/operator/deleteAll',
-        insertUrl: 'imms/org/operator/create',
-        updateUrl: 'imms/org/operator/update',
-        selectUrl: 'imms/org/operator/getAll',
+        deleteUrl: 'api/imms/mes/org/operator/deleteAll',
+        insertUrl: 'api/imms/mes/org/operator/create',
+        updateUrl: 'api/imms/mes/org/operator/update',
+        selectUrl: 'api/imms/mes/org/operator/getAll',
     }
 });

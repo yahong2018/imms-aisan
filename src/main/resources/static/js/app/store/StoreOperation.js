@@ -33,10 +33,10 @@ Ext.define("app.store.StoreOperation", {
         return this.urlMeta.get(key);
     },
     setUrl: function (key, url, isAbsolute) {
-        if (!isAbsolute) {
-            url = url;
-        }
-        url = "api/" + url;
+        // if (!isAbsolute) {
+        //     url = url;
+        // }
+        // url = "api/" + url;
         this.urlMeta.put(key, url);
     },
 

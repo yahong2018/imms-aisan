@@ -4,9 +4,9 @@ Ext.define("app.store.imms.org.WorkshopStore",{
     alias:'widget.imms_org_WorkshopStore',
      
     dao:{
-        deleteUrl: 'imms/org/workshop/deleteAll',
-        insertUrl: 'imms/org/workshop/create',
-        updateUrl: 'imms/org/workshop/update',
-        selectUrl: 'imms/org/workshop/getAll',
+        deleteUrl: 'api/imms/mes/org/workshop/deleteAll',
+        insertUrl: 'api/imms/mes/org/workshop/create',
+        updateUrl: 'api/imms/mes/org/workshop/update',
+        selectUrl: 'api/imms/mes/org/workshop/getAll',
     }
 });

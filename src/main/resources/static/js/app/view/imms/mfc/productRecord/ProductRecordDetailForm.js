@@ -25,7 +25,7 @@ Ext.define("app.view.imms.mfc.productRecord.ProductRecordDetailForm", {
             margin: '0 0 3 ',
             items: [
                 {
-                    name: "workshopCode", fieldLabel: "车间", allowBlank: false, xtype: "textfield", width: 200, listeners: {
+                    name: "workshopCode", fieldLabel: "车间", allowBlank: false, xtype: "textfield", width: 250, listeners: {
                         change: function (self, newValue, oldValue, eOpts) {
                             var form = this.up("imms_mfc_productRecord_ProductRecordDetailForm");
                             var record = form.workshopStore.findRecord("workshopCode", newValue, 0, false, false, true);
@@ -50,7 +50,7 @@ Ext.define("app.view.imms.mfc.productRecord.ProductRecordDetailForm", {
                     margin: '0 0 3 ',
                     items: [
                         {
-                            name: "workstationCode", fieldLabel: "工位", allowBlank: false, xtype: "textfield", width: 200, listeners: {
+                            name: "workstationCode", fieldLabel: "工位", allowBlank: false, xtype: "textfield", width: 250, listeners: {
                                 change: function (self, newValue, oldValue, eOpts) {
                                     var form = this.up("imms_mfc_productRecord_ProductRecordDetailForm");
                                     var record = form.workstationStore.findRecord("workstationCode", newValue, 0, false, false, true);
@@ -74,7 +74,7 @@ Ext.define("app.view.imms.mfc.productRecord.ProductRecordDetailForm", {
             margin: '0 0 3 ',
             items: [
                 {
-                    name: "productionCode", fieldLabel: "产品", xtype: "textfield", allowBlank: false, width: 200, listeners: {
+                    name: "productionCode", fieldLabel: "产品", xtype: "textfield", allowBlank: false, width: 250, listeners: {
                         change: function (self, newValue, oldValue, eOpts) {
                             var form = this.up("imms_mfc_productRecord_ProductRecordDetailForm");
                             var record = form.materialStore.findRecord("materialCode", newValue, 0, false, false, true);
@@ -94,7 +94,7 @@ Ext.define("app.view.imms.mfc.productRecord.ProductRecordDetailForm", {
             margin: '0 0 3 ',
             items: [
                 {
-                    name: "employeeId", fieldLabel: "操作员", allowBlank: false, xtype: "textfield", width: 200, listeners: {
+                    name: "employeeId", fieldLabel: "操作员", allowBlank: false, xtype: "textfield", width: 250, listeners: {
                         change: function (self, newValue, oldValue, eOpts) {
                             var form = this.up("imms_mfc_productRecord_ProductRecordDetailForm");
                             var record = form.operatorStore.findRecord("employeeId", newValue, 0, false, false, true);

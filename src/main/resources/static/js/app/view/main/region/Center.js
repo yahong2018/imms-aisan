@@ -53,7 +53,7 @@ Ext.define('app.view.main.region.Center', {
 							R: Ext.util.Format.date(today, 'Y/m/d')
 						};
 					},
-					hideDefeaultPagebar: true,
+					hideDefaultPagebar: true,
 					hideDefaultToolbar: true,
 				}
 			]

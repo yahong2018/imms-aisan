@@ -28,7 +28,7 @@ Ext.define('app.view.main.menu.programPrivilege.ProgramPrivilege', {
     ],
     additionToolbarItems: [
     ],
-    hideDefeaultPagebar: false,
+    hideDefaultPagebar: false,
     constructor:function(config){
         var configBase = {
            store: Ext.create({xtype:'app_store_admin_ProgramPrivilegeStore'}),

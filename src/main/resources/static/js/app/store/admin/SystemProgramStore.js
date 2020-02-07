@@ -3,10 +3,10 @@ Ext.define('app.store.admin.SystemProgramStore',{
     model: 'app.model.admin.SystemProgramModel',
     alias:'widget.app_store_admin_SystemProgramStore',
     dao:{
-        deleteUrl: 'mainPage/delete.handler',
-        insertUrl: 'mainPage/create.handler',
-        updateUrl: 'mainPage/update.handler',
-        selectUrl: 'mainPage/getAllMenu.handler',
-        getAllByPageUrl: 'mainPage/getAllByPage.handler',
+        deleteUrl: 'api/imms/mainPage/delete.handler',
+        insertUrl: 'api/imms/mainPage/create.handler',
+        updateUrl: 'api/imms/mainPage/update.handler',
+        selectUrl: 'api/imms/mainPage/getAllMenu.handler',
+        getAllByPageUrl: 'api/imms/mainPage/getAllByPage.handler',
     }
 });

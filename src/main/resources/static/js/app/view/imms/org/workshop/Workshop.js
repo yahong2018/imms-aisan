@@ -3,7 +3,7 @@ Ext.define("app.view.imms.org.workshop.Workshop", {
     xtype: "org_workshop_Workshop",
     requires: ["app.model.imms.org.WorkshopModel", "app.store.imms.org.WorkshopStore"],
     uses: ["app.view.imms.org.workshop.WorkshopDetailForm"],
-    hideDefeaultPagebar: true,
+    hideDefaultPagebar: true,
     hideSearchBar: true,
 
     columns: [

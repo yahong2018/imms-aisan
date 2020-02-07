@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhxh.imms.data.mapper.TraceInfoMapper">
+	<resultMap type="com.zhxh.imms.data.domain.TraceInfo" id="TraceInfoResultMap" extends="com.zhxh.imms.data.mapper.CrudMapper.EntityResultMap">
+		<result property="businessId" column="business_id" />
+		<result property="operatorId" column="operator_id" />
+		<result property="operateTime" column="operate_time" />
+		<result property="operateType" column="operate_type" />
+		<result property="className" column="class_name"/>
+		<result property="target" column="target" />
+				
+		<association property="operator" select="com.zhxh.imms.admin.mapper.SystemUserMapper.get" column="operator_id" ></association>
+	</resultMap>
+	
+	<sql id="traceInfoFields">
+	   trc.record_id,trc.business_id,trc.operator_id,trc.operate_time,trc.operate_type,trc.target,trc.class_name	    
+	</sql>	
+	
+	<select id="getTraceInfos" parameterType="java.util.Map" resultMap="TraceInfoResultMap">
+	    select <include refid="traceInfoFields"/>
+	       from zhxh_trace_info trc
+	     where trc.business_id=#{businessId}
+	       and trc.class_name=#{className}
+	     order by trc.operate_time desc
+	</select>
+	
+    <insert id="create" parameterType="com.zhxh.imms.data.domain.TraceInfo" useGeneratedKeys="true" keyProperty="recordId">
+	   insert into zhxh_trace_info(business_id,operator_id,operate_time,operate_type,target,class_name)
+	      values(#{businessId},#{operatorId},#{operateTime},#{operateType},#{target},#{className})
+	</insert>
+	
+	<update id="update" parameterType="com.zhxh.imms.data.domain.TraceInfo" >
+	    update zhxh_trace_info
+	       set business_id = #{businessId},
+	           operator_id = #{operatorId},
+	           operate_time = #{operateTime},
+	           operate_type = #{operateType},
+	           target = #{target},
+	           class_name=#{className}
+        where record_id = #{recordId}	           
+	</update>	
+	
+	<delete id="delete">
+	   delete from zhxh_trace_info where record_id = #{id}
+	</delete>
+	
+	<delete id="deleteAll" >
+	   delete from zhxh_trace_info  where record_id in
+	      <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+	</delete>
+	
+	<select id="get" resultMap="TraceInfoResultMap">
+	   select <include refid="traceInfoFields"/>
+	      from zhxh_trace_info trc
+	    where trc.record_id = #{recordId}
+	</select>
+	
+	<select id="getAll" resultMap="TraceInfoResultMap" parameterType="java.util.HashMap">
+	    select  <include refid="traceInfoFields"/>
+	      from zhxh_trace_info trc
+	     <include refid="com.zhxh.imms.data.mapper.CrudMapper.selectByPage"/>
+	</select>
+
+	<select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		select count(*) from zhxh_trace_info trc
+		<where>
+			${where}
+		</where>
+	</select>
+</mapper>

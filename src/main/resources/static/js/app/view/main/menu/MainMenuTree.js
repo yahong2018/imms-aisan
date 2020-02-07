@@ -9,7 +9,7 @@ Ext.define('app.view.main.menu.MainMenuTree', {
 		model: 'app.model.admin.SystemMenuTreeModel',
 		proxy: {
 			type: 'ajax',
-			url: 'api/admin/mainPage/currentUserMenu',
+			url: 'api/imms/admin/mainPage/currentUserMenu',
 			headers: app.ux.Utils.getAuthorizeHeader(),
 			// reader: {
             //     type: 'json',

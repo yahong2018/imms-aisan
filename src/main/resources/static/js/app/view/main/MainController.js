@@ -80,7 +80,7 @@ Ext.define('app.view.main.MainController', {
 	loadCurrentUser: function () {
 		const me = this;
 		app.ux.Utils.ajaxRequest({
-			url: 'api/admin/mainPage/currentLogin',
+			url: 'api/imms/admin/mainPage/currentLogin',
 			async: false,
 			successCallback: function (result) {			
 				app.ux.GlobalVars.currentLogin = result;

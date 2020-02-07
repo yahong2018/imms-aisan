@@ -3,9 +3,9 @@ Ext.define("app.store.imms.mfc.QualityCheckStore", {
     alias: 'widget.imms_mfc_QualityCheckStore',
     model: "app.model.imms.mfc.QualityCheckModel",
     dao: {
-        deleteUrl: 'imms/mfc/qualityCheck/delete',
-        insertUrl: 'imms/mfc/qualityCheck/create',
-        updateUrl: 'imms/mfc/qualityCheck/update',
-        selectUrl: 'imms/mfc/qualityCheck/getAll',
+        deleteUrl: 'api/imms/mes/mfc/qualityCheck/delete',
+        insertUrl: 'api/imms/mes/mfc/qualityCheck/create',
+        updateUrl: 'api/imms/mes/mfc/qualityCheck/update',
+        selectUrl: 'api/imms/mes/mfc/qualityCheck/getAll',
     }
 });

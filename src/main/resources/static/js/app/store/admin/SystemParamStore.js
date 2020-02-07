@@ -3,9 +3,9 @@ Ext.define("app.store.admin.SystemParamStore",{
     model:"app.model.admin.SystemParamModel",
     alias:"widget.app_store_admin_SystemParamStore",
     dao:{
-        deleteUrl: 'admin/systemParam/deleteAll',
-        insertUrl: 'admin/systemParam/create',
-        updateUrl: 'admin/systemParam/update',
-        selectUrl: 'admin/systemParam/getAll',
+        deleteUrl: 'api/imms/admin/systemParam/deleteAll',
+        insertUrl: 'api/imms/admin/systemParam/create',
+        updateUrl: 'api/imms/admin/systemParam/update',
+        selectUrl: 'api/imms/admin/systemParam/getAll',
     }
 });

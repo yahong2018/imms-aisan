@@ -51,7 +51,7 @@ Ext.define('app.view.main.region.ChangePasswordWindow', {
                     return;
                 }
                 var record = form.getValues();
-                var url = 'api/admin/systemUser/changeCurrentUserPassword';
+                var url = 'api/imms/admin/systemUser/changeCurrentUserPassword';
                 app.ux.Utils.ajaxRequest({
                     url: url,
                     jsonData: record,

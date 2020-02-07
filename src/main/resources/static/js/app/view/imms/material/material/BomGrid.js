@@ -10,7 +10,7 @@ Ext.define("app.view.imms.material.material.BomGrid", {
         { dataIndex: "componentQty", text: '子件用量', width: 80 },
         { dataIndex: "effectDate", text: '生效日期', width: 120 },
     ],
-    hideDefeaultPagebar: true,
+    hideDefaultPagebar: true,
     hideSearchBar: true,
     constructor: function (config) {
         var configBase = {

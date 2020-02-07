@@ -4,7 +4,7 @@ Ext.define("app.view.imms.rpt.rptWip.RptWip", {
     requires: ["app.model.imms.material.MaterialStockModel", "app.store.imms.material.MaterialStockStore"],
     columns: [
         { text: "品号", dataIndex:"materialCode", width: 130, menuDisabled: true },
-        { text: "品名", dataIndex: "materialName", width: 200, menuDisabled: true },
+        { text: "品名", dataIndex: "materialName", width: 250, menuDisabled: true },
         { text: "部门", dataIndex: "storeCode", width: 100, align: "center", menuDisabled: true  },
         // { text: "部门名称", dataIndex: "storeName", width: 120, align:"center", menuDisabled: true },
 
