@@ -146,7 +146,7 @@ public abstract class WebSocket {
                 field.setAccessible(true);
                 return field.get(obj);
             } catch (Exception e) {
-                Logger.error(e);
+               // Logger.error(e);
             }
         }
 

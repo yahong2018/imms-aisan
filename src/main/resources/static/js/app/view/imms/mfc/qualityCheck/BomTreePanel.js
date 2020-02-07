@@ -1,17 +1,14 @@
 Ext.define("app.view.imms.mfc.qualityCheck.BomTreePanel", {
     extend: 'Ext.tree.Panel',
     xtype: 'app_view_imms_mfc_qualityCheck_BomTreePanel',
-    requires: ['Ext.data.TreeStore'],
+    requires: ['app.store.BaseTreeStore'],
     rootVisible: false,
-    store: {
-        type: 'tree',
-        fiels: ["bomId","componentId","componentCode", "componentName", "materialQty", "componentQty"],        
-        proxy: {
-            type: "ajax",
-            headers: app.ux.Utils.getAuthorizeHeader(),
-            url: "api/imms/mes/material/bom/getBomTree"
+    store: Ext.create('app.store.BaseTreeStore',{
+        fields: ["bomId","componentId","componentCode", "componentName", "materialQty", "componentQty"],
+        dao:{
+            selectUrl:"api/imms/mes/material/bom/getBomTree"
         }
-    },
+    }),
     columns: [
         { xtype: "treecolumn", dataIndex: "componentCode", text: "组件编码", width: 350 },
         { dataIndex: "componentName", text: "组件名称", width: 350 },

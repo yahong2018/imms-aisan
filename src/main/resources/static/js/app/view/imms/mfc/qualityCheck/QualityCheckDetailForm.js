@@ -85,20 +85,15 @@ Ext.define("app.view.imms.mfc.qualityCheck.QualityCheckDetailForm", {
                 {
                     name: "wocgCode", xtype: "combobox", margin: '0 20 0 20', fieldLabel: "工作中心组", allowBlank: false,
                     valueField: "wocgCode", displayField: "wocgCode",
-                    store: Ext.create("Ext.data.JsonStore", {
+                    store: Ext.create("app.store.BaseStore", {
                         fields: [{ name: "wocgCode" }],
                         autoLoad: false,
                         pageSize: 0,
                         params: function () {
                             return { "workshopId": 3 };
                         },
-                        proxy: {
-                            type: "ajax",
-                            headers: app.ux.Utils.getAuthorizeHeader(),
-                            url: "api/imms/mes/org/workstation/getWorkshopWocgList",
-                            reader: {
-                                rootProperty: "rootProperty"
-                            }
+                        dao:{
+                            selectUrl:"api/imms/mes/org/workstation/getWorkshopWocgList"
                         }
                     })
                 },
@@ -109,24 +104,18 @@ Ext.define("app.view.imms.mfc.qualityCheck.QualityCheckDetailForm", {
             layout: "hbox",
             margin: '0 0 3 ',
             items: [
-
                 {
                     name: "locCode", xtype: "combobox", margin: '8 20 5 0', fieldLabel: "存储区域", allowBlank: false,
                     displayField: "locCode", valueField: "locCode",
-                    store: Ext.create("Ext.data.JsonStore", {
+                    store: Ext.create("app.store.BaseStore", {
                         fields: [{ name: "locCode" }],
                         autoLoad: false,
                         pageSize: 0,
                         params: function () {
                             return { "workshopId": 3 };
                         },
-                        proxy: {
-                            type: "ajax",
-                            headers: app.ux.Utils.getAuthorizeHeader(),
-                            url: "api/imms/mes/org/workstation/getWorkshopLocList",
-                            reader: {
-                                rootProperty: "rootProperty"
-                            }
+                        dao:{
+                            selectUrl:"api/imms/mes/org/workstation/getWorkshopLocList"
                         }
                     })
                 },
