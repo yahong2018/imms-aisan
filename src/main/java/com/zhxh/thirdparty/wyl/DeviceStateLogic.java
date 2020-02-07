@@ -1,7 +1,7 @@
-package com.zhxh.thirdparty.wyl;
+package com.zhxh.thirdParty.wyl;
 
-import com.zhxh.thirdparty.wyl.domain.DeviceState;
-import com.zhxh.thirdparty.wyl.mapper.DeviceStateMapper;
+import com.zhxh.thirdParty.wyl.domain.DeviceState;
+import com.zhxh.thirdParty.wyl.mapper.DeviceStateMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

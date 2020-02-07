@@ -28,8 +28,8 @@ import com.zhxh.imms.mes.org.logic.WorkstationLogic;
 import com.zhxh.imms.si.wdb.wdto.*;
 import com.zhxh.imms.utils.Logger;
 import com.zhxh.imms.web.FilterExpression;
-import com.zhxh.thirdparty.wyl.DeviceStateLogic;
-import com.zhxh.thirdparty.wyl.domain.DeviceState;
+import com.zhxh.thirdParty.wyl.DeviceStateLogic;
+import com.zhxh.thirdParty.wyl.domain.DeviceState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -53,6 +53,9 @@ public class WdbSyncService extends ThreadService {
     private final MaterialLogic materialLogic;
     private final BomLogic bomLogic;
 
+//    @Autowired
+//    private DeviceStateLogic deviceStateLogic;
+
     public WdbSyncService(SystemParamLogic systemParamLogic, SyncDataLogic syncDataLogic, WorkshopLogic workshopLogic, ProductRecordLogic productRecordLogic, ProductionMovingLogic productionMovingLogic, QualityCheckLogic qualityCheckLogic, WorkstationLogic workstationLogic, MaterialLogic materialLogic, BomLogic bomLogic) {
         this.setName("万达宝同步服务");
 
@@ -69,6 +72,9 @@ public class WdbSyncService extends ThreadService {
 
     @Override
     protected void doInternalRun() {
+//        List<DeviceState> deviceStates = deviceStateLogic.getAll();
+//        Logger.info("DeviceStates.size:"+deviceStates.size());
+
         if (this.nextRunTime.isAfter(LocalDateTime.now())) {
             return;
         }

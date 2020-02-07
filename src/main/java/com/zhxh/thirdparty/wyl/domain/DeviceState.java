@@ -1,4 +1,4 @@
-package com.zhxh.thirdparty.wyl.domain;
+package com.zhxh.thirdParty.wyl.domain;
 
 import lombok.Getter;
 import lombok.Setter;

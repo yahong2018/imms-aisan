@@ -1,4 +1,4 @@
-package com.zhxh.thirdparty.wyl;
+package com.zhxh.thirdParty.wyl;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
