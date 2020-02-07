@@ -20,5 +20,5 @@ public class SyncDataLogic extends CrudLogic<SyncData> {
 //       // return ((SyncDataMapper) this.getMapper()).getRecordsTobeSync(map);
 //    }
 
-//    private static final String SQL_GET_SYNC_DATA = "com.zhxh.imms.data.mapper.SyncDataMapper.getRecordsTobeSync";
+//    private static final String SQL_GET_SYNC_DATA = "com.zhxh.imms.mes.mfc.mapper.SyncDataMapper.getRecordsTobeSync";
 }

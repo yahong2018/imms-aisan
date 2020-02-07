@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhxh.imms.mes.org.mapper.WorkstationMapper">
     <resultMap type="com.zhxh.imms.mes.org.domain.Workstation" id="WorkstationResultMap"
-               extends="com.zhxh.imms.data.mapper.CrudMapper.EntityResultMap">
+               extends="com.zhxh.imms.mes.mfc.mapper.CrudMapper.EntityResultMap">
         <result property="workstationCode" column="org_code"/>
         <result property="workstationName" column="org_name"/>
         <result property="workstationType" column="workstation_type"/>
@@ -30,7 +30,7 @@
     <select id="getAll" resultMap="WorkstationResultMap" parameterType="java.util.HashMap">
         select <include refid="workstationFields"/>
         from zhxh_org wk
-        <include refid="com.zhxh.imms.data.mapper.CrudMapper.selectByPage"/>
+        <include refid="com.zhxh.imms.mes.mfc.mapper.CrudMapper.selectByPage"/>
     </select>
 
     <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">

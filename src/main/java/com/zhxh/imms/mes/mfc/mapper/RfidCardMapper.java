@@ -1,6 +1,5 @@
 package com.zhxh.imms.mes.mfc.mapper;
 
-import com.zhxh.imms.data.mapper.CrudMapper;
 import com.zhxh.imms.mes.mfc.domain.RfidCard;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
