@@ -20,11 +20,13 @@ import com.zhxh.imms.si.kocheer.logic.WorkstationSessionStepLogic;
 import com.zhxh.imms.si.kocheer.wdto.DeviceUpData;
 import com.zhxh.imms.utils.Logger;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.transaction.Transaction;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -41,12 +43,10 @@ public class DeviceUpDataProcessService {
     private final WorkstationSessionLogic sessionLogic;
     private final OperatorLogic operatorLogic;
     private final DataSourceTransactionManager dataSourceTransactionManager;
-    private final TransactionDefinition transactionDefinition;
-
 
     private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public DeviceUpDataProcessService(DeviceRawDataLogic deviceRawDataLogic, WorkstationLogic workstationLogic, WorkshopLogic workshopLogic, RfidCardLogic rfidCardLogic, WorkstationSessionLogic sessionLogic, WorkstationSessionStepLogic sessionStepLogic, OperatorLogic operatorLogic, @Qualifier("immsTransactionManager") DataSourceTransactionManager dataSourceTransactionManager,@Qualifier("immsTransactionDefinition") TransactionDefinition transactionDefinition) {
+    public DeviceUpDataProcessService(DeviceRawDataLogic deviceRawDataLogic, WorkstationLogic workstationLogic, WorkshopLogic workshopLogic, RfidCardLogic rfidCardLogic, WorkstationSessionLogic sessionLogic, WorkstationSessionStepLogic sessionStepLogic, OperatorLogic operatorLogic, @Qualifier("immsTransactionManager") DataSourceTransactionManager dataSourceTransactionManager) {
         this.deviceRawDataLogic = deviceRawDataLogic;
         this.workstationLogic = workstationLogic;
         this.workshopLogic = workshopLogic;
@@ -54,7 +54,6 @@ public class DeviceUpDataProcessService {
         this.sessionLogic = sessionLogic;
         this.operatorLogic = operatorLogic;
         this.dataSourceTransactionManager = dataSourceTransactionManager;
-        this.transactionDefinition = transactionDefinition;
     }
 
     public String processUpData(DeviceUpData upData) {
@@ -137,6 +136,8 @@ public class DeviceUpDataProcessService {
 
 
     public Command_28 doProcess(WorkstationSession session) {
+        TransactionTemplate transactionDefinition = new TransactionTemplate(this.dataSourceTransactionManager);
+        transactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
         TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(transactionDefinition);
         try {
             Command_28 result = sessionLogic.processSession(session);

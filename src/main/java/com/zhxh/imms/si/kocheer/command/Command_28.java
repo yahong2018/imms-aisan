@@ -52,8 +52,12 @@ public class Command_28 {
     }
 
 
-    public static Command_28 menu(int template) {
-        Command_28_Item[] items = new Command_28_Item[3];
+    public static Command_28 menu(int template,boolean error) {
+        int itemCount = 3;
+        if(error){
+            itemCount = 4;
+        }
+        Command_28_Item[] items = new Command_28_Item[itemCount];
         Command_28_Item_BasicControl controlCmd = new Command_28_Item_BasicControl();
         items[0] = controlCmd;
         controlCmd.multiKey();
@@ -65,6 +69,16 @@ public class Command_28 {
         String hint = "按键1,2,3进行功能选择";
         Command_28_Item_Hint hintCommand = new Command_28_Item_Hint(hint);
         items[2] = hintCommand;
+
+        if(error){
+            Command_28_Item_BasicControl lampCommand = new Command_28_Item_BasicControl();
+            lampCommand.closeYellow();
+            lampCommand.closeGreen();
+            lampCommand.lightRed(3000);
+            lampCommand.sound(3,100);
+
+            items[3] = lampCommand;
+        }
 
         Command_28 cmd = new Command_28(template);
         cmd.setItems(items);

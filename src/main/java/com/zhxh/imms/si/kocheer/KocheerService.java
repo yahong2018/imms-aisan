@@ -6,7 +6,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 @WebService(name = "KocheerService", targetNamespace = "http://kocheer.imms.si.zhxh.com/")
-@Transactional(transactionManager = "immsTransactionManager", rollbackFor = RuntimeException.class)
+//@Transactional(transactionManager = "immsTransactionManager", rollbackFor = RuntimeException.class)
 public interface KocheerService {
     @WebMethod
     String StationLogin(String json);

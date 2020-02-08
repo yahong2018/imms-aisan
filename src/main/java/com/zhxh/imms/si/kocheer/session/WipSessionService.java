@@ -267,6 +267,7 @@ public class WipSessionService implements SessionStepService {
         productRecord.setGid(session.getGid());
         productRecord.setDid(session.getDid());
         productRecord.setRfidCardId(card.getRecordId());
+        productRecord.setRfidCardNo(card.getRfidNo());
         productRecord.setCardQty(card.getIssueQty());
         productRecord.setQty(reportQty);
         productRecord.setReportType(reportType);
