@@ -3,6 +3,7 @@
 <mapper namespace="com.zhxh.imms.si.kocheer.mapper.ConterInfoMapper">
     <resultMap type="com.zhxh.imms.si.kocheer.domain.ConterInfo" id="ConterInfoResultMap" extends="com.zhxh.imms.mes.mfc.mapper.CrudMapper.EntityResultMap">
         <result property="stationID" column="station_id"/>
+        <result property="stationName" column="station_name"/>
         <result property="GID" column="gid"/>
         <result property="conterName" column="conter_name"/>
         <result property="startDID" column="start_did"/>
@@ -16,23 +17,23 @@
     </resultMap>
 
     <sql id="conterInfoFields">
-        c.record_id,c.station_id,c.gid,c.conter_name,c.start_did,c.end_did,c.ip,c.port,c.position,c.is_use,c.wiress_power,c.remark
+        c.record_id,c.station_id,c.gid,c.conter_name,c.start_did,c.end_did,c.ip,c.port,c.position,c.is_use,c.wiress_power,c.remark,s.station_name
     </sql>
 
     <select id="get" resultMap="ConterInfoResultMap">
         select <include refid="conterInfoFields"/>
-         from zhxh_kocheer_conter_info c
+         from zhxh_kocheer_conter_info c join zhxh_kocheer_station_info s on c.station_id = s.record_id
         where c.record_id = #{recordId}
     </select>
 
     <select id="getAll" resultMap="ConterInfoResultMap" parameterType="java.util.Map">
         select <include refid="conterInfoFields"/>
-        from zhxh_kocheer_conter_info c
+        from zhxh_kocheer_conter_info c join zhxh_kocheer_station_info s on c.station_id = s.record_id
         <include refid="com.zhxh.imms.mes.mfc.mapper.CrudMapper.selectByPage"/>
     </select>
 
     <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
-        select count(*) from zhxh_kocheer_conter_info c
+        select count(*) from zhxh_kocheer_conter_info c join zhxh_kocheer_station_info s on c.station_id = s.record_id
         <where>
             ${where}
         </where>

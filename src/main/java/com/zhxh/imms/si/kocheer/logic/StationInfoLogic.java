@@ -16,8 +16,11 @@ import java.util.List;
 
 @Component
 public class StationInfoLogic extends CrudLogic<StationInfo> {
-    @Autowired
-    private SystemUserLogic userLogic;
+    private final SystemUserLogic userLogic;
+
+    public StationInfoLogic(SystemUserLogic userLogic) {
+        this.userLogic = userLogic;
+    }
 
     public StationInfo autoLogin(StationLoginRequestData requestData) {
         StationInfo result = this.assureStation(requestData);
@@ -43,12 +46,11 @@ public class StationInfoLogic extends CrudLogic<StationInfo> {
         DbQueryParameter parameter = new DbQueryParameter();
         FilterExpression.fillWhere(StationInfo.class, parameter, expr);
 
-        List<StationInfo> list = this.getAll(parameter);
-        StationInfo result;
-        if (list.size() == 0) {
-            result = this.buildStationByRequest(requestData,user);
+        StationInfo result = this.get(parameter);
+
+        if (result == null) {
+            result = this.buildStationByRequest(requestData, user);
         } else {
-            result = list.get(0);
             result.setUserID(user.getRecordId());
             result.setLoginName(user.getUserCode());
             result.setUserName(user.getDisplayName());
@@ -57,7 +59,7 @@ public class StationInfoLogic extends CrudLogic<StationInfo> {
         return result;
     }
 
-    private StationInfo buildStationByRequest(StationLoginRequestData requestData,SystemUser user) {
+    private StationInfo buildStationByRequest(StationLoginRequestData requestData, SystemUser user) {
         StationInfo stationInfo = new StationInfo();
         stationInfo.setStationCode(requestData.getStationCode());
         stationInfo.setStationName("站点1");

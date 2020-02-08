@@ -1,4 +1,4 @@
-Ext.define("app.model.kocheer.StationModel", {
+Ext.define("app.model.imms.si.kocheer.StationModel", {
     extend: "app.model.EntityModel",
     requires: ["app.ux.ZhxhDate"],
     fields: [

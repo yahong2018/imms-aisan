@@ -380,8 +380,8 @@ public class FieldsMapInitiator {
     private static Map<String, String> getConterInfoFieldsMap() {
         Map<String, String> fieldsMap = new HashMap<>();
         fieldsMap.put("recordId", "c.record_id");
-
         fieldsMap.put("stationID", "c.station_id");
+        fieldsMap.put("stationName", "s.station_name");
         fieldsMap.put("GID", "c.gid");
         fieldsMap.put("conterName", "c.conter_name");
         fieldsMap.put("startDID", "c.start_did");

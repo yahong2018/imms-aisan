@@ -26,7 +26,7 @@ create table zhxh_kocheer_conter_info  (
    end_did                     int                                 not null,
    ip                          varchar(20)                         not null,
    port                        int                                 not null,
-   position                    varchar(50)                         not null,
+   position                    varchar(50)                         null,
    is_use                      int                                 not null,
    wiress_power                int                                 not null default 3,
    remark                      varchar(50)                         null,

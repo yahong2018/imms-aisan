@@ -11,6 +11,8 @@ public class ConterInfo extends Entity {
     @JsonProperty(value="stationID")
     private Long stationID;
 
+    private String stationName;
+
     @JsonProperty(value="GID")
     private Integer GID;
 
