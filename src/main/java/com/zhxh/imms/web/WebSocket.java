@@ -13,6 +13,8 @@ public abstract class WebSocket {
     private static volatile int onlineCount = 0;
     private static CopyOnWriteArraySet<WebSocket> socketList = new CopyOnWriteArraySet<>();
     private Session session;
+    private String ip;
+    private String id;
 
     public Session getSession() {
         return session;
@@ -20,22 +22,27 @@ public abstract class WebSocket {
 
     @OnOpen
     public final synchronized void onOpen(Session session) {
-        Logger.info(WebSocket.getRemoteAddress(session) + "已连接服务器");
+        this.id = session.getId();
+        this.ip = WebSocket.getRemoteAddress(session).toString();
+
+        Logger.info(this.id + "(" + this.ip + ")已连接服务器");
         socketList.add(this);
         this.session = session;
         addOnlineCount();
+        Logger.info("当前在线为" + onlineCount + "个连接");
 
         this.internalOnOpen();
     }
 
     @OnClose
     public final synchronized void onClose(Session closeSession) {
-        Logger.info(WebSocket.getRemoteAddress(closeSession) + "已从服务器断开");
+        Logger.info(this.id + "(" + this.ip + ")已从服务器断开");
         this.internalOnClose();
 
         socketList.remove(this);
         this.session = null;
         subOnlineCount();
+        Logger.info("当前在线为" + onlineCount + "个连接");
     }
 
     @OnMessage
@@ -71,6 +78,7 @@ public abstract class WebSocket {
     }
 
     protected abstract String toJson(WebSocketMessage message);
+
     protected abstract WebSocketMessage fromJson(String strMessage);
 
     public synchronized final void broadCast(WebSocketMessage message) {
@@ -146,7 +154,7 @@ public abstract class WebSocket {
                 field.setAccessible(true);
                 return field.get(obj);
             } catch (Exception e) {
-               // Logger.error(e);
+                // Logger.error(e);
             }
         }
 
