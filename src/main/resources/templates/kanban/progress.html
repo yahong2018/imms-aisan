@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>WebSocket Test</title>
+    <base th:href="${T(com.zhxh.imms.admin.model.HomeModel).appRoot}" />
+    <script type="text/javascript" th:src="@{js/ext/build/include-ext.js(theme=triton)}"></script>
+    <script type="text/javascript" th:src="@{js/app/ux/WebSocket.js(v=${T(java.lang.System).currentTimeMillis()})}"></script>
+    <script type="text/javascript" th:src="@{js/zhxh/websocket-test.js(v=${T(java.lang.System).currentTimeMillis()})}"></script>
 </head>
 <body>
 </body>
-<script type="text/javascript" th:src="@{js/ext/build/include-ext.js(theme=triton)}"></script>
-<script type="text/javascript" th:src="@{js/app/ux/WebSocket.js(v=${T(java.lang.System).currentTimeMillis()})}"></script>
-<script type="text/javascript" th:src="@{js/zhxh/websocket-test.js(v=${T(java.lang.System).currentTimeMillis()})}"></script>
+
 </html>

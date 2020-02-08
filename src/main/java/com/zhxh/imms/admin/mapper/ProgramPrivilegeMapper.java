@@ -1,7 +1,7 @@
 package com.zhxh.imms.admin.mapper;
 
 import com.zhxh.imms.admin.domain.ProgramPrivilege;
-import com.zhxh.imms.data.mapper.CrudMapper;
+import com.zhxh.imms.mes.mfc.mapper.CrudMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhxh.imms.si.kocheer.mapper.StationInfoMapper">
     <resultMap type="com.zhxh.imms.si.kocheer.domain.StationInfo" id="StationInfoResultMap"
-               extends="com.zhxh.imms.data.mapper.CrudMapper.EntityResultMap">
+               extends="com.zhxh.imms.mes.mfc.mapper.CrudMapper.EntityResultMap">
         <result property="stationCode" column="station_code"/>
         <result property="stationName" column="station_name"/>
         <result property="stationPosition" column="station_position"/>
@@ -36,7 +36,7 @@
     <select id="getAll" resultMap="StationInfoResultMap" parameterType="java.util.Map">
         select <include refid="stationInfoFields"/>
         from zhxh_kocheer_station_info sta join zhxh_system_user u on sta.login_user_id = u.record_id
-        <include refid="com.zhxh.imms.data.mapper.CrudMapper.selectByPage"/>
+        <include refid="com.zhxh.imms.mes.mfc.mapper.CrudMapper.selectByPage"/>
     </select>
 
     <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">

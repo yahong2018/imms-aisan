@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhxh.imms.si.kocheer.mapper.ConterInfoMapper">
-    <resultMap type="com.zhxh.imms.si.kocheer.domain.ConterInfo" id="ConterInfoResultMap" extends="com.zhxh.imms.data.mapper.CrudMapper.EntityResultMap">
+    <resultMap type="com.zhxh.imms.si.kocheer.domain.ConterInfo" id="ConterInfoResultMap" extends="com.zhxh.imms.mes.mfc.mapper.CrudMapper.EntityResultMap">
         <result property="stationID" column="station_id"/>
         <result property="GID" column="gid"/>
         <result property="conterName" column="conter_name"/>
@@ -28,7 +28,7 @@
     <select id="getAll" resultMap="ConterInfoResultMap" parameterType="java.util.Map">
         select <include refid="conterInfoFields"/>
         from zhxh_kocheer_conter_info c
-        <include refid="com.zhxh.imms.data.mapper.CrudMapper.selectByPage"/>
+        <include refid="com.zhxh.imms.mes.mfc.mapper.CrudMapper.selectByPage"/>
     </select>
 
     <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">

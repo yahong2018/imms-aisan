@@ -8,7 +8,6 @@ Ext.define('app.ux.Utils', {
             
             sessionStorage.removeItem("authentication_data");
             window.location.href = "front-login";
-            return;
         }
     },
     getAuthorizeHeader: function () {
@@ -19,7 +18,6 @@ Ext.define('app.ux.Utils', {
         const me = config;
 
         const handleFailure = function (response, opts) {
-            debugger;
             app.ux.Utils.handle403Respones(response);            
             if (!me.silence) {
                 if(!response.responseText){
