@@ -4,13 +4,10 @@ import com.zhxh.imms.data.BusinessException;
 import com.zhxh.imms.data.CrudLogic;
 import com.zhxh.imms.si.kocheer.ReqDataConstants;
 import com.zhxh.imms.si.kocheer.command.Command_28;
-import com.zhxh.imms.si.kocheer.command.Command_28_Item;
 import com.zhxh.imms.si.kocheer.domain.WorkstationSession;
 import com.zhxh.imms.si.kocheer.domain.WorkstationSessionStep;
 import com.zhxh.imms.si.kocheer.session.*;
-import org.apache.activemq.command.Command;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -72,7 +69,7 @@ public class WorkstationSessionLogic extends CrudLogic<WorkstationSession> {
     private Command_28 displaySelectionMenu(WorkstationSession session,boolean error) {
         Command_28 result = Command_28.menu(session.getWorkstation().getDidTemplate(),error);
         if (!session.isNewSession()) {
-            session.setCurrentStep(WorkstationSession.SESSION_STEP_FINISHED);
+            session.complete();
             WorkstationSession newSession = session.startNewSession(WorkstationSession.SESSION_STEP_INIT, result.toString());
             result.setTag(newSession);
         }
@@ -80,13 +77,13 @@ public class WorkstationSessionLogic extends CrudLogic<WorkstationSession> {
     }
 
     private Command_28 backToDesktop(WorkstationSession session) {
-        session.setCurrentStep(WorkstationSession.SESSION_STEP_FINISHED);
+        session.complete();
         return Command_28.desktop();
     }
 
     public void createSessionStep(WorkstationSession session, Command_28 cmd) {
         WorkstationSessionStep sessionStep = new WorkstationSessionStep();
-        if (!session.isNewSession() && session.getCurrentStep() < WorkstationSession.SESSION_STEP_FINISHED) {
+        if (!session.isNewSession() && !session.isCompleted()) {
             session.setCurrentStep(session.getCurrentStep() + 1);
         }
 
@@ -120,6 +117,9 @@ public class WorkstationSessionLogic extends CrudLogic<WorkstationSession> {
         WorkstationSessionStep step = session.getCurrentSessionStep();
         step.setWorkstationSessionId(session.getRecordId());
         step.setReqDataType(session.getCurrentReqType());
+        if(step.getRespData().length()>200){
+            step.setRespData(step.getRespData().substring(0,199));
+        }
         stepLogic.create(step);
     }
 }

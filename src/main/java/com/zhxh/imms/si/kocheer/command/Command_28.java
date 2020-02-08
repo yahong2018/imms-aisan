@@ -32,31 +32,25 @@ public class Command_28 {
         this.template = template;
     }
 
-    public static Command_28 ok(int template, String message){
+    public static Command_28 ok(int template, String message) {
+        Command_28 cmd = new Command_28(template);
+
         Command_28_Item[] items = new Command_28_Item[2];
         Command_28_Item_BasicControl controlCmd = new Command_28_Item_BasicControl();
         items[0] = controlCmd;
-        controlCmd.multiKey();
-        controlCmd.sound(1,100);
-        controlCmd.closeRed();
-        controlCmd.lightGreen(3000);
-        controlCmd.closeYellow();
+        controlCmd.ok();
 
         Command_28_Item_Display messageCommand = new Command_28_Item_Display(message);
         items[1] = messageCommand;
-
-        Command_28 cmd = new Command_28(template);
 
         cmd.setItems(items);
         return cmd;
     }
 
 
-    public static Command_28 menu(int template,boolean error) {
-        int itemCount = 3;
-        if(error){
-            itemCount = 4;
-        }
+    public static Command_28 menu(int template, boolean error) {
+        Command_28 cmd = new Command_28(template);
+        int itemCount = 4;
         Command_28_Item[] items = new Command_28_Item[itemCount];
         Command_28_Item_BasicControl controlCmd = new Command_28_Item_BasicControl();
         items[0] = controlCmd;
@@ -70,17 +64,14 @@ public class Command_28 {
         Command_28_Item_Hint hintCommand = new Command_28_Item_Hint(hint);
         items[2] = hintCommand;
 
-        if(error){
-            Command_28_Item_BasicControl lampCommand = new Command_28_Item_BasicControl();
-            lampCommand.closeYellow();
-            lampCommand.closeGreen();
-            lampCommand.lightRed(3000);
-            lampCommand.sound(3,100);
-
-            items[3] = lampCommand;
+        Command_28_Item_BasicControl lampCommand = new Command_28_Item_BasicControl();
+        items[3] = lampCommand;
+        if (error) {
+            lampCommand.error();
+        }else{
+            lampCommand.ok();
         }
 
-        Command_28 cmd = new Command_28(template);
         cmd.setItems(items);
         return cmd;
     }
@@ -89,7 +80,6 @@ public class Command_28 {
         Command_28_Item[] items = new Command_28_Item[1];
         Command_28_Item_BasicControl controlCmd = new Command_28_Item_BasicControl();
         items[0] = controlCmd;
-        controlCmd.singleKey();
 
         Command_28 cmd = new Command_28(9);
         cmd.setItems(items);
@@ -97,22 +87,21 @@ public class Command_28 {
     }
 
     public static Command_28 error(int template, String errorMessage) {
+        Command_28 cmd = new Command_28(template);
+
         Command_28_Item[] items = new Command_28_Item[2];
         Command_28_Item_BasicControl controlCmd = new Command_28_Item_BasicControl();
         items[0] = controlCmd;
-
-        controlCmd.closeGreen();
-        controlCmd.closeYellow();
-        controlCmd.lightRed(3000);
-        controlCmd.sound(3, 100);
+        controlCmd.error();
 
         Command_28_Item_Display displayCmd = new Command_28_Item_Display();
         items[1] = displayCmd;
+        if (template == 4) {
+            displayCmd.setMaxLength(38);
+        }
         displayCmd.setContent(errorMessage);
 
-        Command_28 cmd = new Command_28(template);
         cmd.setItems(items);
-
         return cmd;
     }
 
@@ -124,7 +113,7 @@ public class Command_28 {
         Command_28_Item_BasicControl controlCmd = new Command_28_Item_BasicControl();
         items[0] = controlCmd;
         controlCmd.multiKey();
-        controlCmd.sound(3,100);
+        controlCmd.sound(3, 100);
         controlCmd.lightRed(3000);
         controlCmd.lightGreen(2000);
         controlCmd.lightYellow(1000);

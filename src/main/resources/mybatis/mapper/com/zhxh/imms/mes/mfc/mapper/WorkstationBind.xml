@@ -7,13 +7,11 @@
         <result property="workstationId" column="workstation_id"/>
         <result property="workshopId" column="workshop_id"/>
         <result property="attachTime" column="attach_time"/>
-        <result property="outTime" column="out_time"/>
-        <result property="backTime" column="back_time"/>
         <result property="bindStatus" column="bind_status"/>
     </resultMap>
 
     <sql id="workstationBindFields">
-        wb.record_id,wb.outsource_card_id,wb.workstation_id,wb.workshop_id,wb.attach_time,wb.out_time,wb.back_time,wb.bind_status
+        wb.record_id,wb.outsource_card_id,wb.workstation_id,wb.workshop_id,wb.attach_time,wb.bind_status
     </sql>
 
     <select id="get" resultMap="WorkstationBindResultMap">
@@ -36,7 +34,7 @@
     </select>
 
     <select id="getQtyCardWorkstationBindInfo" resultType="java.util.Map">
-        [<![CDATA[
+        <![CDATA[
         select wb.record_id as bindId,
               wb.outsource_card_id as outsourceCardId,
               rfid.production_id as outSourceProductionId,
@@ -58,15 +56,14 @@
     <select id="getOutsourceCardWorkstationBindInfo" resultMap="WorkstationBindResultMap">
         select <include refid="workstationBindFields"/>
            from zhxh_workstation_bind wb
-           where wb.workstation_id = #{workstationId}
-             and wb.outsource_card_id = #{outsourceCardId}
+           where wb.outsource_card_id = #{outsourceCardId}
             order by attach_time desc
         limit 1
     </select>
 
     <insert id="create" parameterType="com.zhxh.imms.mes.mfc.domain.WorkstationBind" keyProperty="recordId" useGeneratedKeys="true">
-        insert into zhxh_workstation_bind(outsource_card_id,workstation_id,workshop_id,attach_time,out_time,back_time,bind_status)
-        values(#{outsourceCardId},#{workstationId},#{workshopId},#{attachTime},#{outTime},#{backTime},#{bindStatus})
+        insert into zhxh_workstation_bind(outsource_card_id,workstation_id,workshop_id,attach_time,bind_status)
+        values(#{outsourceCardId},#{workstationId},#{workshopId},#{attachTime},#{bindStatus})
     </insert>
 
     <update id="update" parameterType="com.zhxh.imms.mes.mfc.domain.WorkstationBind">
@@ -75,8 +72,6 @@
              workstation_id=#{workstationId},
              workshop_id=#{workshopId},
              attach_time=#{attachTime},
-             out_time=#{outTime},
-             back_time=#{backTime},
              bind_status=#{bindStatus}
         where record_id = #{recordId}
     </update>

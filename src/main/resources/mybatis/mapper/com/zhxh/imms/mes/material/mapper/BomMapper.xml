@@ -52,13 +52,15 @@
         </where>
     </select>
 
-    <select id="getMaterialParts" resultMap="BomResultMap">
+    <select id="getBom" resultMap="BomResultMap">
         select <include refid="bomFields"/>
         from  <include refid="tables"/>
         where bom.material_id = #{materialId}
+         <if test="isWhole==true">
           and exists(
              select * from zhxh_bom bc where bc.material_id = bom.component_id
-        )
+          )
+         </if>
     </select>
 
     <select id="getMaterialBom" resultMap="BomResultMap">

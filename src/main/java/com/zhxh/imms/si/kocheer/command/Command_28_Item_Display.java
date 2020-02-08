@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 @Setter
 public class Command_28_Item_Display implements Command_28_Item {
     private String content;
+    private int maxLength=24;
 
     public Command_28_Item_Display(){}
 
@@ -25,7 +26,7 @@ public class Command_28_Item_Display implements Command_28_Item {
 
     public int toDeviceItemString(StringBuilder lineBuilder) {
        // int LINE_MAX_LENGTH = 38;
-        int LINE_MAX_LENGTH = 24;
+       // int LINE_MAX_LENGTH = 24;
         int total_len = 0;
         int line_count = 1;
         if (content.length() > 0) {
@@ -50,7 +51,7 @@ public class Command_28_Item_Display implements Command_28_Item {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            if (total_len + len > LINE_MAX_LENGTH) { //大于24个英文字母，或者12个汉字，强制分行
+            if (total_len + len > this.maxLength) { //大于24个英文字母，或者12个汉字，强制分行
                 line_count += 1;
                 lineBuilder.append("|0");
                 lineBuilder.append("|").append(line_count).append("|");

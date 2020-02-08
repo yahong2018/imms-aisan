@@ -53,17 +53,10 @@
     
     <select id="getOutsourceBindCard" resultMap="RfidCardResultMap">
         select <include refid="rfidCardFields"/>
-         from zhxh_rfid_card
-         where record_id in(
-            select qty_card_id
-            from zhxh_card_bind
-            where workstation_bind_id in(
-                select record_id from zhxh_workstation_bind
-                where workstation_id = #{workstationId}
-                  and outsource_card_id = #{outsourceCardId}
-                order by attach_time desc
-                limit 1
-            )
+         from <include refid="tables"/>
+         where rfid.record_id in(
+            select qty_card_id  from zhxh_card_bind
+            where workstation_bind_id = #{bindId}
         )
     </select>
 

@@ -36,7 +36,7 @@ public class PartialReportService implements SessionStepService {
             throw new BusinessException("只有已派发和已报工的看板才可以进行尾数报工");
         }
         String message = "按确定报剩余" + (card.getIssueQty() - card.getStockQty()) + "个\n如需修改，请输入尾数再按确定";
-                return Command_28.ok(session.getWorkstation().getDidTemplate(), message);
+        return Command_28.ok(session.getWorkstation().getDidTemplate(), message);
     }
 
     private Command_28 partialReport_3(WorkstationSession session) {
@@ -46,12 +46,13 @@ public class PartialReportService implements SessionStepService {
             throw new BusinessException("请输入报工数量");
         }
 
-        int reportQty = session.getQtyFromReqData(session.getCurrentReqData());
+        int reportQty = session.getQtyFromReqData(session.getCurrentReqData(), WorkstationSession.QTY_TYPE_REDUCE);
         if (reportQty + session.getSessionQtyCard().getStockQty() > session.getSessionQtyCard().getIssueQty()) {
             throw new BusinessException("累计数量大于收容数,请输入正确的报工数量");
         }
-        ProductRecord productRecord=new ProductRecord();
+        ProductRecord productRecord = new ProductRecord();
         String message = WipSessionService.doWipReport(this.productRecordLogic, session, ProductRecord.REPORT_TYPE_PARTIAL, reportQty, productRecord);
+        session.complete();
         return Command_28.ok(session.getWorkstation().getDidTemplate(), message);
     }
 }

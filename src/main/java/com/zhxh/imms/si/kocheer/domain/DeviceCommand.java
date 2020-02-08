@@ -1,5 +1,6 @@
 package com.zhxh.imms.si.kocheer.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zhxh.imms.data.domain.Entity;
 import com.zhxh.imms.si.kocheer.command.Command_28;
 import com.zhxh.imms.si.kocheer.command.Command_28_Item;
@@ -36,9 +37,9 @@ public class DeviceCommand extends Entity {
     public DeviceCommand(int gid, int did, Command_28 command28) {
         this.GID = gid;
         this.DID = did;
-
         this.buildCommandContent(command28);
     }
+
 
     public void buildCommandContent(Command_28 command28) {
         StringBuilder sb = new StringBuilder();

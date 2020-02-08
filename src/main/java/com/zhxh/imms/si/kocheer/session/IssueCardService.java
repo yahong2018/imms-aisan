@@ -47,7 +47,7 @@ public class IssueCardService implements SessionStepService {
             throw new BusinessException("请输入派发数量");
         }
         RfidCard card = session.getSessionQtyCard();
-        int issueQty = session.getQtyFromReqData(session.getCurrentReqData());
+        int issueQty = session.getQtyFromReqData(session.getCurrentReqData(),WorkstationSession.QTY_TYPE_ISSUE);
 
         //1.派发
         card.setIssueQty(issueQty);

@@ -2,7 +2,7 @@ package com.zhxh.imms.si.kocheer.command;
 
 public class Command_28_Item_BasicControl implements Command_28_Item {
     protected int keyLock = 128;
-    protected int keyMode = 128;  //键盘模式
+    protected int keyMode = 129;  //键盘模式
 
     protected boolean useLamp_1;  //黄灯
     protected int lampMode_1;
@@ -45,6 +45,10 @@ public class Command_28_Item_BasicControl implements Command_28_Item {
         this.lampValue_3 = keep;
     }
 
+    public void lightRed(){
+        this.lightRed(3000);
+    }
+
     public void closeRed() {
         this.useLamp_3 = true;
         this.lampMode_3 = LAMP_MODE_CLOSE;
@@ -55,6 +59,10 @@ public class Command_28_Item_BasicControl implements Command_28_Item {
         this.useLamp_2 = true;
         this.lampMode_2 = LAMP_MODEL_DELAY_CLOSE;
         this.lampValue_2 = keep;
+    }
+
+    public void lightGreen(){
+        this.lightGreen(3000);
     }
 
     public void closeGreen() {
@@ -69,10 +77,28 @@ public class Command_28_Item_BasicControl implements Command_28_Item {
         this.lampValue_1 = keep;
     }
 
+    public void lightYellow(){
+        this.lightYellow(3000);
+    }
+
     public void closeYellow() {
         this.useLamp_1 = true;
         this.lampMode_1 = LAMP_MODE_CLOSE;
         this.lampValue_1 = 0;
+    }
+
+    public void error(){
+        this.closeGreen();
+        this.closeYellow();
+        this.lightRed();
+        this.sound(3,100);
+    }
+
+    public void ok(){
+        this.closeRed();
+        this.closeYellow();
+        this.lightGreen();
+        this.sound(1,100);
     }
 
     public void sound(int repeat,int interval){

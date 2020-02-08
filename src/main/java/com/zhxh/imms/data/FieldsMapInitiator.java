@@ -199,12 +199,12 @@ public class FieldsMapInitiator {
     private static Map<String, String> getRfidCardFieldsMap() {
         Map<String, String> fieldsMap = new HashMap<>();
         fieldsMap.put("recordId", "rfid.record_id");
-        fieldsMap.put("kanbanNo", "rfid.kanbanNo");
-        fieldsMap.put("rfidNo", "rfid.rfidNo");
-        fieldsMap.put("cardType", "rfid.cardType");
-        fieldsMap.put("cardStatus", "rfid.cardStatus");
+        fieldsMap.put("kanbanNo", "rfid.kanban_no");
+        fieldsMap.put("rfidNo", "rfid.rfid_no");
+        fieldsMap.put("cardType", "rfid.card_type");
+        fieldsMap.put("cardStatus", "rfid.card_status");
 
-        fieldsMap.put("productionId", "rfid.productionId");
+        fieldsMap.put("productionId", "rfid.production_id");
         fieldsMap.put("productionCode", "m.material_code");
         fieldsMap.put("productionName", "m.material_name");
 

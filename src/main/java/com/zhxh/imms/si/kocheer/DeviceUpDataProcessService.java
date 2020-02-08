@@ -27,12 +27,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionTemplate;
+import sun.rmi.runtime.Log;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class DeviceUpDataProcessService {
@@ -146,9 +148,7 @@ public class DeviceUpDataProcessService {
         } catch (RuntimeException e) {
             dataSourceTransactionManager.rollback(transactionStatus);
 
-            Logger.error(e);
-            int template = session.getWorkstation().getDidTemplate();
-            return Command_28.error(template, e.getMessage());
+            throw e;
         }
     }
 
@@ -168,14 +168,26 @@ public class DeviceUpDataProcessService {
                 return new DeviceCommand(gid, did, cmd);
             } catch (RuntimeException e) {
                 hasError = true;
+                if (e instanceof BusinessException) {
+                    int template = 4;
+                    if (workstation != null) {
+                        template = workstation.getDidTemplate();
+                    }
+                    cmd = Command_28.error(template, e.getMessage());
+                } else {
+                    String errorId = UUID.randomUUID().toString().replace("-", "");
+                    Logger.error("系统出现异常，ID为:" + errorId);
+                    cmd = Command_28.error(4, "系统出现异常，ID为:\n" + errorId + "\n请联系管理员");
+                }
                 Logger.error(e);
-                cmd = Command_28.error(4, e.getMessage());
                 return new DeviceCommand(gid, did, cmd);
             }
         } finally {
             if (session != null) {
-                sessionLogic.createSessionStep(session, cmd);
-                sessionLogic.saveSession(session);
+                if (session.isCompleted() || !hasError) {
+                    sessionLogic.createSessionStep(session, cmd);
+                    sessionLogic.saveSession(session);
+                }
                 sessionLogic.clearSessionCurrentData(session);
                 if (session.isCompleted() || (hasError && session.isNewSession())) {
                     sessionList.remove(session.getWorkstationId());

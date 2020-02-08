@@ -1,6 +1,9 @@
 package com.zhxh.imms.mes.mfc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zhxh.imms.data.domain.Entity;
+import com.zhxh.imms.mes.org.domain.Workshop;
+import com.zhxh.imms.mes.org.domain.Workstation;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +25,9 @@ public class WorkshopReportRecord extends Entity {
 
     private Integer shiftId;
     private LocalDate timeOfOriginWork;
+
+    @JsonIgnore
+    private Workshop workshop;
 
     public final static int REPORT_TYPE_WHOLE = 0;  //整箱报工
     public final static int REPORT_TYPE_PARTIAL = 1;//尾数报工

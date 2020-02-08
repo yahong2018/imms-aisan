@@ -9,6 +9,8 @@ import com.zhxh.imms.mes.material.logic.MaterialLogic;
 import com.zhxh.imms.mes.material.logic.MaterialStockLogic;
 import com.zhxh.imms.mes.mfc.domain.ProductSummary;
 import com.zhxh.imms.mes.mfc.domain.WorkshopReportRecord;
+import com.zhxh.imms.mes.org.domain.Workshop;
+import com.zhxh.imms.mes.org.logic.WorkshopLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,8 @@ public abstract class WorkshopReportLogic<T extends WorkshopReportRecord> extend
     private BomLogic bomLogic;
     @Autowired
     private MaterialLogic materialLogic;
+    @Autowired
+    private WorkshopLogic workshopLogic;
 
     protected abstract T createRecord();
 
@@ -95,7 +99,12 @@ public abstract class WorkshopReportLogic<T extends WorkshopReportRecord> extend
     //
     private List<Bom> adjustStock(WorkshopReportRecord record)  {
         this.adjustOutputStock(record);
-        List<Bom> bomList = bomLogic.getMaterialParts(record.getProductionId());
+        Workshop workshop = record.getWorkshop();
+        if(workshop==null){
+            workshop = workshopLogic.get(record.getWorkshopId());
+        }
+        boolean isWhole = workshop.getOpIndex() == -1;
+        List<Bom> bomList = bomLogic.getBom(record.getProductionId(),isWhole);
         for (Bom bom : bomList) {
             this.adjustConsumeStock(record, bom.getComponentId());
         }

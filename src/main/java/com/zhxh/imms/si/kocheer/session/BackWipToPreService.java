@@ -58,7 +58,7 @@ public class BackWipToPreService implements SessionStepService {
         }
 
         RfidCard card = session.getSessionQtyCard();
-        int backQty = session.getQtyFromReqData(session.getCurrentReqData());
+        int backQty = session.getQtyFromReqData(session.getCurrentReqData(), WorkstationSession.QTY_TYPE_REQUIRED);
 
         if (backQty > card.getStockQty()) {
             throw new BusinessException("退还数必须 ≤ 报工数量");
@@ -78,7 +78,7 @@ public class BackWipToPreService implements SessionStepService {
 
         //移库报工
         WorkstationSessionStep step = session.getStep(3);
-        int backQty = session.getQtyFromReqData(step.getReqData());
+        int backQty = session.getQtyFromReqData(step.getReqData(), WorkstationSession.QTY_TYPE_ISSUE);
         ProductionMoving moving = session.buildProductionMoving();
         moving.setQty(backQty);
         long lastMovingId = session.getSessionQtyCard().getLastBusinessId();
@@ -87,6 +87,10 @@ public class BackWipToPreService implements SessionStepService {
         moving.setWorkshopIdFrom(fromWorkshopId);
         movingLogic.reportWipMove(moving, ProductionMoving.DIRECTION_BACK);
 
+        //完成Session
+        session.complete();
+
+        //返回Session
         String msg = "已退还" + session.getSessionQtyCard().getProductionName() + backQty + "个";
         return Command_28.ok(session.getWorkstation().getDidTemplate(), msg);
     }

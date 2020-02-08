@@ -60,7 +60,7 @@ public class ProductRecordLogic extends WorkshopReportLogic<ProductRecord> {
     }
 
     @Override
-    public int create(ProductRecord item){
+    public int create(ProductRecord item) {
         item.fillWorkShift();
         int result = super.create(item);
         this.updateCardStatus(item);
@@ -106,13 +106,16 @@ public class ProductRecordLogic extends WorkshopReportLogic<ProductRecord> {
                 return;
             }
         }
+
+        if ((productRecord.getReportType() == WorkshopReportRecord.REPORT_TYPE_PARTIAL)
+                || (card.getCardStatus() == RfidCard.CARD_STATUS_BACKED)
+        ) {
+            card.setStockQty(productRecord.getQty() + card.getStockQty());
+        } else {
+            card.setStockQty(productRecord.getQty());
+        }
         card.setCardStatus(RfidCard.CARD_STATUS_REPORTED);
         card.setLastBusinessId(productRecord.getRecordId());
-        if (productRecord.getReportType() == WorkshopReportRecord.REPORT_TYPE_WHOLE) {
-            card.setStockQty(productRecord.getQty());
-        } else {
-            card.setStockQty(productRecord.getQty() + card.getStockQty());
-        }
 
         cardLogic.update(card);
     }

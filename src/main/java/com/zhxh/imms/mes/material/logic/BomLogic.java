@@ -13,8 +13,8 @@ public class BomLogic extends CrudLogic<Bom> {
         return ((BomMapper) this.getMapper());
     }
 
-    public List<Bom> getMaterialParts(Long materialId) {
-        return this.getBomMapper().getMaterialParts(materialId);
+    public List<Bom> getBom(Long materialId,boolean isWhole) {
+        return this.getBomMapper().getBom(materialId,isWhole);
     }
 
     public List<Bom> getMaterialBom(String materialCode) {

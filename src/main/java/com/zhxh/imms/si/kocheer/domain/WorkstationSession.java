@@ -86,9 +86,19 @@ public class WorkstationSession extends Entity {
         return moving;
     }
 
-    public int getQtyFromReqData(String reqData) {
+    public int getQtyFromReqData(String reqData, int qtyType) {
         if (StringUtils.isEmpty(reqData)) {
-            return this.getSessionQtyCard().getIssueQty();
+            if (qtyType == QTY_TYPE_REQUIRED) {
+                throw new BusinessException("请输入正确的数量");
+            }
+            if (qtyType == QTY_TYPE_ISSUE) {
+                return this.getSessionQtyCard().getIssueQty();
+            } else if (qtyType == QTY_TYPE_STOCK) {
+                return this.getSessionQtyCard().getStockQty();
+            } else if (qtyType == QTY_TYPE_REDUCE) {
+                return this.getSessionQtyCard().getIssueQty() - this.getSessionQtyCard().getStockQty();
+            }
+            return 0;
         } else {
             try {
                 return Integer.parseInt(reqData);
@@ -103,7 +113,7 @@ public class WorkstationSession extends Entity {
         return SESSION_STEP_FINISHED == this.currentStep;
     }
 
-    public void setCompleted() {
+    public void complete() {
         this.currentStep = SESSION_STEP_FINISHED;
     }
 
@@ -136,4 +146,11 @@ public class WorkstationSession extends Entity {
     public final static int SESSION_TYPE_ISSUE = 2; //给前工程发卡
     public final static int SESSION_TYPE_PARTIAL_REPORT = 3; //尾数报工
     public final static int SESSION_TYPE_WIP = 4; //整数报工、外发、移库、绑卡
+
+
+    public final static int QTY_TYPE_ZERO = 0;
+    public final static int QTY_TYPE_ISSUE = 1;
+    public final static int QTY_TYPE_STOCK = 2;
+    public final static int QTY_TYPE_REDUCE = 3;
+    public final static int QTY_TYPE_REQUIRED = 5;
 }

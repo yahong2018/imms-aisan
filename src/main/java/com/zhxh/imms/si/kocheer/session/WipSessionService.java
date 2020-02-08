@@ -59,8 +59,8 @@ public class WipSessionService implements SessionStepService {
                 return this.onInternalCard(session);
             }
             return this.onOutsourceCard(session);
-        }finally {
-            session.setCompleted(); //本session只有一个步骤，所以不管结果如何，都需要结束掉
+        } finally {
+            session.complete(); //本session只有一个步骤，所以不管结果如何，都需要结束掉
             session.setLastProcessTime(LocalDateTime.now());
         }
     }
@@ -89,10 +89,9 @@ public class WipSessionService implements SessionStepService {
         }
         if (card.getCardStatus() == RfidCard.CARD_STATUS_BINDED) { //外发
             return this.outsource(session);
-        }
-        else if (card.getCardStatus() == RfidCard.CARD_STATUS_OUTSOURCED) {  //报工
+        } else if (card.getCardStatus() == RfidCard.CARD_STATUS_OUTSOURCED) {  //报工
             return this.reportWip(session, new ProductRecord());
-        }else {
+        } else {
             return processStatus10And20(session);
         }
     }
@@ -102,7 +101,8 @@ public class WipSessionService implements SessionStepService {
             throw new BusinessException("只可以在外发工位上打卡外发");
         }
         //1.对所有绑定的卡进行移库
-        List<RfidCard> qtyCards = rfidCardLogic.getOutsourceBindCard(session.getWorkstationId(), session.getSessionQtyCard().getRecordId());
+        List<RfidCard> qtyCards = rfidCardLogic.getOutsourceBindCard(session.getSessionQtyCard().getRecordId());
+
         int qty = 0;
         for (RfidCard card : qtyCards) {
             ProductionMoving move = new ProductionMoving();
@@ -201,7 +201,7 @@ public class WipSessionService implements SessionStepService {
         long outsourceCardId = (long) bindMap.get("outsourceCardId");
         int outsourceIssueQty = (int) bindMap.get("outsourceIssueQty");
         int outsourceQty = (int) bindMap.get("outsourceStockQty");
-        int reportQty = card.getStockQty();
+        int reportQty = card.getIssueQty();
         if (reportQty + outsourceQty > outsourceIssueQty) {
             throw new BusinessException("累计报工数量" + (reportQty + outsourceQty) + "已超过外发看板容量" + outsourceIssueQty + ",请换另外一张外发看板");
         }
@@ -231,6 +231,10 @@ public class WipSessionService implements SessionStepService {
         if (card.getWorkshop().getOpIndex().equals(workshop.getOpIndex())/*&& card.getCardStatus()==RfidCard.CARD_STATUS_REPORTED*/) {
             String kanbanStatus = "看板" + card.getRfidNo() + "的状态：" + card.getCardStatusName();
             throw new BusinessException(kanbanStatus + ",不可以重复报工!");
+        }
+
+        if (workshop.getWorkshopType() == Workshop.WORKSHOP_OUTSOURCE) {
+            throw new BusinessException("不可以在外发工位上进行移库！");
         }
 
         ProductionMoving moving = session.buildProductionMoving();
@@ -275,6 +279,7 @@ public class WipSessionService implements SessionStepService {
         productRecord.setOperatorId(session.getOperatorId());
 
         productRecord.setCard(card);
+        productRecord.setWorkshop(workshop);
         productRecordLogic.reportWip(productRecord, workstation.getAutoReportCount());
 
         Map<String, Integer> summary = productRecordLogic.getReportedSummary(workstation.getRecordId(), productRecord.getTimeOfOriginWork(), card.getProductionId(), productRecord.getShiftId());

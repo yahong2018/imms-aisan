@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Component
 public interface RfidCardMapper extends CrudMapper<RfidCard> {
-    List<RfidCard> getOutsourceBindCard(@Param("workstationId")Long workstationId, @Param("outsourceCardId") Long outsourceCardId);
+    List<RfidCard> getOutsourceBindCard(Long bindId);
 
     Map<String,Integer> getIssuedTotalCountAndQty(Long productionId);
 }

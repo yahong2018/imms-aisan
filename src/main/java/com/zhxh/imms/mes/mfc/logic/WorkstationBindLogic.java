@@ -17,7 +17,7 @@ public class WorkstationBindLogic extends CrudLogic<WorkstationBind> {
         return this.getBindMapper().getQtyCardWorkstationBindInfo(workstationId, componentId);
     }
 
-    public WorkstationBind getOutsourceCardWorkstationBindInfo(Long workstationId, Long outsourceCardId) {
-        return this.getBindMapper().getOutsourceCardWorkstationBindInfo(workstationId, outsourceCardId);
+    public WorkstationBind getOutsourceCardWorkstationBindInfo(Long outsourceCardId) {
+        return this.getBindMapper().getOutsourceCardWorkstationBindInfo(outsourceCardId);
     }
 }
