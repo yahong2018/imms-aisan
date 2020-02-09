@@ -72,11 +72,11 @@
     </update>
 
     <delete id="delete">
-        delete from zhxh_kocheer_station_info sta where record_id =#{recordId}
+        delete from zhxh_kocheer_station_info where record_id =#{recordId}
     </delete>
 
     <delete id="deleteAll">
-        delete from zhxh_kocheer_station_info sta where record_id in
+        delete from zhxh_kocheer_station_info where record_id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

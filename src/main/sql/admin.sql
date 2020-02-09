@@ -141,8 +141,7 @@ insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) 
 insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'UPDATE', '修改');
 insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'DELETE', '删除');
 
-
-insert into zhxh_system_program( program_code, program_name, url, glyph, show_order, parameters, parent_id, program_status) values ('SYS02', '组织架构', '', '0xf0e8', 1, '', 0, 'NORMAL');
+insert into zhxh_system_program( program_code, program_name, url, glyph, show_order, parameters, parent_id, program_status) values ('SYS02', '组织架构', '', '0xf0e8', 10, '', 0, 'NORMAL');
 set @parentId = LAST_INSERT_ID ();
 set @programId = @parentId;
 insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'RUN', '运行');
@@ -162,7 +161,7 @@ insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) 
 insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'DELETE', '删除');
 insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'CONFIG_WORKSHOP', '配置部门');
 
-insert into zhxh_system_program( program_code, program_name, url, glyph, show_order, parameters, parent_id, program_status) values ('SYS03', '生产管理', '', '0xf0ae', 2, '', 0, 'NORMAL');
+insert into zhxh_system_program( program_code, program_name, url, glyph, show_order, parameters, parent_id, program_status) values ('SYS03', '生产管理', '', '0xf0ae', 11, '', 0, 'NORMAL');
 set @parentId = LAST_INSERT_ID ();
 set @programId = @parentId;
 insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values (@programId, 'RUN', '运行');
@@ -213,7 +212,7 @@ insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) 
 insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'TO_ERP', '同步给ERP');
 insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'BATCH_INSERT', '批量新增');
 
-insert into zhxh_system_program( program_code, program_name, url, glyph, show_order, parameters, parent_id, program_status) values ('SYS04', '分析报表', '', '0xf02f', 3, '', 0, 'NORMAL');
+insert into zhxh_system_program( program_code, program_name, url, glyph, show_order, parameters, parent_id, program_status) values ('SYS04', '分析报表', '', '0xf02f', 12, '', 0, 'NORMAL');
 set @parentId = LAST_INSERT_ID ();
 set @programId = @parentId;
 insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'RUN', '运行');
@@ -227,6 +226,30 @@ insert into zhxh_system_program( program_code, program_name, url, glyph, show_or
 set @programId = LAST_INSERT_ID ();
 insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'RUN', '运行');
 insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'PRINT', '打印');
+
+--
+-- 工位机与控制器
+--
+insert into zhxh_system_program( program_code, program_name, url, glyph, show_order, parameters, parent_id, program_status) values ('SYS99', '工位机与控制器', '', '0xf1eb', 1, '', 0, 'NORMAL');
+set @parentId = LAST_INSERT_ID ();
+set @programId = @parentId;
+insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'RUN', '运行');
+
+insert into zhxh_system_program( program_code, program_name, url, glyph, show_order, parameters, parent_id, program_status) values ('SYS99_01', '站点管理', 'app.view.imms.si.kocheer.station.Station', '0xf0e8', 1, '', @parentId, 'NORMAL');
+set @programId = LAST_INSERT_ID ();
+insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'RUN', '系统运行');
+insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'INSERT', '新增');
+insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'UPDATE', '修改');
+insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'DELETE', '删除');
+
+insert into zhxh_system_program( program_code, program_name, url, glyph, show_order, parameters, parent_id, program_status) values ('SYS99_02', '控制器管理', 'app.view.imms.si.kocheer.conter.Conter', '0xf1eb', 2, '', @parentId, 'NORMAL');
+set @programId = LAST_INSERT_ID ();
+insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'RUN', '系统运行');
+insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'INSERT', '新增');
+insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'UPDATE', '修改');
+insert into zhxh_program_privilege( program_id, privilege_code, privilege_name) values ( @programId, 'DELETE', '删除');
+
+
 
 insert into zhxh_role_privilege (role_id, program_privilege_id)
 select

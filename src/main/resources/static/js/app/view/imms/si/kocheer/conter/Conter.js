@@ -2,14 +2,14 @@ Ext.define("app.view.imms.si.kocheer.conter.Conter", {
     extend: "app.ux.dbgrid.DbGrid",
     xtype: "app_view_imms_si_kocheer_conter_Conter",
     requires: ["app.model.imms.si.kocheer.ConterModel", "app.store.imms.si.kocheer.ConterStore"],
-    requires: ["app.view.imms.si.kocheer.conter.ConterDefailForm"],
+    uses: ["app.view.imms.si.kocheer.conter.ConterDetailForm"],
     columns: [
         { dataIndex: "stationName", text: "站点" },
         { dataIndex: "conterName", text: "名称" },
         { dataIndex: "GID", text: "组号" },
         { dataIndex: "startDID", text: "开始机号" },
         { dataIndex: "endDID", text: "结束机号" },
-        { dataIndex: "IP", text: "IP地址" },
+        { dataIndex: "IP", text: "IP地址",width:150 },
         { dataIndex: "port", text: "端口" },        
         {
             dataIndex: "isUse", text: "是否启用", renderer: function (v) {
@@ -23,7 +23,7 @@ Ext.define("app.view.imms.si.kocheer.conter.Conter", {
     ],
     constructor: function (config) {
         var configBase = {
-            detailFormClass: 'app_view_imms_si_kocheer_conter_ConterDefailForm',
+            detailFormClass: 'app_view_imms_si_kocheer_conter_ConterDetailForm',
             detailWindowTitle: '控制器',
             store: Ext.create({ xtype: 'app_store_imms_si_kocheer_ConterStore' })
         }

@@ -1,9 +1,6 @@
 package com.zhxh.imms.admin.logic;
 
-import com.zhxh.imms.admin.domain.ProgramPrivilege;
-import com.zhxh.imms.admin.domain.StartupStatus;
-import com.zhxh.imms.admin.domain.SystemRole;
-import com.zhxh.imms.admin.domain.SystemUser;
+import com.zhxh.imms.admin.domain.*;
 import com.zhxh.imms.admin.mapper.ProgramPrivilegeMapper;
 import com.zhxh.imms.admin.mapper.SystemProgramMapper;
 import com.zhxh.imms.admin.mapper.SystemUserMapper;
@@ -19,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -115,6 +113,7 @@ public class SystemUserLogic extends SystemAccountLogic<SystemUser> implements U
 
     public List<SystemMenu> getUserMenu(long userId) {
         List<SystemMenu> systemMenus = this.programMapper.getUserMenu(userId);
+        systemMenus.sort(Comparator.comparingInt(BaseProgram::getShowOrder));
         for (SystemMenu menu : systemMenus) {
             menu.setLeaf(menu.getChildren().size() == 0);
             menu.setExpanded(!menu.isLeaf());

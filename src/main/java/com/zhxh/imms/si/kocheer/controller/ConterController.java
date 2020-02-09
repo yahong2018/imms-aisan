@@ -21,4 +21,20 @@ public class ConterController extends CrudController<ConterInfo> {
     protected CrudLogic<ConterInfo> getLogic() {
         return this.conterInfoLogic;
     }
+
+    @Override
+    public int create(ConterInfo item) {
+        if (item.getIsUse() == null) {
+            item.setIsUse(0);
+        }
+        return super.create(item);
+    }
+
+    @Override
+    public int update(ConterInfo item) {
+        if (item.getIsUse() == null) {
+            item.setIsUse(0);
+        }
+        return super.update(item);
+    }
 }

@@ -59,12 +59,12 @@
 	
 	<select id="getAll" resultMap="TraceInfoResultMap" parameterType="java.util.HashMap">
 	    select  <include refid="traceInfoFields"/>
-	      from zhxh_trace_info trc
+	      from zhxh_trace_info
 	     <include refid="com.zhxh.imms.mes.mfc.mapper.CrudMapper.selectByPage"/>
 	</select>
 
 	<select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">
-		select count(*) from zhxh_trace_info trc
+		select count(*) from zhxh_trace_info
 		<where>
 			${where}
 		</where>
