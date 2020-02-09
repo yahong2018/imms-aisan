@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhxh.imms.mes.mfc.mapper.ProductSummaryMapper">
-    <resultMap type="com.zhxh.imms.mes.mfc.domain.ProductSummary" id="ProductSummaryResultMap"  extends="com.zhxh.imms.mes.mfc.mapper.CrudMapper.EntityResultMap">
+    <resultMap type="com.zhxh.imms.mes.mfc.domain.ProductSummary" id="ProductSummaryResultMap"  extends="com.zhxh.imms.data.CrudMapper.EntityResultMap">
         <result property="productDate" column="product_date"/>
         <result property="workshopId" column="workshop_id"/>
         <result property="workshopCode" column="workshop_code"/>
@@ -35,7 +35,7 @@
     <select id="getAll" parameterType="java.util.Map" resultMap="ProductSummaryResultMap">
         select <include refid="productSummaryFields"/>
         from <include refid="tables"/>
-        <include refid="com.zhxh.imms.mes.mfc.mapper.CrudMapper.selectByPage"/>
+        <include refid="com.zhxh.imms.data.CrudMapper.selectByPage"/>
     </select>
 
     <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">

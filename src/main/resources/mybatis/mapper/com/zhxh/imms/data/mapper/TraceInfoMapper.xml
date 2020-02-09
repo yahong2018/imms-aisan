@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhxh.imms.mes.mfc.mapper.TraceInfoMapper">
-	<resultMap type="com.zhxh.imms.data.domain.TraceInfo" id="TraceInfoResultMap" extends="com.zhxh.imms.mes.mfc.mapper.CrudMapper.EntityResultMap">
+	<resultMap type="com.zhxh.imms.data.domain.TraceInfo" id="TraceInfoResultMap" extends="com.zhxh.imms.data.CrudMapper.EntityResultMap">
 		<result property="businessId" column="business_id" />
 		<result property="operatorId" column="operator_id" />
 		<result property="operateTime" column="operate_time" />
@@ -60,7 +60,7 @@
 	<select id="getAll" resultMap="TraceInfoResultMap" parameterType="java.util.HashMap">
 	    select  <include refid="traceInfoFields"/>
 	      from zhxh_trace_info
-	     <include refid="com.zhxh.imms.mes.mfc.mapper.CrudMapper.selectByPage"/>
+	     <include refid="com.zhxh.imms.data.CrudMapper.selectByPage"/>
 	</select>
 
 	<select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">

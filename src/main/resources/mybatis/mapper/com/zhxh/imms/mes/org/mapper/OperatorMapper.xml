@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhxh.imms.mes.org.mapper.OperatorMapper">
     <resultMap type="com.zhxh.imms.mes.org.domain.Operator" id="OperatorResultMap"
-               extends="com.zhxh.imms.mes.mfc.mapper.CrudMapper.EntityResultMap">
+               extends="com.zhxh.imms.data.CrudMapper.EntityResultMap">
         <result property="employeeId" column="employee_id"/>
         <result property="employeeName" column="employee_name"/>
         <result property="employeeCardNo" column="employee_card_no"/>
@@ -24,7 +24,7 @@
     <select id="getAll" resultMap="OperatorResultMap" parameterType="java.util.HashMap">
         select <include refid="operatorFields"/>
         from zhxh_operator opr
-        <include refid="com.zhxh.imms.mes.mfc.mapper.CrudMapper.selectByPage"/>
+        <include refid="com.zhxh.imms.data.CrudMapper.selectByPage"/>
     </select>
 
     <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">

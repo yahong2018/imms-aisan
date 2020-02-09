@@ -1,6 +1,6 @@
 package com.zhxh.imms.mes.org.mapper;
 
-import com.zhxh.imms.mes.mfc.mapper.CrudMapper;
+import com.zhxh.imms.data.CrudMapper;
 
 import com.zhxh.imms.mes.org.domain.Operator;
 import org.apache.ibatis.annotations.Param;

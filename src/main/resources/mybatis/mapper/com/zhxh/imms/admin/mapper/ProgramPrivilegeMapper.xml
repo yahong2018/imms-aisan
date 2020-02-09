@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhxh.imms.admin.mapper.ProgramPrivilegeMapper">
     <resultMap type="com.zhxh.imms.admin.domain.ProgramPrivilege" id="ProgramPrivilegeResultMap"
-               extends="com.zhxh.imms.mes.mfc.mapper.CrudMapper.EntityResultMap">
+               extends="com.zhxh.imms.data.CrudMapper.EntityResultMap">
         <result property="programId" column="program_id"/>
         <result property="privilegeCode" column="privilege_code"/>
         <result property="privilegeName" column="privilege_name"/>

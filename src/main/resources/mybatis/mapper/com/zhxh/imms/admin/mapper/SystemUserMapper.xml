@@ -36,7 +36,7 @@
 	<select id="getAll" resultMap="SystemUserResultMap" parameterType="java.util.HashMap">
 	    select  <include refid="userFields"/>
 	     from zhxh_system_user u 
-	     <include refid="com.zhxh.imms.mes.mfc.mapper.CrudMapper.selectByPage"/>
+	     <include refid="com.zhxh.imms.data.CrudMapper.selectByPage"/>
 	</select>
 
 	<select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">

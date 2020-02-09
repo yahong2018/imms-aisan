@@ -27,7 +27,7 @@
 	<select id="getAll" resultMap="SystemRoleResultMap" parameterType="java.util.HashMap">
 	    select  <include refid="roleFields"/>
 	     from zhxh_system_role r 
-	     <include refid="com.zhxh.imms.mes.mfc.mapper.CrudMapper.selectByPage"/>
+	     <include refid="com.zhxh.imms.data.CrudMapper.selectByPage"/>
 	</select>
 
 	<select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">

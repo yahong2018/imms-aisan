@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhxh.imms.si.kocheer.mapper.WorkstationSessionMapper">
-    <resultMap type="com.zhxh.imms.si.kocheer.domain.WorkstationSession" id="WorkstationSessionResultMap" extends="com.zhxh.imms.mes.mfc.mapper.CrudMapper.EntityResultMap">
+    <resultMap type="com.zhxh.imms.si.kocheer.domain.WorkstationSession" id="WorkstationSessionResultMap" extends="com.zhxh.imms.data.CrudMapper.EntityResultMap">
         <result column="workstation_id" property="workstationId"/>
         <result column="session_type" property="sessionType"/>
         <result column="current_step" property="currentStep"/>
@@ -25,7 +25,7 @@
     <select id="getAll" resultMap="WorkstationSessionResultMap"  parameterType="java.util.Map">
         select <include refid="workstationSessionFields"/>
            from zhxh_workstation_session s
-        <include refid="com.zhxh.imms.mes.mfc.mapper.CrudMapper.selectByPage"/>
+        <include refid="com.zhxh.imms.data.CrudMapper.selectByPage"/>
     </select>
 
 

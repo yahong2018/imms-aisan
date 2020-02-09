@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhxh.imms.mes.mfc.mapper.CardBindMapper">
-    <resultMap type="com.zhxh.imms.mes.mfc.domain.CardBind" id="CardBindResultMap" extends="com.zhxh.imms.mes.mfc.mapper.CrudMapper.EntityResultMap">
+    <resultMap type="com.zhxh.imms.mes.mfc.domain.CardBind" id="CardBindResultMap" extends="com.zhxh.imms.data.CrudMapper.EntityResultMap">
         <result column="outsource_card_id" property="outsourceCardId"/>
         <result column="qty_report_id" property="qtyReportId"/>
         <result column="qty_card_id" property="qtyCardId"/>
@@ -22,7 +22,7 @@
     <select id="getAll" resultMap="CardBindResultMap" parameterType="java.util.Map">
         select <include refid="cardBindFields"/>
         from zhxh_card_bind cb
-        <include refid="com.zhxh.imms.mes.mfc.mapper.CrudMapper.selectByPage"/>
+        <include refid="com.zhxh.imms.data.CrudMapper.selectByPage"/>
     </select>
 
     <select id="getPageTotal" parameterType="java.util.HashMap" resultType="java.lang.Integer">

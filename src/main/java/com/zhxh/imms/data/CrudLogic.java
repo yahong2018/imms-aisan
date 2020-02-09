@@ -3,7 +3,6 @@ package com.zhxh.imms.data;
 import com.google.gson.Gson;
 import com.zhxh.imms.data.domain.Entity;
 import com.zhxh.imms.data.domain.TraceInfo;
-import com.zhxh.imms.mes.mfc.mapper.CrudMapper;
 import com.zhxh.imms.mes.mfc.mapper.TraceInfoMapper;
 import com.zhxh.imms.utils.GlobalConstants;
 import org.springframework.beans.factory.annotation.Autowired;

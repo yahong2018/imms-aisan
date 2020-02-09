@@ -1,6 +1,6 @@
 package com.zhxh.imms.mes.material.mapper;
 
-import com.zhxh.imms.mes.mfc.mapper.CrudMapper;
+import com.zhxh.imms.data.CrudMapper;
 import com.zhxh.imms.mes.material.domain.Bom;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;

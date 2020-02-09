@@ -2,7 +2,7 @@ package com.zhxh.imms.admin.mapper;
 
 import com.zhxh.imms.admin.domain.SystemProgram;
 import com.zhxh.imms.admin.model.SystemMenu;
-import com.zhxh.imms.mes.mfc.mapper.CrudMapper;
+import com.zhxh.imms.data.CrudMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
