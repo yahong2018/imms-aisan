@@ -88,16 +88,10 @@ Ext.define("app.store.StoreOperation", {
         url = url + "filterExpr=" + Ext.util.Base64.encode(filter);
         this.getProxy().url = url;
     },
-    defaultException:function (self, response, operation, eOpts) {
-        app.ux.Utils.handle403Respones(response);
-        Ext.Msg.alert("系统错误", response.responseText);
-    },
     getDefaultProxy:function () {
         return  {
             type: 'ajax',
-            url: this.getSelectUrl(),
-            //headers: app.ux.Utils.getAuthorizeHeader(),
-            //exception: this.defaultException
+            url: this.getSelectUrl()
         };
     }
 
