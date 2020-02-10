@@ -36,7 +36,7 @@
 
     <insert id="create" parameterType="com.zhxh.imms.mes.org.domain.Operator" keyProperty="recordId" useGeneratedKeys="true" >
         insert into zhxh_operator(employee_id,employee_name,employee_card_no)
-        values(#{employeeId},#{employeeName},#{employeeCardNo}
+        values(#{employeeId},#{employeeName},#{employeeCardNo})
     </insert>
 
     <update id="update" parameterType="com.zhxh.imms.mes.org.domain.Operator">
@@ -59,7 +59,7 @@
     </delete>
 
     <delete id="removeOperatorWorkshop">
-        delete from zhxh_operator_workshop opws where opws.operator_id = #{operatorId} and opws.workshop_id = #{workshopId}
+        delete from zhxh_operator_workshop where operator_id = #{operatorId} and workshop_id = #{workshopId}
     </delete>
 
     <insert id="addOperatorWorkshop">

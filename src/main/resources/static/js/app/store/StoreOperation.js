@@ -96,8 +96,8 @@ Ext.define("app.store.StoreOperation", {
         return  {
             type: 'ajax',
             url: this.getSelectUrl(),
-            headers: app.ux.Utils.getAuthorizeHeader(),
-            exception: this.defaultException
+            //headers: app.ux.Utils.getAuthorizeHeader(),
+            //exception: this.defaultException
         };
     }
 

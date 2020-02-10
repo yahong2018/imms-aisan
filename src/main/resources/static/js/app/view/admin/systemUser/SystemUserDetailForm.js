@@ -37,7 +37,7 @@ Ext.define('app.view.admin.systemUser.SystemUserDetailForm', {
             fieldLabel: 'Email',
             allowBlank: false,
             xtype: 'textfield',
-            width: 450
+            width: 350
         }, {
             name: "lastLoginTime",
             xtype: "hidden",
