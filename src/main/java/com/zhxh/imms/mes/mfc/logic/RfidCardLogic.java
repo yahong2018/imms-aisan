@@ -6,7 +6,6 @@ import com.zhxh.imms.mes.mfc.domain.RfidCard;
 import com.zhxh.imms.mes.mfc.domain.WorkstationBind;
 import com.zhxh.imms.mes.mfc.mapper.RfidCardMapper;
 import com.zhxh.imms.web.FilterExpression;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

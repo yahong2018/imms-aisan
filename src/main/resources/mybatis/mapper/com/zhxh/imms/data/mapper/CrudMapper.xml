@@ -5,7 +5,7 @@
 		<id property="recordId" column="record_id" jdbcType="BIGINT" />
 		
 		<!-- 
-		  <collection property="traceInfos" select="com.zhxh.imms.mes.mfc.mapper.TraceInfoMapper.getTraceInfos" column="record_id" fetchType="lazy" />
+		  <collection property="traceInfos" select="com.zhxh.imms.data.mapper.TraceInfoMapper.getTraceInfos" column="record_id" fetchType="lazy" />
 		-->
 	</resultMap>
 	

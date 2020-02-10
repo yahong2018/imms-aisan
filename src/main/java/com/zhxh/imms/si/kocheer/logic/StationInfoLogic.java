@@ -8,11 +8,9 @@ import com.zhxh.imms.data.DbQueryParameter;
 import com.zhxh.imms.si.kocheer.domain.StationInfo;
 import com.zhxh.imms.si.kocheer.wdto.StationLoginRequestData;
 import com.zhxh.imms.web.FilterExpression;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Component
 public class StationInfoLogic extends CrudLogic<StationInfo> {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zhxh.imms.mes.mfc.mapper.TraceInfoMapper">
+<mapper namespace="com.zhxh.imms.data.mapper.TraceInfoMapper">
 	<resultMap type="com.zhxh.imms.data.domain.TraceInfo" id="TraceInfoResultMap" extends="com.zhxh.imms.data.CrudMapper.EntityResultMap">
 		<result property="businessId" column="business_id" />
 		<result property="operatorId" column="operator_id" />

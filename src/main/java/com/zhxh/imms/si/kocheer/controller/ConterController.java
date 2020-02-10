@@ -4,7 +4,6 @@ import com.zhxh.imms.data.CrudLogic;
 import com.zhxh.imms.si.kocheer.domain.ConterInfo;
 import com.zhxh.imms.si.kocheer.logic.ConterInfoLogic;
 import com.zhxh.imms.web.CrudController;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

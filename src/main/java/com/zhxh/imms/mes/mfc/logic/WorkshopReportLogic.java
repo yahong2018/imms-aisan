@@ -12,7 +12,6 @@ import com.zhxh.imms.mes.mfc.domain.WorkshopReportRecord;
 import com.zhxh.imms.mes.org.domain.Workshop;
 import com.zhxh.imms.mes.org.logic.WorkshopLogic;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
