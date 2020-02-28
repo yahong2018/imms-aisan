@@ -60,8 +60,10 @@ public class ApplicationConfig {
             GenericConversionService genericConversionService = (GenericConversionService) initializer.getConversionService();
             List<String> datePatterns = new ArrayList<>();
             datePatterns.add("yyyy/MM/dd HH:mm:ss");
+            datePatterns.add("yyyy/MM/dd HH:mm");
             datePatterns.add("yyyy/MM/dd");
             datePatterns.add("yyyy-MM-dd HH:mm:ss");
+            datePatterns.add("yyyy-MM-dd HH:mm");
             datePatterns.add("yyyy-MM-dd");
 
             DateConverter dateConverter = new DateConverter();

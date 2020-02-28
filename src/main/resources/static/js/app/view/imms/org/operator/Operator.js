@@ -74,7 +74,7 @@ Ext.define("app.view.imms.org.operator.Operator", {
             url: 'api/imms/mes/org/operator/updateOperatorWorkshop?operatorId=' + operator.get("recordId"),
             method: "POST",
             jsonData: workshopIdList,
-            successCallback(result, response, opts) {
+            successCallback:function(result, response, opts) {
                 Ext.toast({
                     html: '数据已保存',
                     title: '系统提示',
@@ -91,7 +91,7 @@ Ext.define("app.view.imms.org.operator.Operator", {
             detailFormClass: 'imms_org_operator_OperatorDetailForm',
             detailWindowTitle: '员工管理',
             store: Ext.create({ xtype: 'imms_org_OperatorStore' })
-        }
+        };
         Ext.applyIf(config, configBase);
 
         this.callParent(arguments);

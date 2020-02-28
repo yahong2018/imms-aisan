@@ -103,8 +103,9 @@ create table zhxh_role_privilege
 insert into zhxh_system_user(record_id, user_code, display_name, pwd, is_online, last_login_time, account_status, record_creation_type, email) values (1, 'c00001', '刘永红', '123456', b'0', null, 'NORMAL', 'CUSTOM', 'yahong@zhxh.com');
 insert into zhxh_system_user(record_id, user_code, display_name, pwd, is_online, last_login_time, account_status, record_creation_type, email) values (2, 'c00002', '徐斯珍', '123456', b'0', null, 'NORMAL', 'CUSTOM', 'sizhen@zhxh.com');
 
-insert into zhxh_system_role(record_id, role_code, role_name, account_status, record_creation_type) values (1, 'admin', '管理员', 'EXPIRED', 'BUILD_IN');
-insert into zhxh_system_role(record_id, role_code, role_name, account_status, record_creation_type) values (2, 'test', '测试', 'NORMAL', 'BUILD_IN');
+insert into zhxh_system_role(record_id, role_code, role_name, account_status, record_creation_type) values (1, 'ADMIN', '管理员', 'EXPIRED', 'BUILD_IN');
+insert into zhxh_system_role(record_id, role_code, role_name, account_status, record_creation_type) values (2, 'FILTER_BY_WORKSHOP', '按部门过滤数据', 'NORMAL', 'BUILD_IN');
+
 
 insert into zhxh_system_role_user(role_id, user_id) values (1, 1);
 insert into zhxh_system_role_user(role_id, user_id) values (2, 1);

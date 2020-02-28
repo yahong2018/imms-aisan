@@ -28,8 +28,6 @@ import com.zhxh.imms.mes.org.logic.WorkstationLogic;
 import com.zhxh.imms.si.wdb.wdto.*;
 import com.zhxh.imms.utils.Logger;
 import com.zhxh.imms.web.FilterExpression;
-import com.zhxh.thirdParty.wyl.DeviceStateLogic;
-import com.zhxh.thirdParty.wyl.domain.DeviceState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;

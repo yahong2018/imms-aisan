@@ -15,7 +15,7 @@
 	      u.record_id,u.user_code,u.display_name,u.pwd,u.account_status,u.record_creation_type,u.is_online,u.last_login_time,u.email
 	</sql>
 	
-	<select id="get" resultMap="SystemUserResultMap">
+	<select id="get" resultMap="SystemUserResultMap" flushCache="true">
 	   select <include refid="userFields"/> 
 	     from zhxh_system_user u
 	     where u.record_id = #{userId}

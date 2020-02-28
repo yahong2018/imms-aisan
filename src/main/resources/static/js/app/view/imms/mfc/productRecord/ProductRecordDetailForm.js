@@ -62,10 +62,10 @@ Ext.define("app.view.imms.mfc.productRecord.ProductRecordDetailForm", {
                                 }
                             }
                         },
-                        { name: "workstationName", margin: '0 0 0 20', width: 280,  allowBlank: false, xtype: "textfield", readOnly: true },
+                        { name: "workstationName", margin: '0 0 0 20', width: 200,  allowBlank: false, xtype: "textfield", readOnly: true },
                     ]
                 },
-                { name: "wocgCode", fieldLabel: "工作中心组", margin: '0 0 0 20',allowBlank: false, xtype: "textfield", width: 200, readOnly: true  },
+                { name: "wocgCode", fieldLabel: "工作中心组", margin: '0 0 0 20',allowBlank: false, xtype: "textfield", width: 250, readOnly: true  },
             ]
         },
         {
@@ -124,7 +124,7 @@ Ext.define("app.view.imms.mfc.productRecord.ProductRecordDetailForm", {
             layout: "hbox",
             margin: '0 0 3 ',
             items: [
-                { name: "timeOfOrigin", fieldLabel: "报工时间", xtype: "datetimefield",  width: 350, allowBlank: false, format: 'Y-m-d H:i:s', },
+                { name: "timeOfOrigin", fieldLabel: "报工时间", xtype: "datetimefield",  width: 350, allowBlank: false, format: 'Y-m-d H:i', },
                 { name: "qty", fieldLabel: "报工数量", margin: '0 0 0 20', allowBlank: false, xtype: "textfield", width: 250 },
             ]
         },
