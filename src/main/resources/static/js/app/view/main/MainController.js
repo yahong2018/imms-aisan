@@ -59,7 +59,7 @@ Ext.define('app.view.main.MainController', {
 				listeners: {
 					el: {
 						click: function (el) {
-							const c = Ext.getCmp(el.target.id);
+							var c = Ext.getCmp(el.target.id);
 							c.view.down('maintop').show();
 							c.view.down('mainbottom').show();
 							c.hide();
@@ -78,7 +78,7 @@ Ext.define('app.view.main.MainController', {
 	},
 
 	loadCurrentUser: function () {
-		const me = this;
+		var me = this;
 		app.ux.Utils.ajaxRequest({
 			url: 'api/imms/admin/mainPage/currentLogin',
 			async: false,

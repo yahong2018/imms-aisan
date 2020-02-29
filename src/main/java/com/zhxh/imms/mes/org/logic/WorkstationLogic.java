@@ -1,7 +1,7 @@
 package com.zhxh.imms.mes.org.logic;
 
 import com.zhxh.imms.data.CrudLogic;
-import com.zhxh.imms.data.DbQueryParameter;
+import com.zhxh.imms.data.DbQuery;
 import com.zhxh.imms.mes.org.domain.Workstation;
 import com.zhxh.imms.mes.org.mapper.WorkstationMapper;
 import com.zhxh.imms.web.FilterExpression;
@@ -24,7 +24,7 @@ public class WorkstationLogic extends CrudLogic<Workstation> {
         expressions[0] = new FilterExpression("gid", "=", gid);
         expressions[1] = new FilterExpression("did", "=", did, "and");
 
-        DbQueryParameter query = new DbQueryParameter(Workstation.class, expressions);
+        DbQuery query = new DbQuery(Workstation.class, expressions);
 
         return this.get(query);
     }

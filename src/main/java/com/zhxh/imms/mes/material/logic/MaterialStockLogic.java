@@ -1,7 +1,7 @@
 package com.zhxh.imms.mes.material.logic;
 
 import com.zhxh.imms.data.CrudLogic;
-import com.zhxh.imms.data.DbQueryParameter;
+import com.zhxh.imms.data.DbQuery;
 import com.zhxh.imms.mes.material.domain.MaterialStock;
 import com.zhxh.imms.web.FilterExpression;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import java.util.List;
 @Component
 public class MaterialStockLogic extends CrudLogic<MaterialStock> {
     public MaterialStock getMaterialStock(Long workshopId, Long materialId) {
-        DbQueryParameter query = new DbQueryParameter();
+        DbQuery query = new DbQuery();
         FilterExpression[] expr = new FilterExpression[2];
         expr[0] = new FilterExpression("storeId", "=", workshopId);
         expr[1] = new FilterExpression("materialId", "=", materialId, "and");

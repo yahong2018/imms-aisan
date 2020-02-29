@@ -2,29 +2,33 @@ Ext.define('app.ux.Utils', {
     uses: ['Ext.window.MessageBox', 'Ext.Ajax'],
     singleton: true,
 
-    handle403Respones:function(response){
+    zhxh_authorize_field_name: '___ZHXH___Authorization',
+    handle403Respones: function (response) {
         if (response.status == 403) {
-            Ext.Msg.alert("系统提示","系统需要重新登录！");
-            
+            Ext.Msg.alert("系统提示", "系统需要重新登录！");
+
             sessionStorage.removeItem("authentication_data");
             window.location.href = "front-login";
         }
     },
+    getAuthorizeToken: function () {
+        var authentication_data = Ext.decode(sessionStorage.getItem("authentication_data"));
+        return authentication_data.token_type + authentication_data.access_token;
+    },
     getAuthorizeHeader: function () {
-        let authentication_data = Ext.decode(sessionStorage.getItem("authentication_data"));
-        return { "Authorization": authentication_data.token_type + authentication_data.access_token };
+        return { "Authorization": app.ux.Utils.getAuthorizeToken() };
     },
     ajaxRequest: function (config) {
-        const me = config;
+        var me = config;
 
-        const handleFailure = function (response, opts) {
-            app.ux.Utils.handle403Respones(response);            
+        var handleFailure = function (response, opts) {
+            // app.ux.Utils.handle403Respones(response);
             if (!me.silence) {
-                if(!response.responseText){
-                    Ext.Msg.alert("系统提示","未知错误，请刷新页面再试!");
+                if (!response.responseText) {
+                    Ext.Msg.alert("系统提示", "未知错误，请刷新页面再试!");
                     return;
                 }
-                const message = response.responseText.trim().replace("\n", "<br>");
+                var message = response.responseText.trim().replace("\n", "<br>");
                 Ext.MessageBox.show({
                     title: '系统提示',
                     msg: message,
@@ -39,13 +43,16 @@ Ext.define('app.ux.Utils', {
             }
         };
 
-        const configBase = {
-            headers: app.ux.Utils.getAuthorizeHeader(),
+        var configBase = {
+            // headers: app.ux.Utils.getAuthorizeHeader(),
             success: function (response, opts) {
-                try {                    
-                    let result = Ext.decode(response.responseText);
-                    if (typeof result == "string") {
-                        result = Ext.decode(result);
+                try {
+                    var result = "";
+                    if (response.responseText && response.responseText.length > 0) {
+                        result = Ext.decode(response.responseText);
+                        if (typeof result == "string") {
+                            result = Ext.decode(result);
+                        }
                     }
                     if (me.successCallback) {
                         me.successCallback(result, response, opts);
@@ -71,7 +78,7 @@ Ext.define('app.ux.Utils', {
     },
 
     verifySelection: function (grid, callback) {
-        let record = grid.getSelectionModel().getSelection();
+        var record = grid.getSelectionModel().getSelection();
         if (!record || record.length == 0) {
             Ext.MessageBox.alert("系统提示", "请先选择一条待编辑记录！");
             return;

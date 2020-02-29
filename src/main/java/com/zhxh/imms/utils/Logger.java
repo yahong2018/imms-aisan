@@ -1,5 +1,8 @@
 package com.zhxh.imms.utils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 public class Logger {
     private static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Logger.class);
 
@@ -39,7 +42,15 @@ public class Logger {
         if (message instanceof Exception) {
             Exception e = (Exception) message;
             logger.error(e.getMessage());
-            logger.error(e.getStackTrace());
+            try {
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                e.printStackTrace(pw);
+                sw.close();
+                Logger.error(sw.toString());
+            }catch (Exception e1){
+                e1.printStackTrace();
+            }
         } else {
             logger.error(message);
         }

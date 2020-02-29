@@ -2,7 +2,7 @@ package com.zhxh.imms.web;
 
 import com.google.gson.Gson;
 import com.zhxh.imms.data.CrudLogic;
-import com.zhxh.imms.data.DbQueryParameter;
+import com.zhxh.imms.data.DbQuery;
 import com.zhxh.imms.data.domain.Entity;
 import com.zhxh.imms.utils.GlobalConstants;
 import com.zhxh.imms.utils.Logger;
@@ -45,11 +45,11 @@ public abstract class CrudController<T extends Entity> {
 
     @RequestMapping("getAll")
     public ExtJsStoreQueryResult getAll() {
-        DbQueryParameter queryParameter = this.buildDbQueryFromRequest(this.getLogic().getItemClass());
+        DbQuery queryParameter = this.buildDbQueryFromRequest(this.getLogic().getItemClass());
         return getAllByQuery(queryParameter);
     }
 
-    protected ExtJsStoreQueryResult getAllByQuery(DbQueryParameter query) {
+    protected ExtJsStoreQueryResult getAllByQuery(DbQuery query) {
         List<T> list = this.getLogic().getAll(query);
         int total = this.getLogic().getPageTotal(query);
 
@@ -60,8 +60,8 @@ public abstract class CrudController<T extends Entity> {
         return result;
     }
 
-    protected DbQueryParameter buildDbQueryFromRequest(Class clazz) {
-        DbQueryParameter queryMap = getFilterStringFromRequest(clazz);
+    protected DbQuery buildDbQueryFromRequest(Class clazz) {
+        DbQuery queryMap = getFilterStringFromRequest(clazz);
 
         HttpServletRequest request = GlobalConstants.getRequest();
         final String[] orderBy = {request.getParameter("orderBy")};
@@ -87,8 +87,8 @@ public abstract class CrudController<T extends Entity> {
         return queryMap;
     }
 
-    protected DbQueryParameter getFilterStringFromRequest(Class clazz) {
-        DbQueryParameter queryMap = new DbQueryParameter();
+    protected DbQuery getFilterStringFromRequest(Class clazz) {
+        DbQuery queryMap = new DbQuery();
         try {
             FilterExpression[] expressions = this.getFilterExpressionFromReRequest();
             FilterExpression.fillWhere(clazz, queryMap, expressions);

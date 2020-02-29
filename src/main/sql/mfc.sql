@@ -1,3 +1,4 @@
+
 create table zhxh_rfid_card
 (
     record_id              bigint  auto_increment      not null,

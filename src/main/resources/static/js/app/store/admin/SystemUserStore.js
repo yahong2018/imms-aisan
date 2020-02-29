@@ -19,7 +19,7 @@ Ext.define('app.store.admin.SystemUserStore', {
         });
     },
     startUser: function (user) {
-        const me = this;
+        var me = this;
         app.ux.Utils.ajaxRequest({
             url: 'api/imms/admin/systemUser/enable?userId=' + user.get('recordId'),
             successCallback: function (record, response, opts) {                           
@@ -34,7 +34,7 @@ Ext.define('app.store.admin.SystemUserStore', {
         });
     },
     stopUser: function (user) {
-        const me = this;
+        var me = this;
         app.ux.Utils.ajaxRequest({
             url: 'api/imms/admin/systemUser/disable?userId=' + user.get('recordId'),
             successCallback: function (record, response, opts) {                                

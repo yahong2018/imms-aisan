@@ -1,5 +1,5 @@
 function handleFailure(response, opts) {
-    const message = response.responseText.trim().replace("\n", "<br>");
+    var message = response.responseText.trim().replace("\n", "<br>");
     console.log(message);
     Ext.MessageBox.show({
         title: '系统提示',
@@ -11,16 +11,16 @@ function handleFailure(response, opts) {
 }
 
 function onLogin() {
-    const txtUserName = document.getElementById('txtUserName');
-    const txtPassword = document.getElementById('txtPassword');
-    const txtErrorMessage = document.getElementById('txtErrorMessage');
+    var txtUserName = document.getElementById('txtUserName');
+    var txtPassword = document.getElementById('txtPassword');
+    var txtErrorMessage = document.getElementById('txtErrorMessage');
     if (txtUserName.value == "" || txtPassword.value == "") {
         txtErrorMessage.innerText = "用户名和密码都必须输入！";
         return;
     }
 
-    const password = Ext.util.Base64.encode(txtPassword.value);
-    const account = {
+    var password = Ext.util.Base64.encode(txtPassword.value);
+    var account = {
         username: txtUserName.value,
         password:  password
     };
@@ -31,13 +31,13 @@ function onLogin() {
         jsonData: account,
         success: function (response, opts) {
             try {
-                let authToken = Ext.decode(response.responseText);
+                var authToken = Ext.decode(response.responseText);
                 if(!authToken.success){
                     Ext.Msg.alert("系统提示",authToken.message);
                     return;
                 }
 
-                let authData = Ext.encode(authToken.data);
+                var authData = Ext.encode(authToken.data);
                 sessionStorage.setItem("authentication_data",authData);
 
                 window.location.href="home";

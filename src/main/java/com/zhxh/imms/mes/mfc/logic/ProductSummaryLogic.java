@@ -1,7 +1,7 @@
 package com.zhxh.imms.mes.mfc.logic;
 
 import com.zhxh.imms.data.CrudLogic;
-import com.zhxh.imms.data.DbQueryParameter;
+import com.zhxh.imms.data.DbQuery;
 import com.zhxh.imms.mes.mfc.domain.ProductSummary;
 import com.zhxh.imms.web.FilterExpression;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ public class ProductSummaryLogic extends CrudLogic<ProductSummary> {
         exprList[0] = new FilterExpression("productDate", "=", productDate);
         exprList[1] = new FilterExpression("productionId", "=", productionId, "and");
         exprList[2] = new FilterExpression("workshopId", "=", workshopId, "and");
-        DbQueryParameter query = new DbQueryParameter();
+        DbQuery query = new DbQuery();
         FilterExpression.fillWhere(ProductSummary.class, query, exprList);
 
         List<ProductSummary> productSummaryList = this.getAll(query);

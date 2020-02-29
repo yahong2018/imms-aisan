@@ -7,8 +7,8 @@ Ext.define('app.store.BaseTreeStore', {
     constructor: function (config) {
         this.initUrlMeta(config);
 
-        const proxyConfig = this.getDefaultProxy();
-        const configBase = {autoLoad: true, proxy: proxyConfig};
+        var proxyConfig = this.getDefaultProxy();
+        var configBase = {autoLoad: true, proxy: proxyConfig};
         Ext.applyIf(config, configBase);
 
         this.callParent(arguments);

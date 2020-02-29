@@ -57,7 +57,7 @@ public abstract class CrudLogic<E extends Entity> implements Generic<E> {
         Map map = new HashMap();
         map.put("businessId", item.getRecordId());
         map.put("className", item.getClass().getCanonicalName());
-        DbQueryParameter query = new DbQueryParameter();
+        DbQuery query = new DbQuery();
         return this.traceMapper.getTraceInfos(map);
     }
 
@@ -144,7 +144,7 @@ public abstract class CrudLogic<E extends Entity> implements Generic<E> {
     }
 
     private List<E> getDeletedItems(Long[] ids) {
-        DbQueryParameter query = new DbQueryParameter();
+        DbQuery query = new DbQuery();
         String idColumn = getFieldsMap(this.getItemClass()).get("recordId");
         StringBuilder builder = new StringBuilder();
         builder.append(idColumn).append(" in (");
@@ -161,7 +161,7 @@ public abstract class CrudLogic<E extends Entity> implements Generic<E> {
         return this.getMapper().get(id);
     }
 
-    public E get(DbQueryParameter query) {
+    public E get(DbQuery query) {
         List<E> list = this.getAll(query);
         if (list.size() > 0) {
             return list.get(0);
@@ -169,16 +169,24 @@ public abstract class CrudLogic<E extends Entity> implements Generic<E> {
         return null;
     }
 
-    public List<E> getAll(DbQueryParameter query) {
+    public List<E> getAll(DbQuery query) {
         return this.getMapper().getAll(query);
     }
 
     public List<E> getAll() {
-        DbQueryParameter query = new DbQueryParameter();
+        DbQuery query = new DbQuery();
         return this.getAll(query);
     }
 
-    public int getPageTotal(DbQueryParameter query) {
+    protected int saveToDb(E item) {
+        if (item.getRecordId() == null) {
+            return this.create(item);
+        }else {
+            return this.update(item);
+        }
+    }
+
+    public int getPageTotal(DbQuery query) {
         return this.getMapper().getPageTotal(query);
     }
 

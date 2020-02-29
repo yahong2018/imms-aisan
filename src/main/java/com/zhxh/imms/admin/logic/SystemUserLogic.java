@@ -7,7 +7,7 @@ import com.zhxh.imms.admin.mapper.SystemUserMapper;
 import com.zhxh.imms.admin.model.PasswordChangeItem;
 import com.zhxh.imms.admin.model.SystemMenu;
 import com.zhxh.imms.data.BusinessException;
-import com.zhxh.imms.data.DbQueryParameter;
+import com.zhxh.imms.data.DbQuery;
 import com.zhxh.imms.utils.GlobalConstants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -72,7 +72,7 @@ public class SystemUserLogic extends SystemAccountLogic<SystemUser> implements U
 
         // 添加不在原角色列表中的新角色
         for (int i = 0; i < currentRoles.size(); i++) {
-            SystemRole newRole = user.getRoles().get(i);
+            SystemRole newRole = currentRoles.get(i);
             if (oldRoles.stream().anyMatch(x -> x.compareTo(newRole) == 0)) {
                 currentRoles.remove(i);
                 i--;
@@ -96,7 +96,7 @@ public class SystemUserLogic extends SystemAccountLogic<SystemUser> implements U
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        DbQueryParameter query = new DbQueryParameter();
+        DbQuery query = new DbQuery();
         query.setWhere("u.user_code='" + username + "'");
         SystemUser user = this.get(query);
         UserDetails result = user;
@@ -157,8 +157,7 @@ public class SystemUserLogic extends SystemAccountLogic<SystemUser> implements U
         }
 
         currentUser.setPwd(changeItem.getPwd1());
-        this.update(currentUser);
-        return 0;
+        return super.update(currentUser);
     }
 
     @Override

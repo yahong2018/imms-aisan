@@ -1,9 +1,6 @@
 package com.zhxh.imms.utils;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.Date;
 
 public class ZhxhUtils {
@@ -18,9 +15,14 @@ public class ZhxhUtils {
         return Date.from(zdt.toInstant());
     }
 
-    public static Long localDateTime2Stamp(LocalDateTime localDateTime){
+    public static Long localDateTime2Stamp(Object dateTime) {
         ZoneId zoneId = ZoneId.systemDefault();
-        ZonedDateTime zdt = localDateTime.atZone(zoneId);
+        ZonedDateTime zdt;
+        if (dateTime instanceof LocalDateTime) {
+            zdt = ((LocalDateTime) dateTime).atZone(zoneId);
+        } else {
+            zdt = ((LocalDate) dateTime).atStartOfDay(zoneId);
+        }
         return zdt.toInstant().toEpochMilli();
     }
 }

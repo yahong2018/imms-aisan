@@ -1,7 +1,7 @@
 package com.zhxh.imms.web;
 
 import com.zhxh.imms.data.CrudLogic;
-import com.zhxh.imms.data.DbQueryParameter;
+import com.zhxh.imms.data.DbQuery;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +29,7 @@ public class FilterExpression {
         this.J = j;
     }
 
-    public static void fillWhere(Class clazz, DbQueryParameter query, FilterExpression... expressions) {
+    public static void fillWhere(Class clazz, DbQuery query, FilterExpression... expressions) {
         if (expressions == null || expressions.length == 0) {
             return;
         }
@@ -43,8 +43,13 @@ public class FilterExpression {
             if (expr.getJ() != null) {
                 builder.append(" ").append(expr.getJ()).append(" ");
             }
-            builder.append(field).append(" ").append(expr.getO()).append(" #{").append(property).append("}");
-            query.put(property, expr.getR());
+            String parameter = property;
+            if (query.containsKey(parameter)) {
+                parameter = parameter + "_1";
+            }
+
+            builder.append(field).append(" ").append(expr.getO()).append(" #{").append(parameter).append("}");
+            query.put(parameter, expr.getR());
         }
         query.setWhere(builder.toString());
     }

@@ -4,7 +4,7 @@ import com.zhxh.imms.admin.domain.SystemUser;
 import com.zhxh.imms.admin.logic.SystemUserLogic;
 import com.zhxh.imms.data.BusinessException;
 import com.zhxh.imms.data.CrudLogic;
-import com.zhxh.imms.data.DbQueryParameter;
+import com.zhxh.imms.data.DbQuery;
 import com.zhxh.imms.si.kocheer.domain.StationInfo;
 import com.zhxh.imms.si.kocheer.wdto.StationLoginRequestData;
 import com.zhxh.imms.web.FilterExpression;
@@ -41,7 +41,7 @@ public class StationInfoLogic extends CrudLogic<StationInfo> {
         }
 
         FilterExpression expr = new FilterExpression("stationCode", "=", requestData.getStationCode());
-        DbQueryParameter parameter = new DbQueryParameter();
+        DbQuery parameter = new DbQuery();
         FilterExpression.fillWhere(StationInfo.class, parameter, expr);
 
         StationInfo result = this.get(parameter);

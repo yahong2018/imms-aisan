@@ -4,11 +4,11 @@ import com.zhxh.imms.web.FilterExpression;
 
 import java.util.HashMap;
 
-public class DbQueryParameter extends HashMap<String, Object> {
-    public DbQueryParameter() {
+public class DbQuery extends HashMap<String, Object> {
+    public DbQuery() {
     }
 
-    public DbQueryParameter(Class clazz, FilterExpression... expressions) {
+    public DbQuery(Class clazz, FilterExpression... expressions) {
         FilterExpression.fillWhere(clazz, this, expressions);
     }
 

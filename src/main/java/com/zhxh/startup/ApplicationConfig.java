@@ -3,10 +3,7 @@ package com.zhxh.startup;
 import com.zhxh.imms.backSservice.ServiceManager;
 import com.zhxh.imms.data.FieldsMapInitiator;
 import com.zhxh.imms.si.wdb.WdbSyncService;
-import com.zhxh.imms.utils.converter.DateConverter;
-import com.zhxh.imms.utils.converter.LocalDateConverter;
-import com.zhxh.imms.utils.converter.LocalDateTimeConverter;
-import com.zhxh.imms.utils.converter.TimestampConverter;
+import com.zhxh.imms.utils.converter.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.support.GenericConversionService;
@@ -61,9 +58,11 @@ public class ApplicationConfig {
             List<String> datePatterns = new ArrayList<>();
             datePatterns.add("yyyy/MM/dd HH:mm:ss");
             datePatterns.add("yyyy/MM/dd HH:mm");
+            datePatterns.add("yyyy/MM/dd HH");
             datePatterns.add("yyyy/MM/dd");
             datePatterns.add("yyyy-MM-dd HH:mm:ss");
             datePatterns.add("yyyy-MM-dd HH:mm");
+            datePatterns.add("yyyy-MM-dd HH");
             datePatterns.add("yyyy-MM-dd");
 
             DateConverter dateConverter = new DateConverter();
@@ -81,6 +80,13 @@ public class ApplicationConfig {
             LocalDateTimeConverter localDateTimeConverter = new LocalDateTimeConverter();
             localDateTimeConverter.setPatternList(datePatterns);
             genericConversionService.addConverter(localDateTimeConverter);
+
+            LocalTimeConverter localTimeConverter = new LocalTimeConverter();
+            List<String> timePatterns = new ArrayList<>();
+            timePatterns.add("HH:mm");
+            timePatterns.add("HH:mm:ss");
+            localTimeConverter.setPatternList(timePatterns);
+            genericConversionService.addConverter(localTimeConverter);
         }
     }
 

@@ -3,7 +3,7 @@ package com.zhxh.imms.si.kocheer;
 import com.google.gson.*;
 import com.zhxh.imms.admin.domain.SystemUser;
 import com.zhxh.imms.admin.logic.SystemUserLogic;
-import com.zhxh.imms.data.DbQueryParameter;
+import com.zhxh.imms.data.DbQuery;
 import com.zhxh.imms.si.kocheer.domain.*;
 import com.zhxh.imms.si.kocheer.logic.ConterInfoLogic;
 import com.zhxh.imms.si.kocheer.logic.StationInfoLogic;
@@ -80,7 +80,7 @@ public class KocheerServiceImpl implements KocheerService {
         DataGetRequestData requestData = gson.fromJson(json, DataGetRequestData.class);
 //		String s = "[{\"StationID\":1,\"StationCode\":\"C001\",\"StationName\":\"机房01\",\"StationPosition\":\"机房01\",\"SoftWareName\":\"26+Middleware\",\"SoftWareVersion\":\"1\",\"StationIP\":\"192.168.16.1\",\"StationLoginState\":1,\"LoginUserID\":1,\"FirstLoginTime\":\"\\/Date(580000374000)\\/\",\"LastLoginTime\":\"\\/Date(1580003682000)\\/\",\"LastLogOutTime\":\"\\/Date(1480731576150)\\/\",\"LastStateUpdateTime\":\"\\/Date(1580003710683)\\/\",\"IsUse\":1,\"Remark\":\"\"}]";
 //		return s;
-        DbQueryParameter query = new DbQueryParameter();
+        DbQuery query = new DbQuery();
         List<StationInfo> list = this.stationInfoLogic.getAll(query);
         list.get(0).setUserID(requestData.getLoginUserID());
         String str = gson.toJson(list).replace("RecordId", "StationID").replace("/Date(", "\\/Date(").replace(")/", ")\\/");
@@ -93,7 +93,7 @@ public class KocheerServiceImpl implements KocheerService {
         Logger.debug("GetStationList--->"+json);
         Gson gson = GsonCreator.getUpperCamelGson();
         DataGetRequestData requestData = gson.fromJson(json, DataGetRequestData.class);
-        List<ConterInfo> conterInfoList = this.conterInfoLogic.getAll(new DbQueryParameter());
+        List<ConterInfo> conterInfoList = this.conterInfoLogic.getAll(new DbQuery());
         String result = gson.toJson(conterInfoList).replace("RecordId","ConterID");
         Logger.debug("GetConterList结果--->"+result);
         return result;

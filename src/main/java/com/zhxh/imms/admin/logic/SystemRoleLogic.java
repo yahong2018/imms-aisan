@@ -8,7 +8,7 @@ import com.zhxh.imms.admin.domain.SystemProgram;
 import com.zhxh.imms.admin.mapper.ProgramPrivilegeMapper;
 import com.zhxh.imms.admin.mapper.SystemProgramMapper;
 import com.zhxh.imms.admin.model.ProgramAuthorizeModel;
-import com.zhxh.imms.data.DbQueryParameter;
+import com.zhxh.imms.data.DbQuery;
 import org.springframework.stereotype.Component;
 
 import com.zhxh.imms.admin.domain.SystemRole;
@@ -85,7 +85,7 @@ public class SystemRoleLogic extends SystemAccountLogic<SystemRole> {
     }
 
     private List<SystemProgram> getTopPrograms() {
-        DbQueryParameter query = new DbQueryParameter();
+        DbQuery query = new DbQuery();
         query.setWhere("parent_id=0");
 
         return this.programMapper.getAll(query);

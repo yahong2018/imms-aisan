@@ -7,7 +7,7 @@ import com.zhxh.imms.admin.domain.SystemParam;
 import com.zhxh.imms.admin.logic.SystemParamLogic;
 import com.zhxh.imms.backSservice.ThreadService;
 import com.zhxh.imms.data.BusinessException;
-import com.zhxh.imms.data.DbQueryParameter;
+import com.zhxh.imms.data.DbQuery;
 import com.zhxh.imms.data.domain.Entity;
 import com.zhxh.imms.data.domain.SyncData;
 import com.zhxh.imms.data.logic.SyncDataLogic;
@@ -28,7 +28,6 @@ import com.zhxh.imms.mes.org.logic.WorkstationLogic;
 import com.zhxh.imms.si.wdb.wdto.*;
 import com.zhxh.imms.utils.Logger;
 import com.zhxh.imms.web.FilterExpression;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -366,7 +365,7 @@ public class WdbSyncService extends ThreadService {
 
     private void initParameter() {
         FilterExpression expr = this.createParamTypeFilter();
-        DbQueryParameter query = new DbQueryParameter(SystemParam.class, expr);
+        DbQuery query = new DbQuery(SystemParam.class, expr);
         List<SystemParam> paramList = this.systemParamLogic.getAll(query);
         paramList.forEach(x -> {
             syncParameters.put(x.getParamCode(), x.getParamValue());
@@ -392,7 +391,7 @@ public class WdbSyncService extends ThreadService {
 
     private List<ProductRecord> getInstoreList() {
         String where = "pr.record_id not in(select business_id from zhxh_sync_data where class_type = 'com.zhxh.imms.mfc.domain.ProductRecord')";
-        DbQueryParameter query = new DbQueryParameter();
+        DbQuery query = new DbQuery();
         query.setWhere(where);
 
         return this.productRecordLogic.getAll(query);
@@ -400,7 +399,7 @@ public class WdbSyncService extends ThreadService {
 
     private List<ProductionMoving> getMovingList() {
         String where = "pmv.record_id not in(select business_id from zhxh_sync_data where class_type = 'com.zhxh.imms.mfc.domain.ProductionMoving')";
-        DbQueryParameter query = new DbQueryParameter();
+        DbQuery query = new DbQuery();
         query.setWhere(where);
 
         return this.productionMovingLogic.getAll(query);
@@ -408,7 +407,7 @@ public class WdbSyncService extends ThreadService {
 
     private List<QualityCheck> getQCList() {
         String where = "qc.record_id not in(select business_id from zhxh_sync_data where class_type = 'com.zhxh.imms.mfc.domain.QualityCheck')";
-        DbQueryParameter query = new DbQueryParameter();
+        DbQuery query = new DbQuery();
         query.setWhere(where);
 
         return this.qualityCheckLogic.getAll(query);
@@ -418,7 +417,7 @@ public class WdbSyncService extends ThreadService {
         FilterExpression[] expressions = new FilterExpression[2];
         expressions[0] = this.createParamTypeFilter();
         expressions[1] = new FilterExpression("paramCode", "=", "sync_cycle_minutes", "and");
-        DbQueryParameter query = new DbQueryParameter(SystemParam.class, expressions);
+        DbQuery query = new DbQuery(SystemParam.class, expressions);
 
         SystemParam param = this.systemParamLogic.get(query);
         if (param == null) {

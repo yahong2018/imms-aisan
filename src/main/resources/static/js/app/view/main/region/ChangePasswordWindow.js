@@ -22,22 +22,22 @@ Ext.define('app.view.main.region.ChangePasswordWindow', {
             name: 'old',
             inputType: 'password',
         },
-        {
-            xtype: 'textfield',
-            fieldLabel: '新密码',
-            width: 270,
-            allowBlank: false,
-            name: 'pwd1',
-            inputType: 'password',
-        },
-        {
-            xtype: 'textfield',
-            fieldLabel: '确认新密码',
-            width: 270,
-            allowBlank: false,
-            name: 'pwd2',
-            inputType: 'password',
-        }
+            {
+                xtype: 'textfield',
+                fieldLabel: '新密码',
+                width: 270,
+                allowBlank: false,
+                name: 'pwd1',
+                inputType: 'password',
+            },
+            {
+                xtype: 'textfield',
+                fieldLabel: '确认新密码',
+                width: 270,
+                allowBlank: false,
+                name: 'pwd2',
+                inputType: 'password',
+            }
         ]
     }],
     buttons: [
@@ -56,18 +56,15 @@ Ext.define('app.view.main.region.ChangePasswordWindow', {
                     url: url,
                     jsonData: record,
                     method: 'POST',
-                    successCallback: function (response, opts) {
-                        debugger;
-                        var result = Ext.decode(response.responseText);
-                        if (typeof result == "string") {
-                            result = Ext.decode(result);
-                        }
+                    successCallback: function (result, response, opts) {
                         var msg = "密码更改出现未知错误：" + result;
-                        if (result.data == 0) {
+                        var changed=false;
+                        if (result.success && result.data === 1) {
                             msg = '已成功更改密码！';
-                        } else if (result.data == -1) {
+                            changed=true;
+                        } else if (result.data === -1) {
                             msg = '二次输入的新密码不一致！';
-                        } else if (result.data == -2) {
+                        } else if (result.data === -2) {
                             msg = '旧密码错误！';
                         }
 
@@ -77,7 +74,7 @@ Ext.define('app.view.main.region.ChangePasswordWindow', {
                             buttons: Ext.MessageBox.OK,
                             icon: Ext.MessageBox.INFO,
                             fn: function (btn, text) {
-                                if (result == 0) {
+                                if (changed) {
                                     me.close();
                                 }
                             }

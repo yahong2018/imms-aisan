@@ -19,17 +19,17 @@ from data_gather.bom b join imms.zhxh_material m on b.material_code = m.material
                        join imms.zhxh_material c on b.component_code = c.material_code
 ;
 
---
--- Material Stock
---
-truncate table imms.zhxh_material_stock;
-insert into imms.zhxh_material_stock(store_id,material_id,qty_stock,qty_move_in,qty_back_in,qty_back_out,qty_consume_good,qty_consume_defect,qty_good,qty_defect,qty_move_out)
-select m.record_id as material_id, ws.record_id as store_id,
-       st0.qty_stock,st0.qty_move_in,st0.qty_back_in,st0.qty_back_out,st0.qty_consume_good,
-       st0.qty_consume_defect,st0.qty_good,st0.qty_defect,st0.qty_move_out
-from data_gather.material_stock st0 join imms.zhxh_material m on st0.material_code = m.material_code
-                                    join imms.zhxh_org ws on st0.store_code = ws.org_code
-;
+# --
+# -- Material Stock
+# --
+# truncate table imms.zhxh_material_stock;
+# insert into imms.zhxh_material_stock(store_id,material_id,qty_stock,qty_move_in,qty_back_in,qty_back_out,qty_consume_good,qty_consume_defect,qty_good,qty_defect,qty_move_out)
+# select m.record_id as material_id, ws.record_id as store_id,
+#        st0.qty_stock,st0.qty_move_in,st0.qty_back_in,st0.qty_back_out,st0.qty_consume_good,
+#        st0.qty_consume_defect,st0.qty_good,st0.qty_defect,st0.qty_move_out
+# from data_gather.material_stock st0 join imms.zhxh_material m on st0.material_code = m.material_code
+#                                     join imms.zhxh_org ws on st0.store_code = ws.org_code
+# ;
 
 
 

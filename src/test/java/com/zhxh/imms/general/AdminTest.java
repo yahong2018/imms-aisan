@@ -14,7 +14,7 @@ import com.zhxh.imms.admin.domain.SystemRole;
 import com.zhxh.imms.admin.domain.SystemUser;
 import com.zhxh.imms.admin.logic.SystemRoleLogic;
 import com.zhxh.imms.admin.logic.SystemUserLogic;
-import com.zhxh.imms.data.DbQueryParameter;
+import com.zhxh.imms.data.DbQuery;
 import com.zhxh.startup.ZhxhApplication;
 
 @RunWith(SpringRunner.class)
@@ -44,7 +44,7 @@ public class AdminTest {
 	
 	//@Test
 	public void testUpdateRole() throws Exception {
-		DbQueryParameter queryParameter = new DbQueryParameter();
+		DbQuery queryParameter = new DbQuery();
 		queryParameter.setWhere("role_code = 'admin'");
 		List<SystemRole> roles = roleLogic.getAll(queryParameter);
 		org.springframework.util.Assert.isTrue(roles.size() == 1, "查询admin失败");
@@ -83,7 +83,7 @@ public class AdminTest {
 
 	//@Test
 	public void testGetAllUser() {
-		DbQueryParameter queryParameter = new DbQueryParameter();
+		DbQuery queryParameter = new DbQuery();
 		queryParameter.setWhere("user_code = 'C00001'");
 		List<SystemUser> users = userLogic.getAll(queryParameter);
 		org.springframework.util.Assert.isTrue(users.size() == 1, "查询C00001失败");
@@ -99,13 +99,13 @@ public class AdminTest {
 
 	//@Test
 	public void testUpdateRoles() {
-		DbQueryParameter userQueryParameter = new DbQueryParameter();
+		DbQuery userQueryParameter = new DbQuery();
 		userQueryParameter.setWhere("user_code = 'C00001'");
 		List<SystemUser> users = userLogic.getAll(userQueryParameter);
 		org.springframework.util.Assert.isTrue(users.size() == 1, "查询C00001失败");
 		SystemUser currentUser = users.get(0);
 
-		DbQueryParameter roleQueryParameter = new DbQueryParameter();
+		DbQuery roleQueryParameter = new DbQuery();
 		roleQueryParameter.setWhere("r.role_code in('admin','test')");
 		List<SystemRole> roles = roleLogic.getAll(roleQueryParameter);
 		org.springframework.util.Assert.isTrue(roles.size() == 2, "查询角色失败");
@@ -142,7 +142,7 @@ public class AdminTest {
 	public void testUpdateRoleUsers() {
 		SystemUser currentUser = userLogic.get(1L);
 
-		DbQueryParameter roleQueryParameter = new DbQueryParameter();
+		DbQuery roleQueryParameter = new DbQuery();
 		roleQueryParameter.setWhere("role_code ='admin'");
 		List<SystemRole> roles = roleLogic.getAll(roleQueryParameter);
 		roles.forEach(x -> x.getUsers().add(currentUser));

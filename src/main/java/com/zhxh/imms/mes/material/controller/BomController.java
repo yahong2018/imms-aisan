@@ -1,7 +1,7 @@
 package com.zhxh.imms.mes.material.controller;
 
 import com.zhxh.imms.data.CrudLogic;
-import com.zhxh.imms.data.DbQueryParameter;
+import com.zhxh.imms.data.DbQuery;
 import com.zhxh.imms.mes.material.domain.Bom;
 import com.zhxh.imms.mes.material.logic.BomLogic;
 import com.zhxh.imms.mes.material.model.BomTree;
@@ -29,7 +29,7 @@ public class BomController extends CrudController<Bom> {
 
     @RequestMapping("getBomByMaterialCode")
     public ExtJsStoreQueryResult getBomByMaterialCode(String materialCode){
-        DbQueryParameter query= new DbQueryParameter();
+        DbQuery query= new DbQuery();
         query.setWhere("m.material_code=#{materialCode}");
         query.put("materialCode",materialCode);
 

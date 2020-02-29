@@ -1,7 +1,7 @@
 package com.zhxh.imms.mes.mfc.logic;
 
 import com.zhxh.imms.data.CrudLogic;
-import com.zhxh.imms.data.DbQueryParameter;
+import com.zhxh.imms.data.DbQuery;
 import com.zhxh.imms.mes.mfc.domain.RfidCard;
 import com.zhxh.imms.mes.mfc.domain.WorkstationBind;
 import com.zhxh.imms.mes.mfc.mapper.RfidCardMapper;
@@ -21,7 +21,7 @@ public class RfidCardLogic extends CrudLogic<RfidCard> {
     }
 
     public RfidCard getByRfidNo(String rfidNo) {
-        DbQueryParameter query = new DbQueryParameter();
+        DbQuery query = new DbQuery();
         query.setWhere("rfid.rfid_no ='" + rfidNo + "'");
         List<RfidCard> cardList = this.getAll(query);
         if (cardList.size() == 0) {
@@ -35,7 +35,7 @@ public class RfidCardLogic extends CrudLogic<RfidCard> {
         FilterExpression[] expressions = new FilterExpression[2];
         expressions[0] = new FilterExpression("kanbanNo", "=", kanbanNo);
         expressions[1] = new FilterExpression("productionCode", "=", materialCode);
-        DbQueryParameter query = new DbQueryParameter(RfidCard.class, expressions);
+        DbQuery query = new DbQuery(RfidCard.class, expressions);
         return this.get(query);
     }
 

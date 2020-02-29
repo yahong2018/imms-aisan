@@ -1,7 +1,7 @@
 package com.zhxh.imms.mes.org.controller;
 
 import com.zhxh.imms.data.CrudLogic;
-import com.zhxh.imms.data.DbQueryParameter;
+import com.zhxh.imms.data.DbQuery;
 import com.zhxh.imms.mes.org.domain.Workstation;
 import com.zhxh.imms.mes.org.logic.Org;
 import com.zhxh.imms.mes.org.logic.WorkstationLogic;
@@ -30,15 +30,15 @@ public class WorkstationController extends CrudController<Workstation> {
 
     @RequestMapping("getWorkshopStations")
     public ExtJsStoreQueryResult getWorkshopStations(Long workshopId) {
-        DbQueryParameter query = new DbQueryParameter();
+        DbQuery query = new DbQuery();
         query.setWhere("parent_id=" + workshopId.toString());
 
         return this.getAllByQuery(query);
     }
 
     @Override
-    protected DbQueryParameter buildDbQueryFromRequest(Class clazz) {
-        DbQueryParameter query = super.buildDbQueryFromRequest(clazz);
+    protected DbQuery buildDbQueryFromRequest(Class clazz) {
+        DbQuery query = super.buildDbQueryFromRequest(clazz);
         if (StringUtils.isEmpty(query.getWhere())) {
             query.setWhere("org_type='" + Org.ORG_TYPE_WORKSTATION + "'");
         } else {

@@ -20,7 +20,7 @@
          where record_id = #{recordId}
     </select>
 
-    <select id="getAll" resultMap="SystemParamResultMap" parameterType="com.zhxh.imms.data.DbQueryParameter">
+    <select id="getAll" resultMap="SystemParamResultMap" parameterType="com.zhxh.imms.data.DbQuery">
         select <include refid="systemParamFields"/>
          from zhxh_system_param para
          <include refid="com.zhxh.imms.data.CrudMapper.selectByPage"/>
@@ -52,7 +52,7 @@
         </foreach>
     </delete>
 
-    <select id="getPageTotal" parameterType="com.zhxh.imms.data.DbQueryParameter" resultType="java.lang.Integer">
+    <select id="getPageTotal" parameterType="com.zhxh.imms.data.DbQuery" resultType="java.lang.Integer">
         select count(*) from zhxh_system_param para
         <where>
             ${where}

@@ -1,5 +1,7 @@
 package com.zhxh.imms.web;
 
+import com.google.common.net.HttpHeaders;
+import com.zhxh.imms.data.BusinessException;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -23,14 +25,19 @@ public class ExtJsResponseBodyAdvice implements ResponseBodyAdvice<Object> {
         if (!"POST".equals(request.getMethod().toString().toUpperCase())) {
             return body;
         }
-        if (!selectedContentType.equals(MediaType.APPLICATION_JSON) && !MediaType.APPLICATION_JSON_UTF8.equals(selectedContentType))
-        {
+        if (!selectedContentType.equals(MediaType.APPLICATION_JSON) /*&& !MediaType.APPLICATION_JSON_UTF8.equals(selectedContentType)*/) {
             return body;
         }
+        response.getHeaders().add(HttpHeaders.CONTENT_TYPE, "text/html");
 
         Map<String, Object> result = new HashMap<>();
-        result.put("success", true);
-        result.put("data", body);
+        if (body instanceof BusinessException) {
+            result.put("success", false);
+            result.put("data", ((BusinessException) body).getMessage());
+        } else {
+            result.put("success", true);
+            result.put("data", body);
+        }
 
         return result;
     }
