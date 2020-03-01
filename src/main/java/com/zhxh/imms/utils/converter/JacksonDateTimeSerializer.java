@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class JacksonDateTimeSerializer extends JsonSerializer {
-    private Class type;
+public class JacksonDateTimeSerializer<T> extends JsonSerializer<T> {
+    private Class<T> type;
 
-    public JacksonDateTimeSerializer(Class type) {
+    public JacksonDateTimeSerializer(Class<T> type) {
         this.type = type;
     }
 
@@ -27,7 +27,7 @@ public class JacksonDateTimeSerializer extends JsonSerializer {
     }
 
     @Override
-    public Class handledType() {
+    public Class<T> handledType() {
         return this.type;
     }
 }

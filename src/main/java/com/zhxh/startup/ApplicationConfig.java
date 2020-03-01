@@ -3,7 +3,8 @@ package com.zhxh.startup;
 import com.zhxh.imms.backSservice.ServiceManager;
 import com.zhxh.imms.data.FieldsMapInitiator;
 import com.zhxh.imms.si.wdb.WdbSyncService;
-import com.zhxh.imms.utils.converter.*;
+import com.zhxh.imms.utils.converter.DateTimeDeserializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.support.GenericConversionService;
@@ -12,20 +13,24 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Date;
 
 @Configuration
 public class ApplicationConfig {
-    private final WdbSyncService wdbSyncService;
-    private final ServiceManager serviceManager;
-    private final RequestMappingHandlerAdapter handlerAdapter;
+    @Autowired
+    private ServiceManager serviceManager;
 
-    public ApplicationConfig(RequestMappingHandlerAdapter handlerAdapter, WdbSyncService wdbSyncService, ServiceManager serviceManager) {
-        this.handlerAdapter = handlerAdapter;
-        this.wdbSyncService = wdbSyncService;
-        this.serviceManager = serviceManager;
-    }
+    @Autowired
+    private WdbSyncService wdbSyncService;
+
+
+    @Autowired
+    private RequestMappingHandlerAdapter handlerAdapter;
+
 
     @PostConstruct
     public void init() {
@@ -55,43 +60,17 @@ public class ApplicationConfig {
         ConfigurableWebBindingInitializer initializer = (ConfigurableWebBindingInitializer) handlerAdapter.getWebBindingInitializer();
         if (initializer.getConversionService() != null) {
             GenericConversionService genericConversionService = (GenericConversionService) initializer.getConversionService();
-            List<String> datePatterns = new ArrayList<>();
-            datePatterns.add("yyyy/MM/dd HH:mm:ss");
-            datePatterns.add("yyyy/MM/dd HH:mm");
-            datePatterns.add("yyyy/MM/dd HH");
-            datePatterns.add("yyyy/MM/dd");
-            datePatterns.add("yyyy-MM-dd HH:mm:ss");
-            datePatterns.add("yyyy-MM-dd HH:mm");
-            datePatterns.add("yyyy-MM-dd HH");
-            datePatterns.add("yyyy-MM-dd");
-
-            DateConverter dateConverter = new DateConverter();
-            dateConverter.setPatternList(datePatterns);
-            genericConversionService.addConverter(dateConverter);
-
-            TimestampConverter timestampConverter = new TimestampConverter();
-            timestampConverter.setPatternList(datePatterns);
-            genericConversionService.addConverter(timestampConverter);
-
-            LocalDateConverter localDateConverter = new LocalDateConverter();
-            localDateConverter.setPatternList(datePatterns);
-            genericConversionService.addConverter(localDateConverter);
-
-            LocalDateTimeConverter localDateTimeConverter = new LocalDateTimeConverter();
-            localDateTimeConverter.setPatternList(datePatterns);
-            genericConversionService.addConverter(localDateTimeConverter);
-
-            LocalTimeConverter localTimeConverter = new LocalTimeConverter();
-            List<String> timePatterns = new ArrayList<>();
-            timePatterns.add("HH:mm");
-            timePatterns.add("HH:mm:ss");
-            localTimeConverter.setPatternList(timePatterns);
-            genericConversionService.addConverter(localTimeConverter);
+            genericConversionService.addConverter(new DateTimeDeserializer<Date>(Date.class){});
+            genericConversionService.addConverter(new DateTimeDeserializer<Timestamp>(Timestamp.class){});
+            genericConversionService.addConverter(new DateTimeDeserializer<LocalDate>(LocalDate.class){});
+            genericConversionService.addConverter(new DateTimeDeserializer<LocalDateTime>(LocalDateTime.class){});
+            genericConversionService.addConverter(new DateTimeDeserializer<LocalTime>(LocalTime.class){});
         }
     }
 
     private void initServiceManager() {
-        this.serviceManager.getServiceList().add(this.wdbSyncService);
+        this.serviceManager.getServiceList().add(wdbSyncService);
+
         this.serviceManager.start();
     }
 
