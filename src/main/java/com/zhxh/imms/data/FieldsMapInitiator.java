@@ -16,15 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FieldsMapInitiator {
-    private static Map<String, String> createEntityFieldsMap() {
+    private static Map<String, String> getTraceInfoFieldsMap() {
         Map<String, String> fieldsMap = new HashMap<>();
         fieldsMap.put("recordId", "record_id");
 
-        return fieldsMap;
-    }
-
-    private static Map<String, String> getTraceInfoFieldsMap() {
-        Map<String, String> fieldsMap = createEntityFieldsMap();
         fieldsMap.put("businessId", "business_id");
         fieldsMap.put("className", "class_name");
         fieldsMap.put("operatorId", "operator_id");
@@ -36,7 +31,8 @@ public class FieldsMapInitiator {
     }
 
     private static Map<String, String> getProgramFieldsMap() {
-        Map<String, String> fieldsMap = createEntityFieldsMap();
+        Map<String, String> fieldsMap = new HashMap<>();
+        fieldsMap.put("recordId", "record_id");
         fieldsMap.put("programCode", "program_code");
         fieldsMap.put("programName", "program_name");
         fieldsMap.put("url", "url");
@@ -49,7 +45,8 @@ public class FieldsMapInitiator {
     }
 
     private static Map<String, String> getProgramPrivilegeFieldsMap() {
-        Map<String, String> fieldsMap = createEntityFieldsMap();
+        Map<String, String> fieldsMap = new HashMap<>();
+        fieldsMap.put("recordId", "record_id");
         fieldsMap.put("programId", "program_id");
         fieldsMap.put("privilegeCode", "privilege_code");
         fieldsMap.put("privilegeName", "privilege_name");
@@ -57,7 +54,8 @@ public class FieldsMapInitiator {
     }
 
     private static Map<String, String> getAccountFieldsMap() {
-        Map<String, String> fieldsMap = createEntityFieldsMap();
+        Map<String, String> fieldsMap = new HashMap<>();
+        fieldsMap.put("recordId", "record_id");
         fieldsMap.put("accountStatus", "account_status");
         fieldsMap.put("recordCreationType", "record_creation_type");
         return fieldsMap;
@@ -84,7 +82,9 @@ public class FieldsMapInitiator {
     }
 
     private static Map<String, String> getSystemParamFieldsMap() {
-        Map<String, String> fieldsMap = createEntityFieldsMap();
+        Map<String, String> fieldsMap = new HashMap<>();
+        fieldsMap.put("recordId", "record_id");
+
         fieldsMap.put("paramType", "param_type");
         fieldsMap.put("paramCode", "param_code");
         fieldsMap.put("paramDescription", "param_description");
@@ -95,7 +95,9 @@ public class FieldsMapInitiator {
     }
 
     private static Map<String, String> getWorkshopFieldsMap() {
-        Map<String, String> fieldsMap = createEntityFieldsMap();
+        Map<String, String> fieldsMap = new HashMap<>();
+        fieldsMap.put("recordId", "record_id");
+
         fieldsMap.put("workshopCode", "org_code");
         fieldsMap.put("workshopName", "org_name");
         fieldsMap.put("workshopType", "workshop_type");
@@ -107,25 +109,33 @@ public class FieldsMapInitiator {
     }
 
     private static Map<String, String> getWorkstationFieldsMap() {
-        Map<String, String> fieldsMap = createEntityFieldsMap();
-        fieldsMap.put("workstationCode", "org_code");
-        fieldsMap.put("workstationName", "org_name");
-        fieldsMap.put("workstationType", "workstation_type");
-        fieldsMap.put("description", "description");
-        fieldsMap.put("workshopId", "parent_id");
-        fieldsMap.put("gid", "gid");
+        Map<String, String> fieldsMap = new HashMap<>();
+        fieldsMap.put("recordId", "wk.record_id");
 
-        fieldsMap.put("did", "did");
-        fieldsMap.put("didTemplate", "did_template");
-        fieldsMap.put("wocgCode", "wocg_code");
-        fieldsMap.put("autoReportCount", "auto_report_count");
-        fieldsMap.put("locCode", "loc_code");
+        fieldsMap.put("workstationCode", "wk.org_code");
+        fieldsMap.put("workstationName", "wk.org_name");
+        fieldsMap.put("description", "wk.description");
+        fieldsMap.put("workshopId", "wk.parent_id");
+        fieldsMap.put("gid", "wk.gid");
+
+        fieldsMap.put("did", "wk.did");
+        fieldsMap.put("didTemplate", "wk.did_template");
+        fieldsMap.put("wocgCode", "wk.wocg_code");
+        fieldsMap.put("autoReportCount", "wk.auto_report_count");
+        fieldsMap.put("locCode", "wk.loc_code");
+
+        fieldsMap.put("canReport", "wk.can_report");
+        fieldsMap.put("canMoveIn", "wk.can_move_in");
+        fieldsMap.put("canIssueCard", "wk.can_issue_card");
+        fieldsMap.put("canOutsourceOut", "wk.can_outsource_out");
+        fieldsMap.put("canOutsourceBack", "wk.can_outsource_back");
 
         return fieldsMap;
     }
 
     private static Map<String, String> getOperatorFieldsMap() {
-        Map<String, String> fieldsMap = createEntityFieldsMap();
+        Map<String, String> fieldsMap = new HashMap<>();
+        fieldsMap.put("recordId", "record_id");
 
         fieldsMap.put("employeeId", "opr.employee_id");
         fieldsMap.put("employeeName", "opr.employee_name");
@@ -138,7 +148,8 @@ public class FieldsMapInitiator {
     }
 
     private static Map<String, String> getMaterialFieldsMap() {
-        Map<String, String> fieldsMap = createEntityFieldsMap();
+        Map<String, String> fieldsMap = new HashMap<>();
+        fieldsMap.put("recordId", "record_id");
 
         fieldsMap.put("materialCode", "material_code");
         fieldsMap.put("materialName", "material_name");

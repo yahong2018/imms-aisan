@@ -18,6 +18,10 @@ public class PartialReportService implements SessionStepService {
     }
 
     public Command_28 processSession(WorkstationSession session) {
+        if (!session.getWorkstation().isCanReport()) {
+            throw new BusinessException("本工位不可以报工！");
+        }
+
         if (session.getCurrentStep() == WorkstationSession.SESSION_STEP_INIT) {  //第一步:提示刷看板
             return Command_28.ok(session.getWorkstation().getDidTemplate(), "请刷看板");
         } else if (session.getCurrentStep() == 1) { //第二步:验证看板，提示输入报工数量

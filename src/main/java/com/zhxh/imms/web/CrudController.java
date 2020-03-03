@@ -117,8 +117,5 @@ public abstract class CrudController<T extends Entity> {
 
         Gson gson = GlobalConstants.getGson();
         return gson.fromJson(strUtf8, FilterExpression[].class);
-
     }
-
-
 }

@@ -20,7 +20,12 @@ create table zhxh_org
     auto_report_count      int                         not null default 0,  -- 自动报工的工序个数
 
     loc_code               varchar(20)                 null,    -- 储位编码
-    workstation_type       int                         not null default 0,  -- 工位类别:0.
+
+    can_report             bit                         not null default 0,
+    can_move_in            bit                         not null default 0,
+    can_issue_card         bit                         not null default 0,
+    can_outsource_out      bit                         not null default 0,
+    can_outsource_back     bit                         not null default 0,
 
     primary key(record_id)
 );

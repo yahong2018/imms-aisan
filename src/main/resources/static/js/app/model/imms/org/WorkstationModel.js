@@ -11,6 +11,12 @@ Ext.define("app.model.imms.org.WorkstationModel", {
         { name: "didTemplate", type: "int" },
         { name: "wocgCode", type: "string" },
         { name: "autoReportCount", type: "int" },
-        { name: "locCode", type: "string" }
+        { name: "locCode", type: "string" },
+        
+        { name: "canReport", type: "boolean" },
+        { name: "canMoveIn", type: "boolean" },
+        { name: "canIssueCard", type: "boolean" },
+        { name: "canOutsourceOut", type: "boolean" },
+        { name: "canOutsourceBack", type: "boolean" }
     ]
 });

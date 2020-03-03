@@ -90,6 +90,9 @@ public class WipSessionService implements SessionStepService {
         if (card.getCardStatus() == RfidCard.CARD_STATUS_BINDED) { //外发
             return this.outsource(session);
         } else if (card.getCardStatus() == RfidCard.CARD_STATUS_OUTSOURCED) {  //报工
+            if (!session.getWorkstation().isCanOutsourceBack()) {
+                throw new BusinessException("外发回厂不可以在本工位上刷卡报工！");
+            }
             return this.reportWip(session, new ProductRecord());
         } else {
             return processStatus10And20(session);
@@ -100,6 +103,10 @@ public class WipSessionService implements SessionStepService {
         if (session.getWorkstation().getWorkshop().getWorkshopType() != Workshop.WORKSHOP_OUTSOURCE) {
             throw new BusinessException("只可以在外发工位上打卡外发");
         }
+        if (!session.getWorkstation().isCanOutsourceOut()) {
+            throw new BusinessException("本工位不可以外发！");
+        }
+
         //1.对所有绑定的卡进行移库
         List<RfidCard> qtyCards = rfidCardLogic.getOutsourceBindCard(session.getSessionQtyCard().getRecordId());
 
@@ -141,6 +148,11 @@ public class WipSessionService implements SessionStepService {
         if (workshop.getWorkshopType() != Workshop.WORKSHOP_QJG) {
             throw new BusinessException("外发看板只可以在前工程车间绑卡!");
         }
+
+        if (!session.getWorkstation().isCanReport()) {
+            throw new BusinessException("本工位不可以报工，不可以绑定外发看板！");
+        }
+
         //1.新增绑定记录
         WorkstationBind bind = new WorkstationBind();
         bind.setAttachTime(LocalDateTime.now());
@@ -205,6 +217,11 @@ public class WipSessionService implements SessionStepService {
         if (reportQty + outsourceQty > outsourceIssueQty) {
             throw new BusinessException("累计报工数量" + (reportQty + outsourceQty) + "已超过外发看板容量" + outsourceIssueQty + ",请换另外一张外发看板");
         }
+
+        if (!session.getWorkstation().isCanReport()) {
+            throw new BusinessException("本工位不可以报工！");
+        }
+
         //3.报工
         Command_28 result = this.reportWip(session, productRecord);
         //4.增加数量卡与外发看板之间的报工关系
@@ -237,6 +254,10 @@ public class WipSessionService implements SessionStepService {
             throw new BusinessException("不可以在外发工位上进行移库！");
         }
 
+        if (!session.getWorkstation().isCanMoveIn()) {
+            throw new BusinessException("本工位不可以接收投入物料！");
+        }
+
         ProductionMoving moving = session.buildProductionMoving();
         moving.setQty(card.getStockQty());
         movingLogic.reportWipMove(moving, ProductionMoving.DIRECTION_ADVANCE);
@@ -252,6 +273,11 @@ public class WipSessionService implements SessionStepService {
         if (!card.getWorkshop().getOpIndex().equals(workshop.getOpIndex())) {
             throw new BusinessException("当前车间为：" + workshop.getWorkshopName() + ",不是看板" + card.getRfidNo() + "可以报工的车间:" + card.getWorkshopName());
         }
+
+        if (!session.getWorkstation().isCanReport()) {
+            throw new BusinessException("本工位不可以报工！");
+        }
+
         int reportQty = card.getIssueQty();
         if (card.getCardStatus() == RfidCard.CARD_STATUS_BACKED) {
             reportQty = card.getIssueQty() - card.getStockQty();

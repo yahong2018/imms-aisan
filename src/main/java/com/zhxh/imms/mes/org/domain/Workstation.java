@@ -10,7 +10,6 @@ import lombok.Setter;
 public class Workstation extends Entity {
     private String workstationCode;
     private String workstationName;
-    private Integer workstationType;
     private String description;
     private Long workshopId;
     private Integer gid;
@@ -20,11 +19,12 @@ public class Workstation extends Entity {
     private Integer autoReportCount;
     private String locCode;
 
+    private boolean canReport;//报工工位
+    private boolean canMoveIn;//投入工位
+    private boolean canIssueCard;//发卡工位
+    private boolean canOutsourceOut;//外发出厂工位
+    private boolean canOutsourceBack;//外发回厂工位
+
     @JsonIgnore
     private com.zhxh.imms.mes.org.domain.Workshop workshop;
-
-    public final static int WORKSTATION_NORMAL = 1;
-    public final static int WORKSTATION_ISSUE_CARD = 2;
-    public final static int WORKSTATION_INPUT = 3;
-    public final static int WORKSTATION_OUTPUT = 4;
 }

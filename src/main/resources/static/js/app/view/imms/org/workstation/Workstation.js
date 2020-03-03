@@ -10,14 +10,6 @@ Ext.define("app.view.imms.org.workstation.Workstation", {
     columns: [
         { dataIndex: "workstationCode", text: "工位代码", width: 100 },
         { dataIndex: "workstationName", text: "工位名称", width: 150 },
-        {
-            dataIndex: "workstationType", text: "工位类别", width: 100, renderer: function (v) {
-                if (v == 1) {
-                    return "1.全功能工位";
-                }
-                return "2.发卡工位";
-            }
-        },
         { dataIndex: "wocgCode", text: "工作中心组", width: 100 },
         { dataIndex: "didTemplate", text: "显示模板", width: 100 },
         { dataIndex: "gid", text: "控制器", width: 100 },

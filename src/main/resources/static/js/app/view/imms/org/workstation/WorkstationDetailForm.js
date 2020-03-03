@@ -9,8 +9,8 @@ Ext.define("app.view.imms.org.workstation.WorkstationDetailForm", {
     },
     items: [
         {
-            xtype:"hidden",
-            name:"recordId"
+            xtype: "hidden",
+            name: "recordId"
         },
         {
             name: "workshopId",
@@ -37,18 +37,37 @@ Ext.define("app.view.imms.org.workstation.WorkstationDetailForm", {
             layout: "hbox",
             margin: "3 0 5 0",
             items: [{
-                name: "workstationType",
-                xtype: "textfield",
-                fieldLabel: "工位类别",
-                allowBlank: false,
-                maxLength: 50,
-                enforceMaxLength: true,
-                width: 200
+                name: "canReport",
+                xtype: "checkbox",
+                boxLabel: "报工工位",
+                width:160,
             }, {
-                xtype: "label",
-                text: "1.全功能工位 2.发卡工位",
-                flex: 0.8,
-                margin: "8 0 3 3"
+                name: "canMoveIn",
+                xtype: "checkbox",
+                boxLabel: "物料投入工位",
+                width:160,
+            },
+            {
+                name: "canIssueCard",
+                xtype: "checkbox",
+                boxLabel: "发卡工位",
+                width:160,
+            }]
+        },
+        {
+            xtype: "container",
+            layout: "hbox",
+            margin: "3 0 5 0",
+            items: [{
+                name: "canOutsourceOut",
+                xtype: "checkbox",
+                boxLabel: "外发出厂",
+                width:160,
+            }, {
+                name: "canOutsourceBack",
+                xtype: "checkbox",
+                boxLabel: "外发回厂",
+                width:160,
             }]
         },
         {

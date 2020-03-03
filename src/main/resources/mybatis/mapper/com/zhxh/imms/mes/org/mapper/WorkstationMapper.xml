@@ -5,7 +5,6 @@
                extends="com.zhxh.imms.data.CrudMapper.EntityResultMap">
         <result property="workstationCode" column="org_code"/>
         <result property="workstationName" column="org_name"/>
-        <result property="workstationType" column="workstation_type"/>
         <result property="description" column="description"/>
         <result property="workshopId" column="parent_id"/>
         <result property="gid" column="gid"/>
@@ -14,11 +13,18 @@
         <result property="wocgCode" column="wocg_code"/>
         <result property="autoReportCount" column="auto_report_count"/>
         <result property="locCode" column="loc_code"/>
+
+        <result property="canReport" column="can_report"/>
+        <result property="canMoveIn" column="can_move_in"/>
+        <result property="canIssueCard" column="can_issue_card"/>
+        <result property="canOutsourceOut" column="can_outsource_out"/>
+        <result property="canOutsourceBack" column="can_outsource_back"/>
     </resultMap>
 
     <sql id="workstationFields">
-        wk.record_id,wk.org_code,wk.org_name,wk.workstation_type,wk.description,wk.parent_id,
-        wk.gid,wk.did,wk.did_template,wk.wocg_code,wk.auto_report_count,wk.loc_code
+        wk.record_id,wk.org_code,wk.org_name,wk.description,wk.parent_id,
+        wk.gid,wk.did,wk.did_template,wk.wocg_code,wk.auto_report_count,wk.loc_code,
+        wk.can_report,wk.can_move_in,wk.can_issue_card,wk.can_outsource_out,wk.can_outsource_back
     </sql>
 
     <select id="get" resultMap="WorkstationResultMap">
@@ -41,11 +47,13 @@
     </select>
 
     <insert id="create" parameterType="com.zhxh.imms.mes.org.domain.Workstation" keyProperty="recordId" useGeneratedKeys="true">
-        insert into zhxh_org(org_type,org_code,org_name,workstation_type,description,parent_id,
-                  gid,did,did_template,wocg_code,auto_report_count,loc_code
+        insert into zhxh_org(org_type,org_code,org_name,description,parent_id,
+                  gid,did,did_template,wocg_code,auto_report_count,loc_code,
+                  can_report,can_move_in,can_issue_card,can_outsource_out,can_outsource_back
              )
-        values('ORG_WORKSTATION',#{workstationCode},#{workstationName},#{workstationType},#{description},#{workshopId},
-                  #{gid},#{did},#{didTemplate},#{wocgCode},#{autoReportCount},#{locCode}
+        values('ORG_WORKSTATION',#{workstationCode},#{workstationName},#{description},#{workshopId},
+                  #{gid},#{did},#{didTemplate},#{wocgCode},#{autoReportCount},#{locCode},
+                  #{canReport},#{canMoveIn},#{canIssueCard},#{canOutsourceOut},#{canOutsourceBack}
              )
     </insert>
 
@@ -53,7 +61,6 @@
         update zhxh_org
         set org_code=#{workstationCode},
             org_name=#{workstationName},
-            workstation_type=#{workstationType},
             description=#{description},
             parent_id=#{workshopId},
             gid=#{gid},
@@ -61,7 +68,12 @@
             did_template=#{didTemplate},
             wocg_code=#{wocgCode},
             auto_report_count=#{autoReportCount},
-            loc_code=#{locCode}
+            loc_code=#{locCode},
+            can_report=#{canReport},
+            can_move_in=#{canMoveIn},
+            can_issue_card=#{canIssueCard},
+            can_outsource_out=#{canOutsourceOut},
+            can_outsource_back = #{canOutsourceBack}
         where record_id=#{recordId}
     </update>
 

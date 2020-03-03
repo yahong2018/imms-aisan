@@ -27,6 +27,38 @@ update imms.zhxh_org
 set parent_id = 0
 where parent_id < 0;
 
+
+--
+-- 转换工位
+--
+alter table zhxh_org
+    drop column workstation_type;
+
+alter table zhxh_org
+    add    can_report             bit                         not null default 0,
+    add    can_move_in            bit                         not null default 0,
+    add    can_issue_card         bit                         not null default 0,
+    add    can_outsource_out      bit                         not null default 0,
+    add    can_outsource_back     bit                         not null default 0
+;
+
+update zhxh_org
+set   can_report  = 1,
+      can_move_in  = 1,
+      can_issue_card =1
+where org_type = 'ORG_WORKSTATION';
+
+
+update zhxh_org wk join zhxh_org ws on wk.parent_id = ws.record_id
+set   wk.can_report  = 1,
+      wk.can_move_in  = 1,
+      wk.can_issue_card =1 ,
+      wk.can_outsource_out = 1,
+      wk.can_outsource_back = 1
+where wk.org_type = 'ORG_WORKSTATION'
+  and ws.workshop_type = 4
+
+
 --
 -- 转换操作人员
 --

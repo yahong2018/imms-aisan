@@ -19,6 +19,10 @@ public class IssueCardService implements SessionStepService {
     }
 
     public Command_28 processSession(WorkstationSession session) {
+        if (!session.getWorkstation().isCanIssueCard()) {
+            throw new BusinessException("本工位不可以发卡！");
+        }
+
         if (session.getCurrentStep() == WorkstationSession.SESSION_STEP_INIT) {  //第一步:提示刷看板
             return Command_28.ok(session.getWorkstation().getDidTemplate(), "请刷看板");
         } else if (session.getCurrentStep() == 1) { //第二步:验证看板，提示输入派发数量
@@ -47,7 +51,7 @@ public class IssueCardService implements SessionStepService {
             throw new BusinessException("请输入派发数量");
         }
         RfidCard card = session.getSessionQtyCard();
-        int issueQty = session.getQtyFromReqData(session.getCurrentReqData(),WorkstationSession.QTY_TYPE_ISSUE);
+        int issueQty = session.getQtyFromReqData(session.getCurrentReqData(), WorkstationSession.QTY_TYPE_ISSUE);
 
         //1.派发
         card.setIssueQty(issueQty);
@@ -66,7 +70,7 @@ public class IssueCardService implements SessionStepService {
         //3.关闭前一Session,
         session.setCurrentStep(WorkstationSession.SESSION_STEP_FINISHED);
         //4. 结果中加入新的session
-        WorkstationSession theNewSession = session.startNewSession(1,"发卡自动创建");
+        WorkstationSession theNewSession = session.startNewSession(1, "发卡自动创建");
         result.setTag(theNewSession);
 
         return result;
